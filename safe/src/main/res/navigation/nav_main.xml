@@ -5,7 +5,7 @@
 
     <fragment
         android:id="@+id/mainFragment"
-        android:name="cc.xiaobaicz.app.activity.fragment.MainFragment"
+        android:name="cc.xiaobaicz.safe.activity.fragment.MainFragment"
         android:label="MainFragment" />
 
 </navigation>

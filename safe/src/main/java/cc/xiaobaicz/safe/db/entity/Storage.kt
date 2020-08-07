@@ -10,6 +10,6 @@ import androidx.room.PrimaryKey
  */
 @Entity
 data class Storage (
-    @PrimaryKey(autoGenerate = true) val key: String,
+    @PrimaryKey val key: String,
     val value: String?
 )

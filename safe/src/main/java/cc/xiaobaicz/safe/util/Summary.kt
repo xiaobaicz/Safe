@@ -35,7 +35,7 @@ annotation class HmacSummaryName
 /**
  * 摘要
  */
-inline fun summary(src: ByteArray, @SummaryName summaryName: String): String {
+fun summary(src: ByteArray, @SummaryName summaryName: String): String {
     val digest = MessageDigest.getInstance(summaryName)
     digest.update(src)
     val result = digest.digest()
@@ -49,7 +49,7 @@ inline fun summary(src: ByteArray, @SummaryName summaryName: String): String {
 /**
  * Hmac摘要
  */
-inline fun hmacSummary(src: ByteArray, @HmacSummaryName hmacSummaryName: String, key: String): String {
+fun hmacSummary(src: ByteArray, @HmacSummaryName hmacSummaryName: String, key: String): String {
     val keySpec = SecretKeySpec(key.toByteArray(Charsets.UTF_8), hmacSummaryName)
     val mac = Mac.getInstance(hmacSummaryName)
     mac.init(keySpec)
