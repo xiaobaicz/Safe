@@ -19,6 +19,10 @@ abstract class BaseActivity : CoroutineActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        SystemUiHelper.get(this)
+                .setStatusBarColor(0x33000000)
+                .setNavigationBarColor(0x33000000)
+                .transparentScreen()
     }
 
 }
