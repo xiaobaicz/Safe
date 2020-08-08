@@ -50,17 +50,18 @@ dependencies {
 
     implementation project(path: ":permissions")
     implementation project(path: ":util")
+    implementation project(path: ":recyclerviewextend")
 
     //kotlin
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
 
     //jetpack
     //appcompat
-    implementation 'androidx.appcompat:appcompat:1.1.0'
+    implementation 'androidx.appcompat:appcompat:1.2.0'
     //ktx
     implementation 'androidx.core:core-ktx:1.3.1'
     //md
-    implementation 'com.google.android.material:material:1.1.0'
+    implementation 'com.google.android.material:material:1.2.0'
     //lifecycle + liveData + viewModel
     implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.2.0'
     implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.2.0'

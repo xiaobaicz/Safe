@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
  * @param lm 布局管理器：默认线性布局
  * @param config 类型建造者函数，通过 addType 添加 类型对应布局 和 视图绑定函数
  */
-fun <D: Any> RecyclerView.config(data: MutableList<D>, lm: RecyclerView.LayoutManager = LinearLayoutManager(context), config: Builder.()->Unit) {
+fun <D: Any> RecyclerView.config(data: MutableList<D>, lm: RecyclerView.LayoutManager = LinearLayoutManager(context), config: Builder.()->Unit): AdapterX<D> {
     //生成类型建造者
     val builder = Builder()
     //用户添加类型配置
@@ -17,7 +17,9 @@ fun <D: Any> RecyclerView.config(data: MutableList<D>, lm: RecyclerView.LayoutMa
     //布局管理器配置
     layoutManager = lm
     //通用适配器配置
-    adapter = AdapterX(context, data, builder.map)
+    val adapter = AdapterX(context, data, builder.map)
+    this.adapter = adapter
+    return adapter
 }
 
 /**

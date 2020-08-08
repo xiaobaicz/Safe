@@ -15,6 +15,10 @@ class App : Application() {
             private set
     }
 
+    init {
+        app = this
+    }
+
     override fun onCreate() {
         super.onCreate()
         //程序活动监测
