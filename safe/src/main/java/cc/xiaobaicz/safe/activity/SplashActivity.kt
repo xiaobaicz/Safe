@@ -36,6 +36,7 @@ class SplashActivity : BaseActivity() {
         goMain()
     }
 
+    //3秒后跳转到主页
     private fun goMain() {
         launch {
             delay(3000)
