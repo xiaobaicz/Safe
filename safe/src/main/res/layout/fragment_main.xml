@@ -2,22 +2,115 @@
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
-
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="56dp"
-        android:background="@color/theme"
-        android:elevation="8dp"
-        app:titleTextColor="@color/white"
-        app:title="@string/app_name"/>
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/container">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/list_account"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:clipToPadding="false"/>
+
+    <LinearLayout
+        android:id="@+id/layer_tools"
+        android:layout_width="match_parent"
+        android:layout_height="112dp"
+        android:orientation="vertical"
+        android:layout_marginTop="56dp"
+        android:translationY="-112dp"
+        android:background="@color/bg_main_tools"
+        android:elevation="8dp"
+        app:layout_behavior="@string/main_tools_behavior">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp">
+
+            <EditText
+                android:id="@+id/et_keyword"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:background="@drawable/bg_main_input"
+                android:maxLines="1"
+                android:singleLine="true"
+                android:textColorHint="@color/tv_hint"
+                android:textColor="@color/tv_def"
+                android:textSize="@dimen/tv_3"
+                android:hint="请输入关键字查询">
+            </EditText>
+
+            <ImageView
+                android:id="@+id/btn_clear"
+                android:layout_width="56dp"
+                android:layout_height="56dp"
+                android:layout_gravity="end"
+                android:padding="16dp"
+                android:src="@mipmap/icon_clear"/>
+
+        </FrameLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/btn_sort_hot"
+                style="@style/tab_main_item_text"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/btn_sort_domain"
+                app:layout_constraintHorizontal_chainStyle="spread"
+                android:text="热度" />
+
+            <TextView
+                android:id="@+id/btn_sort_domain"
+                style="@style/tab_main_item_text"
+                app:layout_constraintTop_toTopOf="@id/btn_sort_hot"
+                app:layout_constraintBottom_toBottomOf="@id/btn_sort_hot"
+                app:layout_constraintStart_toEndOf="@id/btn_sort_hot"
+                app:layout_constraintEnd_toStartOf="@id/btn_sort_time"
+                android:text="名称"/>
+
+            <TextView
+                android:id="@+id/btn_sort_time"
+                style="@style/tab_main_item_text"
+                app:layout_constraintTop_toTopOf="@id/btn_sort_hot"
+                app:layout_constraintBottom_toBottomOf="@id/btn_sort_hot"
+                app:layout_constraintStart_toEndOf="@id/btn_sort_domain"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:text="时间"/>
+
+            <ImageView
+                android:id="@+id/iv_sort_hot"
+                style="@style/tab_main_item_icon"
+                app:layout_constraintEnd_toEndOf="@id/btn_sort_hot"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:tint="@color/tab_item_icon_def" />
+
+            <ImageView
+                android:id="@+id/iv_sort_domain"
+                style="@style/tab_main_item_icon"
+                app:layout_constraintEnd_toEndOf="@id/btn_sort_domain"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:tint="@color/tab_item_icon_def" />
+
+            <ImageView
+                android:id="@+id/iv_sort_time"
+                style="@style/tab_main_item_icon"
+                app:layout_constraintEnd_toEndOf="@id/btn_sort_time"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:tint="@color/tab_item_icon_def"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </LinearLayout>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab_add"
@@ -29,5 +122,24 @@
         app:layout_anchorGravity="bottom|end"
         app:backgroundTint="@color/white"
         android:src="@mipmap/icon_add"/>
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:background="@color/theme"
+        android:elevation="8dp"
+        app:titleTextColor="@color/white"
+        app:title="@string/app_name">
+
+        <ImageView
+            android:id="@+id/btn_setting"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:layout_gravity="center_vertical|end"
+            android:padding="12dp"
+            android:src="@mipmap/icon_setting"/>
+
+    </androidx.appcompat.widget.Toolbar>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

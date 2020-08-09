@@ -4,6 +4,8 @@
     <color name="colorPrimary">@color/white</color>
     <color name="colorPrimaryDark">@color/theme</color>
     <color name="colorAccent">@color/theme</color>
+    
+    <color name="primary">#0fddff</color>
 
     <color name="theme">#0fddff</color>
 
@@ -14,5 +16,11 @@
     <color name="item_main_demo">#333</color>
     <color name="item_main_account">#666</color>
     <color name="item_main_lastTime">#666</color>
+    <color name="bg_main_tools">@color/bg_item_main</color>
+    <color name="bg_main_input">@color/bg_item_main</color>
+    <color name="bg_main_input_linear">#333</color>
+    <color name="tv_def">#333</color>
+    <color name="tv_hint">#aaa</color>
+    <color name="tab_item_icon_def">#666</color>
 
 </resources>

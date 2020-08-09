@@ -46,4 +46,12 @@ data class Account(
     @NonNull
     @ColumnInfo(name = "last_time")
     var lastTime: Long = System.currentTimeMillis()
+
+    /**
+     * 热度
+     */
+    @NonNull
+    @ColumnInfo(name = "hot")
+    var hot: Long = 0
+
 }

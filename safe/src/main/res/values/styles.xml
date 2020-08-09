@@ -14,4 +14,20 @@
         <item name="android:textColor">@color/theme</item>
     </style>
 
+    <style name="tab_main_item_text">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">56dp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textColor">@color/tab_selector</item>
+        <item name="android:textSize">@dimen/tv_5</item>
+        <item name="android:paddingStart">24dp</item>
+        <item name="android:paddingEnd">24dp</item>
+    </style>
+
+    <style name="tab_main_item_icon">
+        <item name="android:layout_width">16dp</item>
+        <item name="android:layout_height">16dp</item>
+        <item name="android:src">@drawable/icon_sort</item>
+    </style>
+
 </resources>

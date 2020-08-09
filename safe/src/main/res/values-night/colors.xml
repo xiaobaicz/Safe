@@ -10,5 +10,11 @@
     <color name="item_main_demo">#fff</color>
     <color name="item_main_account">#ccc</color>
     <color name="item_main_lastTime">#ccc</color>
+    <color name="bg_main_tools">@color/bg_item_main</color>
+    <color name="bg_main_input">@color/bg_item_main</color>
+    <color name="bg_main_input_linear">#fff</color>
+    <color name="tv_def">#fff</color>
+    <color name="tv_hint">#aaa</color>
+    <color name="tab_item_icon_def">#aaa</color>
 
 </resources>

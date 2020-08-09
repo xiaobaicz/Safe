@@ -1,4 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="tv_title">18sp</dimen>
+
+    <dimen name="tv_1">26sp</dimen>
+    <dimen name="tv_2">20sp</dimen>
+    <dimen name="tv_3">18sp</dimen>
+    <dimen name="tv_4">16sp</dimen>
+    <dimen name="tv_5">14sp</dimen>
+    <dimen name="tv_6">12sp</dimen>
+
 </resources>
