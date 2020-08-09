@@ -132,13 +132,27 @@
         app:titleTextColor="@color/white"
         app:title="@string/app_name">
 
-        <ImageView
-            android:id="@+id/btn_setting"
-            android:layout_width="56dp"
-            android:layout_height="56dp"
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_gravity="center_vertical|end"
-            android:padding="12dp"
-            android:src="@mipmap/icon_setting"/>
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/btn_search"
+                android:layout_width="56dp"
+                android:layout_height="56dp"
+                android:padding="12dp"
+                android:src="@mipmap/icon_search"/>
+
+            <ImageView
+                android:id="@+id/btn_setting"
+                android:layout_width="56dp"
+                android:layout_height="56dp"
+                android:padding="12dp"
+                android:src="@mipmap/icon_setting"/>
+
+        </LinearLayout>
 
     </androidx.appcompat.widget.Toolbar>
 

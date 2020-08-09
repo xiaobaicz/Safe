@@ -79,6 +79,13 @@ class MainFragment : BaseFragment() {
             vm.selectTab(SortType.TIME)
         }
 
+        //手动 显示 or 隐藏 工具栏
+        btn_search.setOnClickListener {
+            val lp = layer_tools.layoutParams as CoordinatorLayout.LayoutParams
+            val behavior = lp.behavior as ToolsBehavior
+            behavior.startAnimator(layer_tools, !behavior.isShow)
+        }
+
         //退出提示
         var lastTime = 0L
         requireActivity().onBackPressedDispatcher.addCallback(this) {
@@ -198,7 +205,8 @@ class MainFragment : BaseFragment() {
      */
     class ToolsBehavior : CoordinatorLayout.Behavior<View> {
         //工具栏是否显示
-        private var isShow = false
+        internal var isShow = false
+        private set
         //是否可用 （动画状态）
         private var isAvailable = true
 
@@ -216,34 +224,35 @@ class MainFragment : BaseFragment() {
                 val isUp = dyConsumed + dyUnconsumed > 0
                 if (isDown && isShow) {
                     //下拉状态 且 工具栏显示，则隐藏
-                    startAnimator(child, 0f, 1f) {
-                        isShow = false //动画结束，调整显示状态
-                        child.clearFocus()
-                    }
+                    startAnimator(child, false)
                 } else if (isUp && !isShow) {
                     //上拉状态 且 工具栏隐藏，则显示
-                    startAnimator(child, 1f, 0f) {
-                        isShow = true //动画结束，调整显示状态
-                    }
+                    startAnimator(child, true)
                 }
             }
         }
 
         //开启 工具栏 展示/隐藏 动画
-        private fun startAnimator(child: View, start: Float, end: Float, endFunc: ()->Unit) {
-            isAvailable = false //不可用状态 防止多次调用
-            val animator = ValueAnimator.ofFloat(start, end)
-            animator.duration = 666L
-            animator.addUpdateListener {
-                val v = it.animatedValue as Float
-                val offset = 112.dp * v
-                child.translationY = -offset
+        internal fun startAnimator(child: View, visible: Boolean, block: (()->Unit)? = null) {
+            if (isAvailable) {
+                isAvailable = false //不可用状态 防止多次调用
+                val start = if (visible) 1f else 0f
+                val end = if (visible) 0f else 1f
+                val animator = ValueAnimator.ofFloat(start, end)
+                animator.duration = 666L
+                animator.addUpdateListener {
+                    val v = it.animatedValue as Float
+                    val offset = 112.dp * v
+                    child.translationY = -offset
+                }
+                animator.doOnEnd {
+                    isShow = !isShow
+                    isAvailable = true
+                    child.clearFocus()
+                    block?.invoke()
+                }
+                animator.start()
             }
-            animator.doOnEnd {
-                endFunc()
-                isAvailable = true
-            }
-            animator.start()
         }
     }
 

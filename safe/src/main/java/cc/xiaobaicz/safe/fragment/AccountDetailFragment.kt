@@ -14,6 +14,7 @@ import cc.xiaobaicz.safe.db.entity.Account
 import cc.xiaobaicz.safe.model.AccountDetailViewModel
 import cc.xiaobaicz.safe.util.dp
 import cc.xiaobaicz.safe.util.setOnOnceClickListener
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.fragment_account_detail.*
 import kotlinx.coroutines.launch
 import java.text.DateFormat
@@ -61,6 +62,9 @@ class AccountDetailFragment : BaseFragment() {
             et_domain.isEnabled = it
             et_account.isEnabled = it
             et_password.isEnabled = it
+            if (it) {
+                showSnackbar(container, "可编辑状态")
+            }
         })
 
         //操作结果
@@ -85,9 +89,13 @@ class AccountDetailFragment : BaseFragment() {
         //编辑 or 保存
         btn_edit.setOnOnceClickListener { _, function ->
             if (vm.isEdit) {
-                //可编辑状态保存数据
-                vm.save(et_domain.text.toString(), et_account.text.toString(), et_password.text.toString())
-                vm.isEdit = false
+                showSnackbar(container, "是否保存数据？", Snackbar.LENGTH_INDEFINITE) {
+                    it.setAction("保存") {
+                        //可编辑状态保存数据
+                        vm.save(et_domain.text.toString(), et_account.text.toString(), et_password.text.toString())
+                        vm.isEdit = false
+                    }
+                }
             } else {
                 //不可编辑状态转换可编辑
                 vm.isEdit = true
