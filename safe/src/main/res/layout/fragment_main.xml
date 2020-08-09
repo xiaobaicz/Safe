@@ -19,7 +19,7 @@
         android:layout_marginTop="56dp"
         android:translationY="-112dp"
         android:background="@color/bg_main_tools"
-        android:elevation="8dp"
+        android:elevation="1dp"
         app:layout_behavior="@string/main_tools_behavior">
 
         <FrameLayout
@@ -32,7 +32,7 @@
                 android:id="@+id/et_keyword"
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
-                android:background="@drawable/bg_main_input"
+                android:background="@drawable/bg_input"
                 android:maxLines="1"
                 android:singleLine="true"
                 android:textColorHint="@color/tv_hint"
@@ -141,5 +141,7 @@
             android:src="@mipmap/icon_setting"/>
 
     </androidx.appcompat.widget.Toolbar>
+
+
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

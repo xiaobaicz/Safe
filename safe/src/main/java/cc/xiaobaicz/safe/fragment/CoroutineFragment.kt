@@ -1,4 +1,4 @@
-package cc.xiaobaicz.safe.activity.fragment
+package cc.xiaobaicz.safe.fragment
 
 import androidx.fragment.app.Fragment
 import kotlinx.coroutines.CoroutineScope

@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">保险箱</string>
 
-    <string name="main_tools_behavior">cc.xiaobaicz.safe.activity.fragment.MainFragment$ToolsBehavior</string>
+    <string name="main_tools_behavior">cc.xiaobaicz.safe.fragment.MainFragment$ToolsBehavior</string>
+    <string name="account_detail">账户详情</string>
 </resources>

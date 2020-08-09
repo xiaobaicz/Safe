@@ -3,7 +3,7 @@ package cc.xiaobaicz.safe.model
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import cc.xiaobaicz.safe.activity.fragment.MainFragment
+import cc.xiaobaicz.safe.fragment.MainFragment
 import cc.xiaobaicz.safe.db.DB
 import cc.xiaobaicz.safe.db.entity.Account
 import kotlinx.coroutines.launch
@@ -14,21 +14,25 @@ class MainViewModel : ViewModel() {
      * 账户
      */
     val accounts by lazy {
-        MutableLiveData<List<Account>>()
+        MutableLiveData<List<Account>>().also {
+            selectAccountAll(it)
+        }
     }
 
     /**
      * 排序tab选中状态
      */
     val tabStatus by lazy {
-        MutableLiveData<TabStatus>()
+        MutableLiveData<TabStatus>().also {
+            selectTab(tabStatus = it)
+        }
     }
     private val mTargetTabStatus = TabStatus()
 
     /**
      * 查询所有账户
      */
-    fun selectAccountAll() {
+    fun selectAccountAll(accounts: MutableLiveData<List<Account>> = this.accounts) {
         viewModelScope.launch {
             accounts.postValue(DB.safe.accountDao().selectAll())
         }
@@ -47,7 +51,7 @@ class MainViewModel : ViewModel() {
     /**
      * 切换排序方式
      */
-    fun selectTab(sortType: MainFragment.SortType = MainFragment.SortType.HOT) {
+    fun selectTab(sortType: MainFragment.SortType = MainFragment.SortType.HOT, tabStatus: MutableLiveData<TabStatus> = this.tabStatus) {
         if (mTargetTabStatus.isInit && mTargetTabStatus.sortType == sortType) {
             mTargetTabStatus.isAsc = !mTargetTabStatus.isAsc
         } else {

@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/container">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:background="@color/theme"
+        android:elevation="8dp"
+        app:navigationIcon="@mipmap/icon_back"
+        app:titleTextColor="@color/white"
+        app:title="@string/account_detail">
+
+        <ImageView
+            android:id="@+id/btn_edit"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:layout_gravity="center_vertical|end"
+            android:padding="12dp"
+            android:src="@drawable/icon_edit"/>
+
+    </androidx.appcompat.widget.Toolbar>
+
+    <LinearLayout
+        android:id="@+id/content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:translationY="56dp">
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:startIconDrawable="@mipmap/icon_domain"
+            app:startIconTint="@color/primary"
+            app:boxStrokeWidth="1px"
+            app:boxStrokeWidthFocused="1px">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/et_domain"
+                style="@style/input_account_detail"
+                android:hint="账户域" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:startIconDrawable="@mipmap/icon_account_name"
+            app:startIconTint="@color/primary"
+            app:boxStrokeWidth="1px"
+            app:boxStrokeWidthFocused="1px">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/et_account"
+                style="@style/input_account_detail"
+                android:hint="账户名"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:startIconDrawable="@mipmap/icon_password"
+            app:startIconTint="@color/primary"
+            app:boxStrokeWidth="1px"
+            app:boxStrokeWidthFocused="1px">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/et_password"
+                style="@style/input_account_detail"
+                android:hint="密码"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:startIconDrawable="@mipmap/icon_time"
+            app:startIconTint="@color/primary"
+            app:boxStrokeWidth="1px"
+            app:boxStrokeWidthFocused="1px">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/et_last_time"
+                style="@style/input_account_detail"
+                android:hint="最后修改时间"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+    </LinearLayout>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

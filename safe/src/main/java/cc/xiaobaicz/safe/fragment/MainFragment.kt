@@ -1,15 +1,17 @@
-package cc.xiaobaicz.safe.activity.fragment
+package cc.xiaobaicz.safe.fragment
 
 import android.animation.ValueAnimator
 import android.content.Context
 import android.content.res.ColorStateList
 import android.os.Bundle
+import android.os.SystemClock
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.activity.addCallback
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.animation.doOnEnd
 import androidx.core.view.updatePadding
@@ -17,6 +19,7 @@ import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import cc.xiaobaicz.recyclerview.extend.AdapterX
 import cc.xiaobaicz.recyclerview.extend.config
 import cc.xiaobaicz.safe.R
@@ -24,7 +27,6 @@ import cc.xiaobaicz.safe.db.entity.Account
 import cc.xiaobaicz.safe.model.MainViewModel
 import cc.xiaobaicz.safe.util.dp
 import cc.xiaobaicz.safe.util.setOnOnceClickListener
-import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.fragment_main.*
 import kotlinx.android.synthetic.main.item_account.view.*
 import kotlinx.coroutines.launch
@@ -51,44 +53,10 @@ class MainFragment : BaseFragment() {
         return inflater.inflate(R.layout.fragment_main, container, false)
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        lifecycleScope.launch {
-            //设置安全区域
-            val size = systemUiSize()
-            toolbarSafeRegion(toolbar, size[1])
-            list_account.updatePadding(top = list_account.paddingTop + size[1] + 56.dp.toInt(), bottom = list_account.paddingBottom + size[3])
-            (layer_tools.layoutParams as ViewGroup.MarginLayoutParams).apply {
-                topMargin += size[1]
-            }
-            (fab_add.layoutParams as ViewGroup.MarginLayoutParams).apply {
-                bottomMargin += size[3]
-            }
-        }
-
-        //列表配置
-        adapter = list_account.config(data) {
-            val format = SimpleDateFormat.getDateInstance(DateFormat.SHORT)
-            addType(Account::class.java, R.layout.item_account) { d, h, _ ->
-                h.root.apply {
-                    tv_domain.text = d.domain
-                    tv_account.text = d.account
-                    tv_lastTime.text = format.format(Date(d.lastTime))
-                }
-            }
-        }
-
-        onConfigView()
-
-        onSetListener()
-    }
-
     //添加事件
-    private fun onSetListener() {
+    override fun onSetListener() {
         //添加账户
-        fab_add.setOnOnceClickListener { _, restore ->
-            restore()
-        }
+        fab_add.setOnOnceClickListener(gotoAccountDetail())
 
         //清空文本
         btn_clear.setOnClickListener {
@@ -110,10 +78,55 @@ class MainFragment : BaseFragment() {
         btn_sort_time.setOnClickListener {
             vm.selectTab(SortType.TIME)
         }
+
+        //退出提示
+        var lastTime = 0L
+        requireActivity().onBackPressedDispatcher.addCallback(this) {
+            if (SystemClock.elapsedRealtime() - lastTime < 1000) {
+                //退出
+                requireActivity().finish()
+            } else {
+                lastTime = SystemClock.elapsedRealtime()
+                showSnackbar(container, "双击退出")
+            }
+        }
+    }
+
+    private fun gotoAccountDetail(account: Account? = null) = { _: View, restore: ()->Unit->
+        val bundle = Bundle()
+        bundle.putParcelable("account", account)
+        findNavController().navigate(R.id.action_mainFragment_to_accountDetailFragment, bundle)
+        restore()
     }
 
     //配置View
-    private fun onConfigView() {
+    override fun onConfigView() {
+        lifecycleScope.launch {
+            //设置安全区域
+            val size = systemUiSize()
+            toolbarSafeRegion(toolbar, size[1])
+            list_account.updatePadding(top = list_account.paddingTop + size[1] + 56.dp.toInt(), bottom = list_account.paddingBottom + size[3])
+            (layer_tools.layoutParams as ViewGroup.MarginLayoutParams).apply {
+                topMargin += size[1]
+            }
+            (fab_add.layoutParams as ViewGroup.MarginLayoutParams).apply {
+                bottomMargin += size[3]
+            }
+        }
+
+        //列表配置
+        adapter = list_account.config(data) {
+            val format = SimpleDateFormat.getDateInstance(DateFormat.SHORT)
+            addType(Account::class.java, R.layout.item_account) { d, h, _ ->
+                h.root.apply {
+                    tv_domain.text = d.domain
+                    tv_account.text = d.account
+                    tv_lastTime.text = format.format(Date(d.lastTime))
+                    setOnOnceClickListener(gotoAccountDetail(d))
+                }
+            }
+        }
+
         //tab状态变化
         vm.tabStatus.observe(viewLifecycleOwner, Observer {
             initTabItem() //初始化状态
@@ -126,18 +139,15 @@ class MainFragment : BaseFragment() {
 
         //账户信息监听
         vm.accounts.observe(viewLifecycleOwner, Observer {
-            data.clear()
-            data.addAll(it)
-            adapter.notifyDataSetChanged()
-            if (it.isEmpty()) {
-                Snackbar.make(container, "账户空空如也~", Snackbar.LENGTH_SHORT).show()
+            if (data != it) { //数据是否一致，不一致则更新数据
+                data.clear()
+                data.addAll(it)
+                adapter.notifyDataSetChanged()
+                if (it.isEmpty()) {
+                    showSnackbar(container, "暂无账户数据，请添加")
+                }
             }
         })
-
-        //获取所有账户
-        vm.selectAccountAll()
-        //默认选择Tab
-        vm.selectTab()
     }
 
     //选中TabItem

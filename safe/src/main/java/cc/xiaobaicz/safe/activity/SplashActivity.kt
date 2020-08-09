@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.lifecycle.Observer
+import cc.xiaobaicz.safe.BuildConfig
 import cc.xiaobaicz.safe.R
 import cc.xiaobaicz.safe.model.SplashViewModel
 import cc.xiaobaicz.utils.statusbar.SystemUiHelper
@@ -39,7 +40,7 @@ class SplashActivity : BaseActivity() {
     //3秒后跳转到主页
     private fun goMain() {
         launch {
-            delay(3000)
+            delay(if (BuildConfig.DEBUG) 1000L else 3000L)
             startActivity(Intent(this@SplashActivity, MainActivity::class.java))
             finish()
         }
