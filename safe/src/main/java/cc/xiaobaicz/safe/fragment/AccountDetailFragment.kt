@@ -87,6 +87,7 @@ class AccountDetailFragment : BaseFragment() {
             if (vm.isEdit) {
                 //可编辑状态保存数据
                 vm.save(et_domain.text.toString(), et_account.text.toString(), et_password.text.toString())
+                vm.isEdit = false
             } else {
                 //不可编辑状态转换可编辑
                 vm.isEdit = true

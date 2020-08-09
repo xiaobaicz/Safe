@@ -218,6 +218,7 @@ class MainFragment : BaseFragment() {
                     //下拉状态 且 工具栏显示，则隐藏
                     startAnimator(child, 0f, 1f) {
                         isShow = false //动画结束，调整显示状态
+                        child.clearFocus()
                     }
                 } else if (isUp && !isShow) {
                     //上拉状态 且 工具栏隐藏，则显示
