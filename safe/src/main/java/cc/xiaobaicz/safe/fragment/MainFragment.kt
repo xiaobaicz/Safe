@@ -14,7 +14,6 @@ import android.widget.TextView
 import androidx.activity.addCallback
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.animation.doOnEnd
-import androidx.core.view.updatePadding
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
@@ -28,6 +27,8 @@ import cc.xiaobaicz.safe.model.MainViewModel
 import cc.xiaobaicz.safe.util.dp
 import cc.xiaobaicz.safe.util.setOnOnceClickListener
 import kotlinx.android.synthetic.main.fragment_main.*
+import kotlinx.android.synthetic.main.fragment_main.container
+import kotlinx.android.synthetic.main.fragment_main.toolbar
 import kotlinx.android.synthetic.main.item_account.view.*
 import kotlinx.coroutines.launch
 import java.text.DateFormat
@@ -79,6 +80,11 @@ class MainFragment : BaseFragment() {
             vm.selectTab(SortType.TIME)
         }
 
+        btn_setting.setOnOnceClickListener { _, function ->
+            gotoSetting()
+            function()
+        }
+
         //手动 显示 or 隐藏 工具栏
         btn_search.setOnClickListener {
             val lp = layer_tools.layoutParams as CoordinatorLayout.LayoutParams
@@ -106,18 +112,19 @@ class MainFragment : BaseFragment() {
         restore()
     }
 
+    private fun gotoSetting() {
+        findNavController().navigate(R.id.action_mainFragment_to_settingFragment)
+    }
+
     //配置View
-    override fun onConfigView() {
+    override fun onConfigView(view: View) {
         lifecycleScope.launch {
             //设置安全区域
             val size = systemUiSize()
             toolbarSafeRegion(toolbar, size[1])
-            list_account.updatePadding(top = list_account.paddingTop + size[1] + 56.dp.toInt(), bottom = list_account.paddingBottom + size[3])
+            contentSafeRegion(list_account, size[1], size[3])
             (layer_tools.layoutParams as ViewGroup.MarginLayoutParams).apply {
                 topMargin += size[1]
-            }
-            (fab_add.layoutParams as ViewGroup.MarginLayoutParams).apply {
-                bottomMargin += size[3]
             }
         }
 

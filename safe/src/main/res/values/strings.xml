@@ -3,4 +3,8 @@
 
     <string name="main_tools_behavior">cc.xiaobaicz.safe.fragment.MainFragment$ToolsBehavior</string>
     <string name="account_detail">账户详情</string>
+    <string name="setting">设置</string>
+    <string name="safe">安全</string>
+    <string name="backup">备份</string>
+    <string name="about">关于</string>
 </resources>

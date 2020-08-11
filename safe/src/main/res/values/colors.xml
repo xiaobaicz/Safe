@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <color name="colorPrimary">@color/bg</color>
-    <color name="colorPrimaryDark">@color/bg</color>
+    <color name="colorPrimary">@color/theme</color>
+    <color name="colorPrimaryDark">@color/theme</color>
     <color name="colorAccent">@color/theme</color>
     
     <color name="primary">#0fddff</color>
@@ -22,5 +22,7 @@
     <color name="tv_def">#333</color>
     <color name="tv_hint">#aaa</color>
     <color name="tab_item_icon_def">#666</color>
+    <color name="bg_item_setting">#fff</color>
+    <color name="tint_setting_img">#333</color>
 
 </resources>

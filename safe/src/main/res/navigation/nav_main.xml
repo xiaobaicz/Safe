@@ -13,15 +13,22 @@
         <action
             android:id="@+id/action_mainFragment_to_accountDetailFragment"
             app:destination="@id/accountDetailFragment"
-            app:enterAnim="@anim/fragment_fade_enter"
-            app:exitAnim="@anim/fragment_fade_exit"
-            app:popEnterAnim="@anim/fragment_fade_enter"
-            app:popExitAnim="@anim/fragment_fade_exit" />
+            app:enterAnim="@anim/anim_in"
+            app:exitAnim="@anim/anim_out"
+            app:popEnterAnim="@anim/anim_pop_in"
+            app:popExitAnim="@anim/anim_pop_out" />
         <argument
             android:name="account"
             app:argType="cc.xiaobaicz.safe.db.entity.Account"
             app:nullable="true"
             android:defaultValue="@null" />
+        <action
+            android:id="@+id/action_mainFragment_to_settingFragment"
+            app:destination="@id/settingFragment"
+            app:enterAnim="@anim/anim_in"
+            app:exitAnim="@anim/anim_out"
+            app:popEnterAnim="@anim/anim_pop_in"
+            app:popExitAnim="@anim/anim_pop_out"/>
     </fragment>
 
     <fragment
@@ -29,5 +36,10 @@
         android:name="cc.xiaobaicz.safe.fragment.AccountDetailFragment"
         android:label="AccountDetailFragment"
         tools:layout="@layout/fragment_account_detail"/>
+    <fragment
+        android:id="@+id/settingFragment"
+        android:name="cc.xiaobaicz.safe.fragment.SettingFragment"
+        android:label="SettingFragment"
+        tools:layout="@layout/fragment_setting"/>
 
 </navigation>

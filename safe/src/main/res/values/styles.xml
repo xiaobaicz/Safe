@@ -41,4 +41,27 @@
         <item name="android:textColor">@color/tv_def</item>
     </style>
 
+    <style name="item_setting">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">56dp</item>
+        <item name="android:paddingStart">16dp</item>
+        <item name="android:paddingEnd">16dp</item>
+        <item name="android:background">@color/bg_item_setting</item>
+    </style>
+
+    <style name="item_setting_text">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_gravity">center_vertical</item>
+        <item name="android:textColor">@color/tv_def</item>
+        <item name="android:textSize">@dimen/tv_4</item>
+    </style>
+
+    <style name="item_setting_img">
+        <item name="android:layout_width">16dp</item>
+        <item name="android:layout_height">16dp</item>
+        <item name="android:layout_gravity">center_vertical|end</item>
+        <item name="android:src">@mipmap/icon_go</item>
+    </style>
+
 </resources>

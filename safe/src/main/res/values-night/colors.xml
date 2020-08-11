@@ -16,5 +16,7 @@
     <color name="tv_def">#fff</color>
     <color name="tv_hint">#aaa</color>
     <color name="tab_item_icon_def">#aaa</color>
+    <color name="bg_item_setting">#222</color>
+    <color name="tint_setting_img">#fff</color>
 
 </resources>

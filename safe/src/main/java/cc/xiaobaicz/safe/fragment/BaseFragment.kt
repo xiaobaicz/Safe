@@ -5,6 +5,7 @@ import android.view.View
 import androidx.appcompat.widget.Toolbar
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.view.updatePadding
+import cc.xiaobaicz.safe.util.dp
 import cc.xiaobaicz.utils.statusbar.SystemUiAttrCallback
 import cc.xiaobaicz.utils.statusbar.SystemUiHelper
 import com.google.android.material.snackbar.Snackbar
@@ -20,14 +21,14 @@ abstract class BaseFragment : CoroutineFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        onConfigView()
+        onConfigView(view)
         onSetListener()
     }
 
     /**
      * 配置View
      */
-    protected abstract fun onConfigView()
+    protected abstract fun onConfigView(view: View)
 
     /**
      * 配置监听器
@@ -53,6 +54,13 @@ abstract class BaseFragment : CoroutineFragment() {
             it.layoutParams.height += top
             it.updatePadding(top = it.paddingTop + top)
         }
+    }
+
+    /**
+     * 内容安全区域
+     */
+    protected fun contentSafeRegion(content: View, top: Int, bottom: Int) {
+        content.updatePadding(top = content.paddingTop + 56.dp.toInt() + top, bottom = content.paddingBottom + bottom)
     }
 
     /**

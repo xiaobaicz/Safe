@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg"
+    android:id="@+id/container"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:background="@color/theme"
+        android:elevation="8dp"
+        app:navigationIcon="@mipmap/icon_back"
+        app:titleTextColor="@color/white"
+        app:title="@string/setting">
+
+    </androidx.appcompat.widget.Toolbar>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:id="@+id/content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <FrameLayout
+                android:id="@+id/btn_safe"
+                style="@style/item_setting">
+
+                <TextView
+                    style="@style/item_setting_text"
+                    android:text="@string/safe" />
+
+                <ImageView
+                    style="@style/item_setting_img"
+                    app:tint="@color/tint_setting_img" />
+
+            </FrameLayout>
+
+            <FrameLayout
+                android:id="@+id/btn_backup"
+                style="@style/item_setting">
+
+                <TextView
+                    style="@style/item_setting_text"
+                    android:text="@string/backup" />
+
+                <ImageView
+                    style="@style/item_setting_img"
+                    app:tint="@color/tint_setting_img" />
+
+            </FrameLayout>
+
+            <FrameLayout
+                android:id="@+id/btn_about"
+                style="@style/item_setting">
+
+                <TextView
+                    style="@style/item_setting_text"
+                    android:text="@string/about" />
+
+                <ImageView
+                    style="@style/item_setting_img"
+                    app:tint="@color/tint_setting_img" />
+
+            </FrameLayout>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
