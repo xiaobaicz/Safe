@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg"
+    android:id="@+id/container"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:background="@color/theme"
+        android:elevation="8dp"
+        app:navigationIcon="@mipmap/icon_back"
+        app:titleTextColor="@color/white"
+        app:title="@string/safe">
+
+    </androidx.appcompat.widget.Toolbar>
+
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/content_toolbar_behavior">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <FrameLayout
+                android:id="@+id/btn_password"
+                style="@style/item_setting">
+
+                <TextView
+                    style="@style/item_setting_text"
+                    android:text="@string/set_password" />
+
+                <ImageView
+                    style="@style/item_setting_img"
+                    app:tint="@color/tint_setting_img" />
+
+            </FrameLayout>
+
+            <FrameLayout
+                android:id="@+id/btn_password_tips"
+                style="@style/item_setting">
+
+                <TextView
+                    style="@style/item_setting_text"
+                    android:text="@string/set_password_tips" />
+
+                <ImageView
+                    style="@style/item_setting_img"
+                    app:tint="@color/tint_setting_img" />
+
+            </FrameLayout>
+
+            <FrameLayout
+                android:id="@+id/btn_safe_content"
+                style="@style/item_setting">
+
+                <TextView
+                    style="@style/item_setting_text"
+                    android:text="@string/set_safe_content" />
+
+                <ImageView
+                    style="@style/item_setting_img"
+                    app:tint="@color/tint_setting_img" />
+
+            </FrameLayout>
+
+            <FrameLayout
+                android:id="@+id/btn_lock_time"
+                style="@style/item_setting">
+
+                <TextView
+                    style="@style/item_setting_text"
+                    android:text="@string/auto_lock_time" />
+
+                <ImageView
+                    style="@style/item_setting_img"
+                    app:tint="@color/tint_setting_img" />
+
+            </FrameLayout>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

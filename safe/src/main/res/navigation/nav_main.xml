@@ -40,6 +40,19 @@
         android:id="@+id/settingFragment"
         android:name="cc.xiaobaicz.safe.fragment.SettingFragment"
         android:label="SettingFragment"
-        tools:layout="@layout/fragment_setting"/>
+        tools:layout="@layout/fragment_setting">
+        <action
+            android:id="@+id/action_settingFragment_to_safeFragment"
+            app:destination="@id/safeFragment"
+            app:enterAnim="@anim/anim_in"
+            app:exitAnim="@anim/anim_out"
+            app:popEnterAnim="@anim/anim_pop_in"
+            app:popExitAnim="@anim/anim_pop_out" />
+    </fragment>
+    <fragment
+        android:id="@+id/safeFragment"
+        android:name="cc.xiaobaicz.safe.fragment.SafeFragment"
+        android:label="SafeFragment"
+        tools:layout="@layout/fragment_setting_safe"/>
 
 </navigation>

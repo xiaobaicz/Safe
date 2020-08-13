@@ -9,4 +9,6 @@
     <dimen name="tv_5">14sp</dimen>
     <dimen name="tv_6">12sp</dimen>
 
+    <integer name="anim_duration">456</integer>
+
 </resources>

@@ -7,18 +7,16 @@ import android.view.ViewGroup
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import cc.xiaobaicz.safe.R
-import cc.xiaobaicz.safe.util.setOnOnceClickListener
-import kotlinx.android.synthetic.main.fragment_setting.*
+import kotlinx.android.synthetic.main.fragment_setting_safe.*
 import kotlinx.coroutines.launch
 
 /**
- * 设置
- * 安全/备份/关于
+ * 安全设置页
  */
-class SettingFragment : BaseFragment() {
+class SafeFragment : BaseFragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_setting, container, false)
+        return inflater.inflate(R.layout.fragment_setting_safe, container, false)
     }
 
     override fun onConfigView(view: View) {
@@ -33,21 +31,6 @@ class SettingFragment : BaseFragment() {
         //返回键
         toolbar.setNavigationOnClickListener {
             findNavController().popBackStack()
-        }
-
-        // f 函数，重置该单次事件
-        //安全设置
-        btn_safe.setOnOnceClickListener { _, f ->
-            findNavController().navigate(R.id.action_settingFragment_to_safeFragment)
-            f()
-        }
-        //备份设置
-        btn_backup.setOnOnceClickListener { _, f ->
-            f()
-        }
-        //关于
-        btn_about.setOnOnceClickListener { _, f ->
-            f()
         }
     }
 }

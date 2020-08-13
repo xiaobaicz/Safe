@@ -4,6 +4,11 @@
     <translate
         android:fromXDelta="0%"
         android:toXDelta="100%"
-        android:duration="333"/>
+        android:duration="@integer/anim_duration"/>
+
+    <alpha
+        android:fromAlpha="1.0"
+        android:toAlpha="0.3"
+        android:duration="@integer/anim_duration"/>
 
 </set>
