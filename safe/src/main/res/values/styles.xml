@@ -36,7 +36,7 @@
         <item name="android:enabled">false</item>
         <item name="android:maxLines">1</item>
         <item name="android:singleLine">true</item>
-        <item name="android:background">#fff</item>
+        <item name="android:background">@color/bg_item_setting</item>
         <item name="android:textColorHint">@color/tv_hint</item>
         <item name="android:textColor">@color/tv_def</item>
     </style>
@@ -62,6 +62,13 @@
         <item name="android:layout_height">16dp</item>
         <item name="android:layout_gravity">center_vertical|end</item>
         <item name="android:src">@mipmap/icon_go</item>
+    </style>
+
+    <style name="toolbar">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">56dp</item>
+        <item name="android:background">@drawable/bg_toolbar</item>
+        <item name="android:elevation">8dp</item>
     </style>
 
 </resources>

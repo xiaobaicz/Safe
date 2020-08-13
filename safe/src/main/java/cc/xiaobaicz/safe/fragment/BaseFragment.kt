@@ -65,7 +65,7 @@ abstract class BaseFragment : CoroutineFragment() {
                 it.updatePadding(top = it.paddingTop + size.t)
             }
             if (content != null) {
-                content.updatePaddingRelative(content.paddingLeft, content.paddingTop + 56.dp.toInt() + size.t, content.paddingRight, content.paddingBottom)
+                content.updatePaddingRelative(content.paddingLeft, content.paddingTop + 56.dp.toInt() + size.t, content.paddingRight, content.paddingBottom + size.b)
                 content.clipToPadding = false
             }
         })

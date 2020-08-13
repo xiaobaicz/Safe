@@ -18,5 +18,7 @@
     <color name="tab_item_icon_def">#aaa</color>
     <color name="bg_item_setting">#222</color>
     <color name="tint_setting_img">#fff</color>
+    <color name="toolbar_end">#555</color>
+    <color name="toolbar_start">#000</color>
 
 </resources>

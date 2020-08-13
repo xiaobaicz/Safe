@@ -8,10 +8,7 @@
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="56dp"
-        android:background="@color/theme"
-        android:elevation="8dp"
+        style="@style/toolbar"
         app:navigationIcon="@mipmap/icon_back"
         app:titleTextColor="@color/white"
         app:title="@string/backup">
