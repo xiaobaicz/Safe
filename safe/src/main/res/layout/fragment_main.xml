@@ -42,9 +42,7 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/list_account"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:clipToPadding="false"
-        app:layout_behavior="@string/content_toolbar_behavior"/>
+        android:layout_height="match_parent"/>
 
     <LinearLayout
         android:id="@+id/layer_tools"

@@ -2,12 +2,16 @@ package cc.xiaobaicz.safe.fragment
 
 import android.os.Bundle
 import android.view.View
+import android.view.ViewGroup
 import androidx.appcompat.widget.Toolbar
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.view.updatePadding
+import androidx.core.view.updatePaddingRelative
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
+import cc.xiaobaicz.safe.bean.SafeSize
+import cc.xiaobaicz.safe.model.MainGlobalViewModel
 import cc.xiaobaicz.safe.util.dp
-import cc.xiaobaicz.utils.statusbar.SystemUiAttrCallback
-import cc.xiaobaicz.utils.statusbar.SystemUiHelper
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlin.coroutines.resume
@@ -18,6 +22,13 @@ import kotlin.coroutines.resume
  * @date 2020/3/12
  */
 abstract class BaseFragment : CoroutineFragment() {
+
+    /**
+     * 全局变量
+     */
+    protected val vmGlobal by lazy {
+        ViewModelProvider(requireActivity()).get(MainGlobalViewModel::class.java)
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -38,22 +49,26 @@ abstract class BaseFragment : CoroutineFragment() {
     /**
      * 获取系统窗口内边框大小
      */
-    protected suspend fun systemUiSize() = suspendCancellableCoroutine<Array<Int>> {
-        SystemUiHelper.get(activity).systemUiHeight(object : SystemUiAttrCallback() {
-            override fun windowPaddingSize(left: Int, top: Int, right: Int, bottom: Int) {
-                it.resume(arrayOf(left, top, right, bottom))
-            }
+    protected suspend fun safeRegion() = suspendCancellableCoroutine<SafeSize> {
+        vmGlobal.systemUiSize.observe(viewLifecycleOwner, Observer { size ->
+            it.resume(size)
         })
     }
 
     /**
-     * 工具栏安全区域
+     * 安全区域
      */
-    protected fun toolbarSafeRegion(toolbar: Toolbar, top: Int) {
-        toolbar.also {
-            it.layoutParams.height += top
-            it.updatePadding(top = it.paddingTop + top)
-        }
+    protected fun safeRegion(toolbar: Toolbar, content: ViewGroup?) {
+        vmGlobal.systemUiSize.observe(viewLifecycleOwner, Observer { size ->
+            toolbar.also {
+                it.layoutParams.height += size.t
+                it.updatePadding(top = it.paddingTop + size.t)
+            }
+            if (content != null) {
+                content.updatePaddingRelative(content.paddingLeft, content.paddingTop + 56.dp.toInt() + size.t, content.paddingRight, content.paddingBottom)
+                content.clipToPadding = false
+            }
+        })
     }
 
     /**

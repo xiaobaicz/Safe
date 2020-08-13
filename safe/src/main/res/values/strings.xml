@@ -2,7 +2,6 @@
     <string name="app_name">保险箱</string>
 
     <string name="main_tools_behavior">cc.xiaobaicz.safe.fragment.MainFragment$ToolsBehavior</string>
-    <string name="content_toolbar_behavior">cc.xiaobaicz.safe.fragment.ContentBehavior</string>
     <string name="account_detail">账户详情</string>
     <string name="setting">设置</string>
     <string name="safe">安全</string>

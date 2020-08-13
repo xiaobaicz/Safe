@@ -6,15 +6,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
 import cc.xiaobaicz.safe.R
-import kotlinx.android.synthetic.main.fragment_setting_safe.*
+import kotlinx.android.synthetic.main.fragment_setting_backup.*
 
-/**
- * 安全设置页
- */
-class SafeFragment : BaseFragment() {
+class BackupFragment : BaseFragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_setting_safe, container, false)
+        return inflater.inflate(R.layout.fragment_setting_backup, container, false)
     }
 
     override fun onConfigView(view: View) {

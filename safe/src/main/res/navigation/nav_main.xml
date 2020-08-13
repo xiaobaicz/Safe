@@ -48,11 +48,23 @@
             app:exitAnim="@anim/anim_out"
             app:popEnterAnim="@anim/anim_pop_in"
             app:popExitAnim="@anim/anim_pop_out" />
+        <action
+            android:id="@+id/action_settingFragment_to_backupFragment"
+            app:destination="@id/backupFragment"
+            app:enterAnim="@anim/anim_in"
+            app:exitAnim="@anim/anim_out"
+            app:popEnterAnim="@anim/anim_pop_in"
+            app:popExitAnim="@anim/anim_pop_out" />
     </fragment>
     <fragment
         android:id="@+id/safeFragment"
         android:name="cc.xiaobaicz.safe.fragment.SafeFragment"
         android:label="SafeFragment"
         tools:layout="@layout/fragment_setting_safe"/>
+    <fragment
+        android:id="@+id/backupFragment"
+        android:name="cc.xiaobaicz.safe.fragment.BackupFragment"
+        android:label="BackupFragment"
+        tools:layout="@layout/fragment_setting_backup"/>
 
 </navigation>

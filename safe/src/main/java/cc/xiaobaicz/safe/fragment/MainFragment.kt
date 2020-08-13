@@ -14,6 +14,7 @@ import android.widget.TextView
 import androidx.activity.addCallback
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.animation.doOnEnd
+import androidx.core.view.updateLayoutParams
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
@@ -50,6 +51,53 @@ class MainFragment : BaseFragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_main, container, false)
+    }
+
+    //配置View
+    override fun onConfigView(view: View) {
+        lifecycleScope.launch {
+            val size = safeRegion()
+            layer_tools.updateLayoutParams<ViewGroup.MarginLayoutParams> {
+                topMargin += size.t
+            }
+        }
+        //设置安全区域
+        safeRegion(toolbar, list_account)
+
+        //列表配置
+        adapter = list_account.config(data) {
+            val format = SimpleDateFormat.getDateInstance(DateFormat.SHORT)
+            addType(Account::class.java, R.layout.item_account) { d, h, _ ->
+                h.root.apply {
+                    tv_domain.text = d.domain
+                    tv_account.text = d.account
+                    tv_lastTime.text = format.format(Date(d.lastTime))
+                    setOnOnceClickListener(gotoAccountDetail(d))
+                }
+            }
+        }
+
+        //tab状态变化
+        vm.tabStatus.observe(viewLifecycleOwner, Observer {
+            initTabItem() //初始化状态
+            when (it.sortType) { //选中状态
+                SortType.HOT -> selectTabItem(btn_sort_hot, iv_sort_hot, it.isAsc)
+                SortType.DOMAIN -> selectTabItem(btn_sort_domain, iv_sort_domain, it.isAsc)
+                SortType.TIME -> selectTabItem(btn_sort_time, iv_sort_time, it.isAsc)
+            }
+        })
+
+        //账户信息监听
+        vm.accounts.observe(viewLifecycleOwner, Observer {
+            if (data != it) { //数据是否一致，不一致则更新数据
+                data.clear()
+                data.addAll(it)
+                adapter.notifyDataSetChanged()
+                if (it.isEmpty()) {
+                    showSnackbar(container, "暂无账户数据，请添加")
+                }
+            }
+        })
     }
 
     //添加事件
@@ -112,53 +160,6 @@ class MainFragment : BaseFragment() {
 
     private fun gotoSetting() {
         findNavController().navigate(R.id.action_mainFragment_to_settingFragment)
-    }
-
-    //配置View
-    override fun onConfigView(view: View) {
-        lifecycleScope.launch {
-            //设置安全区域
-            val size = systemUiSize()
-            toolbarSafeRegion(toolbar, size[1])
-            (layer_tools.layoutParams as ViewGroup.MarginLayoutParams).apply {
-                topMargin += size[1]
-            }
-        }
-
-        //列表配置
-        adapter = list_account.config(data) {
-            val format = SimpleDateFormat.getDateInstance(DateFormat.SHORT)
-            addType(Account::class.java, R.layout.item_account) { d, h, _ ->
-                h.root.apply {
-                    tv_domain.text = d.domain
-                    tv_account.text = d.account
-                    tv_lastTime.text = format.format(Date(d.lastTime))
-                    setOnOnceClickListener(gotoAccountDetail(d))
-                }
-            }
-        }
-
-        //tab状态变化
-        vm.tabStatus.observe(viewLifecycleOwner, Observer {
-            initTabItem() //初始化状态
-            when (it.sortType) { //选中状态
-                SortType.HOT -> selectTabItem(btn_sort_hot, iv_sort_hot, it.isAsc)
-                SortType.DOMAIN -> selectTabItem(btn_sort_domain, iv_sort_domain, it.isAsc)
-                SortType.TIME -> selectTabItem(btn_sort_time, iv_sort_time, it.isAsc)
-            }
-        })
-
-        //账户信息监听
-        vm.accounts.observe(viewLifecycleOwner, Observer {
-            if (data != it) { //数据是否一致，不一致则更新数据
-                data.clear()
-                data.addAll(it)
-                adapter.notifyDataSetChanged()
-                if (it.isEmpty()) {
-                    showSnackbar(container, "暂无账户数据，请添加")
-                }
-            }
-        })
     }
 
     //选中TabItem

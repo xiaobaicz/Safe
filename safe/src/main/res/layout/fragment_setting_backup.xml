@@ -14,7 +14,7 @@
         android:elevation="8dp"
         app:navigationIcon="@mipmap/icon_back"
         app:titleTextColor="@color/white"
-        app:title="@string/safe">
+        app:title="@string/backup">
 
     </androidx.appcompat.widget.Toolbar>
 
@@ -30,12 +30,12 @@
             android:orientation="vertical">
 
             <FrameLayout
-                android:id="@+id/btn_password"
+                android:id="@+id/btn_import_pw"
                 style="@style/item_setting">
 
                 <TextView
                     style="@style/item_setting_text"
-                    android:text="@string/set_password" />
+                    android:text="导入" />
 
                 <ImageView
                     style="@style/item_setting_img"
@@ -44,12 +44,12 @@
             </FrameLayout>
 
             <FrameLayout
-                android:id="@+id/btn_password_tips"
+                android:id="@+id/btn_export_pw"
                 style="@style/item_setting">
 
                 <TextView
                     style="@style/item_setting_text"
-                    android:text="@string/set_password_tips" />
+                    android:text="导出" />
 
                 <ImageView
                     style="@style/item_setting_img"
@@ -58,12 +58,12 @@
             </FrameLayout>
 
             <FrameLayout
-                android:id="@+id/btn_safe_content"
+                android:id="@+id/btn_import_csv"
                 style="@style/item_setting">
 
                 <TextView
                     style="@style/item_setting_text"
-                    android:text="@string/set_safe_content" />
+                    android:text="导入CSV（明文）" />
 
                 <ImageView
                     style="@style/item_setting_img"
@@ -72,12 +72,12 @@
             </FrameLayout>
 
             <FrameLayout
-                android:id="@+id/btn_lock_time"
+                android:id="@+id/btn_export_csv"
                 style="@style/item_setting">
 
                 <TextView
                     style="@style/item_setting_text"
-                    android:text="@string/auto_lock_time" />
+                    android:text="导出CSV（明文）" />
 
                 <ImageView
                     style="@style/item_setting_img"

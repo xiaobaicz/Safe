@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import androidx.activity.addCallback
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import cc.xiaobaicz.safe.R
 import cc.xiaobaicz.safe.db.entity.Account
@@ -15,7 +14,6 @@ import cc.xiaobaicz.safe.model.AccountDetailViewModel
 import cc.xiaobaicz.safe.util.setOnOnceClickListener
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.fragment_account_detail.*
-import kotlinx.coroutines.launch
 import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.*
@@ -40,11 +38,8 @@ class AccountDetailFragment : BaseFragment() {
     }
 
     override fun onConfigView(view: View) {
-        lifecycleScope.launch {
-            //设置安全区域
-            val size = systemUiSize()
-            toolbarSafeRegion(toolbar, size[1])
-        }
+        //设置安全区域
+        safeRegion(toolbar, content)
 
         //目标账户绑定视图
         vm.account.observe(viewLifecycleOwner, Observer {

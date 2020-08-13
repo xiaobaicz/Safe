@@ -4,12 +4,10 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import cc.xiaobaicz.safe.R
 import cc.xiaobaicz.safe.util.setOnOnceClickListener
 import kotlinx.android.synthetic.main.fragment_setting.*
-import kotlinx.coroutines.launch
 
 /**
  * 设置
@@ -22,11 +20,8 @@ class SettingFragment : BaseFragment() {
     }
 
     override fun onConfigView(view: View) {
-        lifecycleScope.launch {
-            //设置安全区域
-            val size = systemUiSize()
-            toolbarSafeRegion(toolbar, size[1])
-        }
+        //设置安全区域
+        safeRegion(toolbar, content)
     }
 
     override fun onSetListener() {
@@ -43,6 +38,7 @@ class SettingFragment : BaseFragment() {
         }
         //备份设置
         btn_backup.setOnOnceClickListener { _, f ->
+            findNavController().navigate(R.id.action_settingFragment_to_backupFragment)
             f()
         }
         //关于
