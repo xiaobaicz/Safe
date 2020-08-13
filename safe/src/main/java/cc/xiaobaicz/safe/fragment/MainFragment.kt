@@ -89,15 +89,17 @@ class MainFragment : BaseFragment() {
 
         //账户信息监听
         vm.accounts.observe(viewLifecycleOwner, Observer {
-            if (data != it) { //数据是否一致，不一致则更新数据
-                data.clear()
-                data.addAll(it)
-                adapter.notifyDataSetChanged()
-                if (it.isEmpty()) {
-                    showSnackbar(container, "暂无账户数据，请添加")
-                }
+            data.clear()
+            data.addAll(it)
+            adapter.notifyDataSetChanged()
+            if (it.isEmpty()) {
+                showSnackbar(container, "暂无账户数据")
             }
         })
+
+        println("...")
+        vm.selectAccountAll()
+        println("...")
     }
 
     //添加事件
@@ -112,7 +114,14 @@ class MainFragment : BaseFragment() {
 
         //文本变化
         et_keyword.addTextChangedListener(onTextChanged = { text, _, _, _->
-            vm.selectAccountForKeyword(text)
+            val behavior = getToolbarehavior()
+            if (behavior.isShow) {
+                if (text != null && text.isNotEmpty()) {
+                    vm.selectAccountForKeyword(text)
+                } else {
+                    vm.selectAccountAll()
+                }
+            }
         })
 
         //Tab选择
@@ -133,8 +142,7 @@ class MainFragment : BaseFragment() {
 
         //手动 显示 or 隐藏 工具栏
         btn_search.setOnClickListener {
-            val lp = layer_tools.layoutParams as CoordinatorLayout.LayoutParams
-            val behavior = lp.behavior as ToolsBehavior
+            val behavior = getToolbarehavior()
             behavior.startAnimator(layer_tools, !behavior.isShow)
         }
 
@@ -149,6 +157,12 @@ class MainFragment : BaseFragment() {
                 showSnackbar(container, "双击退出")
             }
         }
+    }
+
+    //获取工具栏规则实例
+    private fun getToolbarehavior(): ToolsBehavior {
+        val lp = layer_tools.layoutParams as CoordinatorLayout.LayoutParams
+        return lp.behavior as ToolsBehavior
     }
 
     private fun gotoAccountDetail(account: Account? = null) = { _: View, restore: ()->Unit->
@@ -188,21 +202,43 @@ class MainFragment : BaseFragment() {
     /**
      * 排序方式
      */
-    enum class SortType(val value: String) {
+    enum class SortType(val value: String, val sort: ((List<Account>, Boolean) -> List<Account>)) {
         /**
          * 热度
          */
-        HOT("hot"),
+        HOT("hot", { d, isAsc ->
+            d.sortedWith(Comparator { o1, o2 ->
+                return@Comparator if (isAsc) {
+                    (o1.hot - o2.hot).toInt()
+                } else {
+                    (o2.hot - o1.hot).toInt()
+                }
+            })
+        }),
 
         /**
          * 域
          */
-        DOMAIN("domain"),
+        DOMAIN("domain", { d, isAsc ->
+            if (isAsc) {
+                d
+            } else {
+                d.asReversed()
+            }
+        }),
 
         /**
          * 时间
          */
-        TIME("last_time")
+        TIME("last_time", { d, isAsc ->
+            d.sortedWith(Comparator { o1, o2 ->
+                return@Comparator if (isAsc) {
+                    (o1.lastTime - o2.lastTime).toInt()
+                } else {
+                    (o2.lastTime - o1.lastTime).toInt()
+                }
+            })
+        })
     }
 
     /**

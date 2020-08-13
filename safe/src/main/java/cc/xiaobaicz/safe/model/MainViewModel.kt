@@ -6,17 +6,19 @@ import androidx.lifecycle.viewModelScope
 import cc.xiaobaicz.safe.fragment.MainFragment
 import cc.xiaobaicz.safe.db.DB
 import cc.xiaobaicz.safe.db.entity.Account
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class MainViewModel : ViewModel() {
+
+    //关键字
+    private var mKeyWork = ""
 
     /**
      * 账户
      */
     val accounts by lazy {
-        MutableLiveData<List<Account>>().also {
-            selectAccountAll(it)
-        }
+        MutableLiveData<List<Account>>()
     }
 
     /**
@@ -33,8 +35,9 @@ class MainViewModel : ViewModel() {
      * 查询所有账户
      */
     fun selectAccountAll(accounts: MutableLiveData<List<Account>> = this.accounts) {
-        viewModelScope.launch {
-            accounts.postValue(DB.safe.accountDao().selectAll())
+        mKeyWork = ""
+        viewModelScope.launch(Dispatchers.IO) {
+            accounts.postValue(sort(DB.safe.accountDao().selectAll()))
         }
     }
 
@@ -43,10 +46,14 @@ class MainViewModel : ViewModel() {
      * @param text 关键字
      */
     fun selectAccountForKeyword(text: CharSequence?) {
+        mKeyWork = text?.toString() ?: ""
         viewModelScope.launch {
-            accounts.postValue(DB.safe.accountDao().select("%${text ?: ""}%"))
+            accounts.postValue(sort(DB.safe.accountDao().select("%$mKeyWork%")))
         }
     }
+
+    //排序
+    private fun sort(data: List<Account>) = mTargetTabStatus.sortType.sort(data, mTargetTabStatus.isAsc)
 
     /**
      * 切换排序方式
@@ -60,6 +67,11 @@ class MainViewModel : ViewModel() {
         mTargetTabStatus.sortType = sortType
         mTargetTabStatus.isInit = true
         tabStatus.postValue(mTargetTabStatus)
+        if (mKeyWork.isEmpty()) {
+            selectAccountAll()
+        } else {
+            selectAccountForKeyword(mKeyWork)
+        }
     }
 
     /**

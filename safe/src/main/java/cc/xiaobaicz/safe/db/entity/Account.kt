@@ -30,15 +30,15 @@ data class Account(
     /**
      * id
      */
-    @Nullable
+    @NonNull
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "id")
-    var id: Int? = null
+    var id: Int = 0
 
     /**
      * 密码
      */
-    @Nullable
+    @NonNull
     @ColumnInfo(name = "password")
     var password: String = ""
 
@@ -60,7 +60,7 @@ data class Account(
         parcel.readString() ?: "",
         parcel.readString() ?: ""
     ) {
-        id = parcel.readValue(Int::class.java.classLoader) as? Int
+        id = parcel.readValue(Int::class.java.classLoader) as Int
         password = parcel.readString() ?: ""
         lastTime = parcel.readLong()
         hot = parcel.readLong()

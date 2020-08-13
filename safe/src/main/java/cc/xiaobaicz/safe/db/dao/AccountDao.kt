@@ -12,14 +12,15 @@ interface AccountDao {
     /**
      * 查询所有账户
      */
-    @Query("select * from account order by id desc;")
+    @Ignore
+    @Query("select * from account order by domain;")
     suspend fun selectAll(): List<Account>
 
     /**
      * 条件查询
      * 模糊查询 账户域 & 账户
      */
-    @Query("select * from account where domain like :key union select * from account where account like :key order by id desc;")
+    @Query("select * from account where domain like :key union select * from account where account like :key order by domain;")
     suspend fun select(key: String): List<Account>
 
     /**
