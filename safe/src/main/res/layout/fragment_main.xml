@@ -6,11 +6,45 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/container">
 
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:background="@color/theme"
+        android:elevation="8dp"
+        app:titleTextColor="@color/white"
+        app:title="@string/app_name">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical|end"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/btn_search"
+                android:layout_width="56dp"
+                android:layout_height="56dp"
+                android:padding="12dp"
+                android:src="@mipmap/icon_search"/>
+
+            <ImageView
+                android:id="@+id/btn_setting"
+                android:layout_width="56dp"
+                android:layout_height="56dp"
+                android:padding="12dp"
+                android:src="@mipmap/icon_setting"/>
+
+        </LinearLayout>
+
+    </androidx.appcompat.widget.Toolbar>
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/list_account"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:clipToPadding="false"/>
+        android:clipToPadding="false"
+        app:layout_behavior="@string/content_toolbar_behavior"/>
 
     <LinearLayout
         android:id="@+id/layer_tools"
@@ -124,40 +158,5 @@
         app:layout_anchorGravity="bottom|end"
         app:backgroundTint="@color/white"
         android:src="@mipmap/icon_add"/>
-
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="56dp"
-        android:background="@color/theme"
-        android:elevation="8dp"
-        app:titleTextColor="@color/white"
-        app:title="@string/app_name">
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical|end"
-            android:orientation="horizontal">
-
-            <ImageView
-                android:id="@+id/btn_search"
-                android:layout_width="56dp"
-                android:layout_height="56dp"
-                android:padding="12dp"
-                android:src="@mipmap/icon_search"/>
-
-            <ImageView
-                android:id="@+id/btn_setting"
-                android:layout_width="56dp"
-                android:layout_height="56dp"
-                android:padding="12dp"
-                android:src="@mipmap/icon_setting"/>
-
-        </LinearLayout>
-
-    </androidx.appcompat.widget.Toolbar>
-
-
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

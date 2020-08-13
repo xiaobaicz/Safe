@@ -26,7 +26,6 @@ class SettingFragment : BaseFragment() {
             //设置安全区域
             val size = systemUiSize()
             toolbarSafeRegion(toolbar, size[1])
-            contentSafeRegion(content, size[1], size[3])
         }
     }
 

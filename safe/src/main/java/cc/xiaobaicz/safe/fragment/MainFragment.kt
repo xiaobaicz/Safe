@@ -27,8 +27,6 @@ import cc.xiaobaicz.safe.model.MainViewModel
 import cc.xiaobaicz.safe.util.dp
 import cc.xiaobaicz.safe.util.setOnOnceClickListener
 import kotlinx.android.synthetic.main.fragment_main.*
-import kotlinx.android.synthetic.main.fragment_main.container
-import kotlinx.android.synthetic.main.fragment_main.toolbar
 import kotlinx.android.synthetic.main.item_account.view.*
 import kotlinx.coroutines.launch
 import java.text.DateFormat
@@ -122,7 +120,6 @@ class MainFragment : BaseFragment() {
             //设置安全区域
             val size = systemUiSize()
             toolbarSafeRegion(toolbar, size[1])
-            contentSafeRegion(list_account, size[1], size[3])
             (layer_tools.layoutParams as ViewGroup.MarginLayoutParams).apply {
                 topMargin += size[1]
             }

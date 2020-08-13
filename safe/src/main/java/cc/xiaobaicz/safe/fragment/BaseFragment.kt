@@ -57,13 +57,6 @@ abstract class BaseFragment : CoroutineFragment() {
     }
 
     /**
-     * 内容安全区域
-     */
-    protected fun contentSafeRegion(content: View, top: Int, bottom: Int) {
-        content.updatePadding(top = content.paddingTop + 56.dp.toInt() + top, bottom = content.paddingBottom + bottom)
-    }
-
-    /**
      * 显示提示
      */
     protected fun showSnackbar(view: CoordinatorLayout, msg: String, time: Int = Snackbar.LENGTH_SHORT, block: ((Snackbar)->Unit)? = null) {

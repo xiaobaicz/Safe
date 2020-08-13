@@ -15,9 +15,6 @@ import cc.xiaobaicz.safe.model.AccountDetailViewModel
 import cc.xiaobaicz.safe.util.setOnOnceClickListener
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.fragment_account_detail.*
-import kotlinx.android.synthetic.main.fragment_account_detail.container
-import kotlinx.android.synthetic.main.fragment_account_detail.content
-import kotlinx.android.synthetic.main.fragment_account_detail.toolbar
 import kotlinx.coroutines.launch
 import java.text.DateFormat
 import java.text.SimpleDateFormat
@@ -47,7 +44,6 @@ class AccountDetailFragment : BaseFragment() {
             //设置安全区域
             val size = systemUiSize()
             toolbarSafeRegion(toolbar, size[1])
-            contentSafeRegion(content, size[1], size[3])
         }
 
         //目标账户绑定视图
