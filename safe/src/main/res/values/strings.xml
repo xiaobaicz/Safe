@@ -11,4 +11,6 @@
     <string name="set_password_tips">修改密码提示</string>
     <string name="set_safe_content">修改安全内容</string>
     <string name="auto_lock_time">自动锁定时间</string>
+    <string name="input_password">输入密码</string>
+    <string name="info_config">信息设置</string>
 </resources>

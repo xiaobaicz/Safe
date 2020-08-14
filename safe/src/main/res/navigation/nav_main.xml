@@ -3,8 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_main"
-    app:startDestination="@id/mainFragment">
-
+    app:startDestination="@id/verifyFragment">
     <fragment
         android:id="@+id/mainFragment"
         android:name="cc.xiaobaicz.safe.fragment.MainFragment"
@@ -30,7 +29,6 @@
             app:popEnterAnim="@anim/anim_pop_in"
             app:popExitAnim="@anim/anim_pop_out"/>
     </fragment>
-
     <fragment
         android:id="@+id/accountDetailFragment"
         android:name="cc.xiaobaicz.safe.fragment.AccountDetailFragment"
@@ -66,5 +64,36 @@
         android:name="cc.xiaobaicz.safe.fragment.BackupFragment"
         android:label="BackupFragment"
         tools:layout="@layout/fragment_setting_backup"/>
-
+    <fragment
+        android:id="@+id/verifyFragment"
+        android:name="cc.xiaobaicz.safe.fragment.VerifyFragment"
+        android:label="VerifyFragment"
+        tools:layout="@layout/fragment_verify">
+        <action
+            android:id="@+id/action_verifyFragment_to_mainFragment"
+            app:destination="@id/mainFragment"
+            app:enterAnim="@anim/anim_in"
+            app:exitAnim="@anim/anim_out"
+            app:popEnterAnim="@anim/anim_in"
+            app:popExitAnim="@anim/anim_out" />
+        <action
+            android:id="@+id/action_verifyFragment_to_infoConfigFragment"
+            app:destination="@id/infoConfigFragment"
+            app:enterAnim="@anim/anim_in"
+            app:exitAnim="@anim/anim_out"
+            app:popEnterAnim="@anim/anim_pop_in"
+            app:popExitAnim="@anim/anim_pop_out" />
+    </fragment>
+    <action
+        android:id="@+id/action_global_verifyFragment"
+        app:destination="@id/verifyFragment"
+        app:enterAnim="@anim/anim_in"
+        app:exitAnim="@anim/anim_out"
+        app:popEnterAnim="@anim/anim_pop_in"
+        app:popExitAnim="@anim/anim_pop_out" />
+    <fragment
+        android:id="@+id/infoConfigFragment"
+        android:name="cc.xiaobaicz.safe.fragment.InfoConfigFragment"
+        android:label="InfoConfigFragment"
+        tools:layout="@layout/fragment_info_config"/>
 </navigation>

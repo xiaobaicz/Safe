@@ -22,6 +22,6 @@ interface StorageDao {
     suspend fun updates(vararg item: Storage): Int
 
     @Query("select * from Storage where `key` = :key limit 1")
-    fun query(key: String): LiveData<Storage>
+    suspend fun query(key: String): Storage?
 
 }

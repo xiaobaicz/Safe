@@ -41,6 +41,16 @@
         <item name="android:textColor">@color/tv_def</item>
     </style>
 
+    <style name="input_info_config">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:background">@color/bg_item_setting</item>
+        <item name="android:textColorHint">@color/tv_hint</item>
+        <item name="android:textColor">@color/tv_def</item>
+    </style>
+
     <style name="item_setting">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">56dp</item>

@@ -97,9 +97,7 @@ class MainFragment : BaseFragment() {
             }
         })
 
-        println("...")
         vm.selectAccountAll()
-        println("...")
     }
 
     //添加事件

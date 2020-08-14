@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_toolbar"
+    android:id="@+id/container">
+
+    <FrameLayout
+        android:id="@+id/layer_input"
+        android:layout_width="256dp"
+        android:layout_height="40dp"
+        android:layout_gravity="center"
+        android:visibility="gone">
+
+        <EditText
+            android:id="@+id/et_verify"
+            android:layout_width="256dp"
+            android:layout_height="40dp"
+            android:background="@null"
+            android:inputType="textPassword"
+            android:gravity="center"
+            android:maxLength="30"
+            android:maxLines="1"
+            android:singleLine="true"
+            android:imeOptions="actionDone"
+            android:textColor="@color/tv_def"
+            android:textSize="@dimen/tv_5"
+            android:hint="@string/input_password" />
+
+        <View
+            android:layout_width="256dp"
+            android:layout_height="1px"
+            android:layout_gravity="bottom"
+            android:background="@color/bg_main_input_linear"/>
+
+    </FrameLayout>
+
+    <ImageView
+        android:id="@+id/iv_fingerprint"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:layout_gravity="center"
+        android:src="@mipmap/icon_fingerprint"
+        android:visibility="gone"/>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
