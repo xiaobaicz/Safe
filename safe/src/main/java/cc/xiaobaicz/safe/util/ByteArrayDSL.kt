@@ -79,4 +79,4 @@ fun ByteArray.base64encode(): String = String(Base64.encode(this, Base64.DEFAULT
 /**
  * base64转码
  */
-fun ByteArray.base64decode(): String = String(Base64.decode(this, Base64.DEFAULT), Charsets.UTF_8)
+fun ByteArray.base64decode(): ByteArray = Base64.decode(this, Base64.DEFAULT)

@@ -34,7 +34,7 @@ class AccountDetailFragment : BaseFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         //设定目标账户
-        vm.target(arguments?.getParcelable<Account?>("account"))
+        vm.target(arguments?.getParcelable<Account?>("account"), vmGlobal.password)
     }
 
     override fun onConfigView(view: View) {
@@ -85,7 +85,7 @@ class AccountDetailFragment : BaseFragment() {
                 showSnackbar(container, "是否保存数据？", Snackbar.LENGTH_INDEFINITE) {
                     it.setAction("保存") {
                         //可编辑状态保存数据
-                        vm.save(et_domain.text.toString(), et_account.text.toString(), et_password.text.toString())
+                        vm.save(et_domain.text.toString(), et_account.text.toString(), et_password.text.toString(), vmGlobal.password)
                         vm.isEdit = false
                     }
                 }

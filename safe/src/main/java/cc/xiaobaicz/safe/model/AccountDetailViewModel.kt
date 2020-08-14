@@ -5,7 +5,16 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import cc.xiaobaicz.safe.db.DB
 import cc.xiaobaicz.safe.db.entity.Account
+import cc.xiaobaicz.safe.global.Constant
+import cc.xiaobaicz.safe.util.CipherHelper
+import cc.xiaobaicz.safe.util.base64decode
+import cc.xiaobaicz.safe.util.base64encode
+import cc.xiaobaicz.safe.util.hmacMD5
 import kotlinx.coroutines.launch
+import javax.crypto.Cipher
+import javax.crypto.spec.IvParameterSpec
+import javax.crypto.spec.SecretKeySpec
+import kotlin.experimental.inv
 
 class AccountDetailViewModel : ViewModel() {
 
@@ -47,31 +56,36 @@ class AccountDetailViewModel : ViewModel() {
     /**
      * 目标账户
      */
-    fun target(account: Account?) {
-        if (account == null) {
-            //新建账户，可编辑
-            isEdit = true
-            isCreate = true
-        } else {
-            viewModelScope.launch {
+    fun target(account: Account?, accountPassword: String) {
+        viewModelScope.launch {
+            if (account == null) {
+                //新建账户，可编辑
+                isEdit = true
+                isCreate = true
+            } else {
                 //查看详情，热度+1
                 account.hot += 1
                 DB.safe.accountDao().update(account)
+                //解密
+                account.password = CipherHelper.aesDecode(account.password, accountPassword)
             }
+            //赋值目标账户
+            this@AccountDetailViewModel.account.postValue(account ?: Account("", ""))
         }
-        this.account.postValue(account ?: Account("", ""))
     }
 
     /**
      * 保存数据
      */
-    fun save(domain: String, name: String, password: String) {
+    fun save(domain: String, name: String, password: String, accountPassword: String) {
         val account = this.account.value ?: throw NullPointerException("account is null")
         account.domain = domain
         account.account = name
         account.password = password
         account.lastTime = System.currentTimeMillis()
         viewModelScope.launch {
+            //加密存储
+            account.password = CipherHelper.aesEncode(account.password, accountPassword)
             val dao = DB.safe.accountDao()
             val res = if (isCreate) {
                 dao.insert(account)
@@ -85,27 +99,6 @@ class AccountDetailViewModel : ViewModel() {
                 result.postValue(false)
             }
         }
-    }
-
-    /**
-     * 更新域
-     */
-    fun setDomain(domain: String) {
-        account.value?.domain = domain
-    }
-
-    /**
-     * 更新账户名
-     */
-    fun setAccount(account: String) {
-        this.account.value?.account = account
-    }
-
-    /**
-     * 更新密码
-     */
-    fun setPassword(password: String) {
-        account.value?.password = password
     }
 
 }

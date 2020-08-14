@@ -75,9 +75,9 @@ fun String.hmacMD5(key: String): String = hmacSummary(HMAC_MD5, key)
 /**
  * base64转码
  */
-fun String.base64encode(): String = String(Base64.encode(this.toByteArray(Charsets.UTF_8), Base64.DEFAULT), Charsets.UTF_8)
+fun String.base64encode(): String = this.toByteArray(Charsets.UTF_8).base64encode()
 
 /**
  * base64转码
  */
-fun String.base64decode(): String = String(Base64.decode(this.toByteArray(Charsets.UTF_8), Base64.DEFAULT), Charsets.UTF_8)
+fun String.base64decode(): ByteArray = Base64.decode(this, Base64.DEFAULT)

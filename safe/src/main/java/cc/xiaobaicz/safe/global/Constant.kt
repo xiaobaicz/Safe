@@ -8,6 +8,16 @@ package cc.xiaobaicz.safe.global
 object Constant {
 
     /**
+     * AES算法
+     */
+    const val AES_ALGORITHM = "AES/CBC/PKCS5Padding"
+
+    /**
+     * 生成 AES Key 因子
+     */
+    const val KEY_PASSWORD_HMD5 = "password_hmd5"
+
+    /**
      * 密码提示
      */
     const val KEY_TIPS = "key_tips"
