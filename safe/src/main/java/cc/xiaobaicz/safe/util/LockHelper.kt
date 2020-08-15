@@ -2,12 +2,38 @@ package cc.xiaobaicz.safe.util
 
 import cc.xiaobaicz.safe.db.DB
 import cc.xiaobaicz.safe.db.entity.Storage
-import cc.xiaobaicz.safe.global.Constant
 
 /**
  * App锁定助手
  */
 object LockHelper {
+
+    /**
+     * 错误次数 0 1 2 3 4 5
+     */
+    private const val KEY_FAILURE_NUMBER = "key_failure_number"
+
+    /**
+     * 锁定状态 0解锁 / 1锁定
+     * @see LOCK
+     * @see UNLOCK
+     */
+    private const val KEY_LOCK_STATUS = "key_lock_status"
+
+    /**
+     * 锁定时间
+     */
+    const val LOCK_TIME = 2 * 60 * 1000L
+
+    /**
+     * 锁定状态
+     */
+    private const val LOCK = "1"
+
+    /**
+     * 解锁状态
+     */
+    private const val UNLOCK = "0"
 
     /**
      * 锁定
@@ -16,19 +42,19 @@ object LockHelper {
         val dao = DB.app.getStorageDao()
 
         //锁定
-        val status = Storage(Constant.KEY_LOCK_STATUS, "1")
-        if (dao.query(Constant.KEY_LOCK_STATUS) == null) {
+        val status = Storage(KEY_LOCK_STATUS, LOCK)
+        if (dao.query(KEY_LOCK_STATUS) == null) {
             dao.inserts(status)
         } else {
             dao.updates(status)
         }
 
-        val number = dao.query(Constant.KEY_FAILURE_NUMBER)
+        val number = dao.query(KEY_FAILURE_NUMBER)
         //失败次数+1
         if (number == null) {
-            dao.inserts(Storage(Constant.KEY_FAILURE_NUMBER, "1"))
+            dao.inserts(Storage(KEY_FAILURE_NUMBER, "1"))
         } else {
-            dao.updates(Storage(Constant.KEY_FAILURE_NUMBER, "${number.value!!.toInt() + 1}"))
+            dao.updates(Storage(KEY_FAILURE_NUMBER, "${number.value!!.toInt() + 1}"))
         }
     }
 
@@ -39,8 +65,8 @@ object LockHelper {
         val dao = DB.app.getStorageDao()
 
         //解锁
-        val status = Storage(Constant.KEY_LOCK_STATUS, "0")
-        if (dao.query(Constant.KEY_LOCK_STATUS) == null) {
+        val status = Storage(KEY_LOCK_STATUS, UNLOCK)
+        if (dao.query(KEY_LOCK_STATUS) == null) {
             dao.inserts(status)
         } else {
             dao.updates(status)
@@ -54,19 +80,14 @@ object LockHelper {
         val dao = DB.app.getStorageDao()
 
         //解锁
-        val status = Storage(Constant.KEY_LOCK_STATUS, "0")
-        if (dao.query(Constant.KEY_LOCK_STATUS) == null) {
-            dao.inserts(status)
-        } else {
-            dao.updates(status)
-        }
+        unlock()
 
-        val number = dao.query(Constant.KEY_FAILURE_NUMBER)
-        //失败次数重置
+        val number = dao.query(KEY_FAILURE_NUMBER)
+        //失败次数重置 0 次
         if (number == null) {
-            dao.inserts(Storage(Constant.KEY_FAILURE_NUMBER, "0"))
+            dao.inserts(Storage(KEY_FAILURE_NUMBER, "0"))
         } else {
-            dao.updates(Storage(Constant.KEY_FAILURE_NUMBER, "0"))
+            dao.updates(Storage(KEY_FAILURE_NUMBER, "0"))
         }
     }
 
@@ -75,13 +96,13 @@ object LockHelper {
      */
     suspend fun isForeverLock(): Boolean {
         val dao = DB.app.getStorageDao()
-        val number = (dao.query(Constant.KEY_FAILURE_NUMBER)?.value ?: "0").toInt()
+        val number = (dao.query(KEY_FAILURE_NUMBER)?.value ?: "0").toInt() //默认0次
         return number >= 5 //失败次数超过5次，永久锁定
     }
 
     /**
      * 是否锁定
      */
-    suspend fun isLock() = DB.app.getStorageDao().query(Constant.KEY_LOCK_STATUS)?.value == "1"
+    suspend fun isLock() = DB.app.getStorageDao().query(KEY_LOCK_STATUS)?.value == LOCK
 
 }

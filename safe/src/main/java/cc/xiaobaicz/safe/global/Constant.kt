@@ -47,19 +47,4 @@ object Constant {
      */
     const val KEY_LOCAL_HMD5 = "local_hmd5"
 
-    /**
-     * 错误次数 0 1 2 3 4 5
-     */
-    const val KEY_FAILURE_NUMBER = "key_failure_number"
-
-    /**
-     * 锁定状态 0解锁 / 1锁定
-     */
-    const val KEY_LOCK_STATUS = "key_lock_status"
-
-    /**
-     * 锁定时间
-     */
-    const val LOCK_TIME = 2 * 60 * 1000L
-
 }

@@ -68,13 +68,13 @@ class VerifyViewModel : ViewModel() {
     //锁定倒计时
     private suspend fun lockCountdown(unLockTips: String) {
         val time = SystemClock.elapsedRealtime() - lockTime
-        if (time > Constant.LOCK_TIME) {
+        if (time > LockHelper.LOCK_TIME) {
             //解锁
             LockHelper.unlock()
             inputStatus.postValue(InputStatus(unLockTips, true))
             return
         }
-        inputStatus.postValue(InputStatus("${(Constant.LOCK_TIME - time) / 1000}秒后重试", false))
+        inputStatus.postValue(InputStatus("${(LockHelper.LOCK_TIME - time) / 1000}秒后重试", false))
         delay(1000L)
         lockCountdown(unLockTips)
     }
