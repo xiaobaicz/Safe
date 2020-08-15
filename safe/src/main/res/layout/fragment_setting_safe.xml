@@ -55,16 +55,17 @@
             </FrameLayout>
 
             <FrameLayout
-                android:id="@+id/btn_safe_content"
                 style="@style/item_setting">
 
                 <TextView
                     style="@style/item_setting_text"
-                    android:text="@string/set_safe_content" />
+                    android:text="@string/verify_fingerprint" />
 
-                <ImageView
-                    style="@style/item_setting_img"
-                    app:tint="@color/tint_setting_img" />
+                <com.google.android.material.switchmaterial.SwitchMaterial
+                    android:id="@+id/switch_fingerprint"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical|end"/>
 
             </FrameLayout>
 
@@ -76,9 +77,19 @@
                     style="@style/item_setting_text"
                     android:text="@string/auto_lock_time" />
 
-                <ImageView
-                    style="@style/item_setting_img"
-                    app:tint="@color/tint_setting_img" />
+                <EditText
+                    android:id="@+id/et_lock_time"
+                    android:layout_width="match_parent"
+                    android:layout_height="56dp"
+                    android:background="@null"
+                    android:inputType="number"
+                    android:maxLength="3"
+                    android:maxLines="1"
+                    android:singleLine="true"
+                    android:gravity="center_vertical|end"
+                    android:textColor="@color/theme"
+                    android:textSize="@dimen/tv_4"
+                    android:hint="最少60秒"/>
 
             </FrameLayout>
 

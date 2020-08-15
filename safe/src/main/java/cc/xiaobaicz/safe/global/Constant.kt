@@ -13,6 +13,11 @@ object Constant {
     const val TIME_OUT = 2 * 60 * 1000L
 
     /**
+     * 密码超时时间
+     */
+    const val KEY_TIME_OUT = "key_time_out"
+
+    /**
      * AES算法
      */
     const val AES_ALGORITHM = "AES/CBC/PKCS5Padding"
