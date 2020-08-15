@@ -81,21 +81,6 @@
 
             </com.google.android.material.textfield.TextInputLayout>
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:startIconDrawable="@mipmap/icon_content"
-                app:startIconTint="@color/primary"
-                app:boxStrokeWidth="1px"
-                app:boxStrokeWidthFocused="1px">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/et_content"
-                    style="@style/input_info_config"
-                    android:hint="安全内容（用于找回密码)"/>
-
-            </com.google.android.material.textfield.TextInputLayout>
-
         </LinearLayout>
 
     </ScrollView>

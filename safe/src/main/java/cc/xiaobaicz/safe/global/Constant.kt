@@ -33,11 +33,6 @@ object Constant {
     const val KEY_TIPS = "key_tips"
 
     /**
-     * 安全内容
-     */
-    const val KEY_CONTENT = "key_content"
-
-    /**
      * 是否通过指纹打开，密码框，默认否
      */
     const val KEY_FINGERPRINT = "key_fingerprint"

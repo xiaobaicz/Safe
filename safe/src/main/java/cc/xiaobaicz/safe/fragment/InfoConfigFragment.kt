@@ -48,7 +48,7 @@ class InfoConfigFragment : BaseFragment() {
     override fun onSetListener() {
         //保存数据
         btn_save.setOnOnceClickListener { _, function ->
-            vm.save(et_password1.text.toString(), et_password2.text.toString(), et_tips.text.toString(), et_content.text.toString(), function)
+            vm.save(et_password1.text.toString(), et_password2.text.toString(), et_tips.text.toString(), function)
         }
 
         //退出提示
