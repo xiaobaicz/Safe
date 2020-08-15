@@ -9,12 +9,10 @@ import androidx.activity.addCallback
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import cc.xiaobaicz.safe.R
 import cc.xiaobaicz.safe.model.VerifyViewModel
 import kotlinx.android.synthetic.main.fragment_verify.*
-import kotlinx.coroutines.launch
 
 class VerifyFragment : BaseFragment() {
 
@@ -50,14 +48,6 @@ class VerifyFragment : BaseFragment() {
             et_verify.hint = it.hint
             et_verify.isEnabled = it.isEnable
         })
-
-        //判断是否设置密码
-        lifecycleScope.launch {
-            if (!vmGlobal.hasPassword()) {
-                //去设置密码
-                findNavController().navigate(R.id.action_verifyFragment_to_infoConfigFragment)
-            }
-        }
 
         vm.getInputStatus()
     }

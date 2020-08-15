@@ -76,13 +76,6 @@
             app:exitAnim="@anim/anim_out"
             app:popEnterAnim="@anim/anim_pop_in"
             app:popExitAnim="@anim/anim_pop_out" />
-        <action
-            android:id="@+id/action_verifyFragment_to_infoConfigFragment"
-            app:destination="@id/infoConfigFragment"
-            app:enterAnim="@anim/anim_in"
-            app:exitAnim="@anim/anim_out"
-            app:popEnterAnim="@anim/anim_pop_in"
-            app:popExitAnim="@anim/anim_pop_out" />
     </fragment>
     <action
         android:id="@+id/action_global_verifyFragment"
@@ -114,6 +107,13 @@
         <action
             android:id="@+id/action_splashFragment_to_verifyFragment"
             app:destination="@id/verifyFragment"
+            app:enterAnim="@anim/anim_in"
+            app:exitAnim="@anim/anim_out"
+            app:popEnterAnim="@anim/anim_pop_in"
+            app:popExitAnim="@anim/anim_pop_out" />
+        <action
+            android:id="@+id/action_splashFragment_to_infoConfigFragment"
+            app:destination="@id/infoConfigFragment"
             app:enterAnim="@anim/anim_in"
             app:exitAnim="@anim/anim_out"
             app:popEnterAnim="@anim/anim_pop_in"

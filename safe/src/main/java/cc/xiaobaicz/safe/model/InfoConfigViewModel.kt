@@ -27,7 +27,7 @@ class InfoConfigViewModel : ViewModel() {
             viewModelScope.launch {
                 val dao = DB.app.getStorageDao()
                 dao.inserts(Storage(Constant.KEY_PASSWORD, localHmacMD5(pw1)))
-                dao.inserts(Storage(Constant.KEY_TIPS, tips))
+                dao.inserts(Storage(Constant.KEY_TIPS, if (tips.isEmpty()) "输入密码" else tips))
                 dao.inserts(Storage(Constant.KEY_CONTENT, localHmacMD5(content)))
                 save.postValue(null)
                 function()

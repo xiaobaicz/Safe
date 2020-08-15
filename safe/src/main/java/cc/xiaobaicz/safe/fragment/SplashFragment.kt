@@ -30,18 +30,28 @@ class SplashFragment : BaseFragment() {
             tv_version.text = it
         })
 
+        lifecycleScope.launch {
+
+        }
+
         vm.getVersionName()
     }
 
     override fun onSetListener() {
-        goMain()
+        go()
     }
 
-    //3秒后跳转到主页
-    private fun goMain() {
+    //3秒后跳转
+    private fun go() {
         lifecycleScope.launch {
             delay(3000)
-            findNavController().navigate(R.id.action_splashFragment_to_verifyFragment)
+            //判断是否设置密码
+            if (!vmGlobal.hasPassword()) {
+                //去设置密码
+                findNavController().navigate(R.id.action_splashFragment_to_infoConfigFragment)
+            } else {
+                findNavController().navigate(R.id.action_splashFragment_to_verifyFragment)
+            }
         }
     }
 }
