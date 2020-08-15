@@ -26,10 +26,19 @@ class InfoConfigFragment : BaseFragment() {
         //设置安全区域
         safeRegion(toolbar, content)
 
+        //登陆结果
+        vmGlobal.verify.observe(viewLifecycleOwner, Observer {
+            if (it == null) {
+                findNavController().navigate(R.id.action_infoConfigFragment_to_mainFragment)
+            } else {
+                showSnackbar(container, it.message ?: "")
+            }
+        })
+
         //保存结果
         vm.save.observe(viewLifecycleOwner, Observer {
             if (it == null) {
-                findNavController().popBackStack()
+                vmGlobal.checkPassword(et_password1.text.toString())
             } else {
                 showSnackbar(container, it.message ?: "")
             }

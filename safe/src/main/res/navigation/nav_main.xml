@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_main"
-    app:startDestination="@id/verifyFragment">
+    app:startDestination="@id/splashFragment">
     <fragment
         android:id="@+id/mainFragment"
         android:name="cc.xiaobaicz.safe.fragment.MainFragment"
@@ -74,8 +74,8 @@
             app:destination="@id/mainFragment"
             app:enterAnim="@anim/anim_in"
             app:exitAnim="@anim/anim_out"
-            app:popEnterAnim="@anim/anim_in"
-            app:popExitAnim="@anim/anim_out" />
+            app:popEnterAnim="@anim/anim_pop_in"
+            app:popExitAnim="@anim/anim_pop_out" />
         <action
             android:id="@+id/action_verifyFragment_to_infoConfigFragment"
             app:destination="@id/infoConfigFragment"
@@ -90,10 +90,33 @@
         app:enterAnim="@anim/anim_in"
         app:exitAnim="@anim/anim_out"
         app:popEnterAnim="@anim/anim_pop_in"
-        app:popExitAnim="@anim/anim_pop_out" />
+        app:popExitAnim="@anim/anim_pop_out"
+        app:popUpTo="@id/verifyFragment"
+        app:popUpToInclusive="true" />
     <fragment
         android:id="@+id/infoConfigFragment"
         android:name="cc.xiaobaicz.safe.fragment.InfoConfigFragment"
         android:label="InfoConfigFragment"
-        tools:layout="@layout/fragment_info_config"/>
+        tools:layout="@layout/fragment_info_config">
+        <action
+            android:id="@+id/action_infoConfigFragment_to_mainFragment"
+            app:destination="@id/mainFragment"
+            app:enterAnim="@anim/anim_in"
+            app:exitAnim="@anim/anim_out"
+            app:popEnterAnim="@anim/anim_pop_in"
+            app:popExitAnim="@anim/anim_pop_out" />
+    </fragment>
+    <fragment
+        android:id="@+id/splashFragment"
+        android:name="cc.xiaobaicz.safe.fragment.SplashFragment"
+        android:label="SplashFragment"
+        tools:layout="@layout/fragment_splash">
+        <action
+            android:id="@+id/action_splashFragment_to_verifyFragment"
+            app:destination="@id/verifyFragment"
+            app:enterAnim="@anim/anim_in"
+            app:exitAnim="@anim/anim_out"
+            app:popEnterAnim="@anim/anim_pop_in"
+            app:popExitAnim="@anim/anim_pop_out" />
+    </fragment>
 </navigation>

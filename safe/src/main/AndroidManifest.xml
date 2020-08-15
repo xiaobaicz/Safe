@@ -3,8 +3,6 @@
 
     <!--读取存储卡备份文件-->
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
-    <!--写入存储卡备份文件-->
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
 
     <application
         android:name=".App"
@@ -15,17 +13,13 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <!--闪屏页-->
-        <activity android:name=".activity.SplashActivity"
-            android:screenOrientation="portrait"/>
-
         <!--主页-->
         <activity android:name=".activity.MainActivity"
             android:screenOrientation="portrait"/>
 
         <activity-alias
             android:name="Main"
-            android:targetActivity=".activity.SplashActivity">
+            android:targetActivity=".activity.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
@@ -34,7 +28,7 @@
 
         <activity-alias
             android:name="View"
-            android:targetActivity=".activity.SplashActivity">
+            android:targetActivity=".activity.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW"/>
                 <category android:name="android.intent.category.DEFAULT"/>

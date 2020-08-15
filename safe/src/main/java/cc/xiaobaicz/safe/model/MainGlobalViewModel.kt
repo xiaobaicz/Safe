@@ -6,11 +6,13 @@ import androidx.lifecycle.viewModelScope
 import cc.xiaobaicz.safe.bean.SafeSize
 import cc.xiaobaicz.safe.db.DB
 import cc.xiaobaicz.safe.global.Constant
-import cc.xiaobaicz.safe.util.hmacMD5
+import cc.xiaobaicz.safe.util.LockHelper
 import cc.xiaobaicz.safe.util.localHmacMD5
 import cc.xiaobaicz.utils.statusbar.SystemUiAttrCallback
 import cc.xiaobaicz.utils.statusbar.SystemUiHelper
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import java.util.concurrent.TimeoutException
 
 /**
  * 单页面全局变量
@@ -20,6 +22,13 @@ class MainGlobalViewModel : ViewModel() {
     //密码
     var password = ""
     private set
+
+    /**
+     * 密码超时通知
+     */
+    val timeout by lazy {
+        MutableLiveData<TimeoutException>()
+    }
 
     /**
      * 校验结果
@@ -59,13 +68,31 @@ class MainGlobalViewModel : ViewModel() {
             if (hasPassword()) {
                 val kv = DB.app.getStorageDao().query(Constant.KEY_PASSWORD)
                 if (localHmacMD5(pw) == kv?.value) {
+                    //校验成功 解锁 & 重置 锁定信息
+                    LockHelper.unlockAndReset()
+                    saveAndTimeout(pw)
                     verify.postValue(null)
                 } else {
+                    //失败锁定
+                    LockHelper.lock()
                     verify.postValue(Exception("密码错误"))
                 }
             } else {
                 verify.postValue(Exception("密码未设置"))
             }
+        }
+    }
+
+    //缓存密码&设置超时
+    private fun saveAndTimeout(pw: String) {
+        viewModelScope.launch {
+            password = pw
+            delay(Constant.TIME_OUT)
+            //清除密码
+            password = ""
+            //验证提示
+            verify.postValue(Exception("密码超时"))
+            timeout.postValue(TimeoutException("password timeout"))
         }
     }
 

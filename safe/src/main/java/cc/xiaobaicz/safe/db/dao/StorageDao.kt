@@ -1,6 +1,5 @@
 package cc.xiaobaicz.safe.db.dao
 
-import androidx.lifecycle.LiveData
 import androidx.room.*
 import cc.xiaobaicz.safe.db.entity.Storage
 

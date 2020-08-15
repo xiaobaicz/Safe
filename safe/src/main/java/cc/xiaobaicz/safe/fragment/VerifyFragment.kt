@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
+import androidx.activity.addCallback
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
@@ -39,7 +40,15 @@ class VerifyFragment : BaseFragment() {
                 findNavController().navigate(R.id.action_verifyFragment_to_mainFragment)
             } else {
                 showSnackbar(container, it.message ?: "")
+                vm.getInputStatus()
             }
+        })
+
+        //文本提示
+        vm.inputStatus.observe(viewLifecycleOwner, Observer {
+            et_verify.setText("")
+            et_verify.hint = it.hint
+            et_verify.isEnabled = it.isEnable
         })
 
         //判断是否设置密码
@@ -49,6 +58,8 @@ class VerifyFragment : BaseFragment() {
                 findNavController().navigate(R.id.action_verifyFragment_to_infoConfigFragment)
             }
         }
+
+        vm.getInputStatus()
     }
 
     override fun onSetListener() {
@@ -58,6 +69,11 @@ class VerifyFragment : BaseFragment() {
                 vmGlobal.checkPassword(et_verify.text.toString())
             }
             return@setOnEditorActionListener false
+        }
+
+        //拦截回退
+        requireActivity().onBackPressedDispatcher.addCallback(this) {
+            requireActivity().finish()
         }
     }
 

@@ -12,6 +12,7 @@ import androidx.lifecycle.ViewModelProvider
 import cc.xiaobaicz.safe.bean.SafeSize
 import cc.xiaobaicz.safe.model.MainGlobalViewModel
 import cc.xiaobaicz.safe.util.dp
+import cc.xiaobaicz.utils.statusbar.SystemUiHelper
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlin.coroutines.resume
@@ -32,6 +33,10 @@ abstract class BaseFragment : CoroutineFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        SystemUiHelper.get(requireActivity())
+            .setStatusBarColor(0x33000000)
+            .setNavigationBarColor(0x33000000)
+            .transparentScreen()
         onConfigView(view)
         onSetListener()
     }
