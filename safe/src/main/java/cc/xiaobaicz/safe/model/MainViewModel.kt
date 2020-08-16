@@ -3,9 +3,9 @@ package cc.xiaobaicz.safe.model
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import cc.xiaobaicz.safe.fragment.MainFragment
 import cc.xiaobaicz.safe.db.DB
 import cc.xiaobaicz.safe.db.entity.Account
+import cc.xiaobaicz.safe.fragment.MainFragment
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 

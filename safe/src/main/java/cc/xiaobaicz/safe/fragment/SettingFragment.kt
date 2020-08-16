@@ -6,7 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
 import cc.xiaobaicz.safe.R
-import cc.xiaobaicz.safe.util.setOnOnceClickListener
+import cc.xiaobaicz.safe.util.setOnIntervalClickListener
 import kotlinx.android.synthetic.main.fragment_setting.*
 
 /**
@@ -32,18 +32,16 @@ class SettingFragment : BaseFragment() {
 
         // f 函数，重置该单次事件
         //安全设置
-        btn_safe.setOnOnceClickListener { _, f ->
+        btn_safe.setOnIntervalClickListener {
             findNavController().navigate(R.id.action_settingFragment_to_safeFragment)
-            f()
         }
         //备份设置
-        btn_backup.setOnOnceClickListener { _, f ->
+        btn_backup.setOnIntervalClickListener {
             findNavController().navigate(R.id.action_settingFragment_to_backupFragment)
-            f()
         }
         //关于
-        btn_about.setOnOnceClickListener { _, f ->
-            f()
+        btn_about.setOnIntervalClickListener {
+
         }
     }
 }

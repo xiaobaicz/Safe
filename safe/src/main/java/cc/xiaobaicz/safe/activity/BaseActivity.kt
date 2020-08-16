@@ -1,7 +1,6 @@
 package cc.xiaobaicz.safe.activity
 
 import android.os.Bundle
-import cc.xiaobaicz.safe.activity.CoroutineActivity
 import cc.xiaobaicz.safe.util.ActivityCounter
 import cc.xiaobaicz.utils.statusbar.SystemUiHelper
 

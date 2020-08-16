@@ -26,6 +26,7 @@ import cc.xiaobaicz.safe.R
 import cc.xiaobaicz.safe.db.entity.Account
 import cc.xiaobaicz.safe.model.MainViewModel
 import cc.xiaobaicz.safe.util.dp
+import cc.xiaobaicz.safe.util.setOnIntervalClickListener
 import cc.xiaobaicz.safe.util.setOnOnceClickListener
 import kotlinx.android.synthetic.main.fragment_main.*
 import kotlinx.android.synthetic.main.item_account.view.*
@@ -106,7 +107,7 @@ class MainFragment : BaseFragment() {
         fab_add.setOnOnceClickListener(gotoAccountDetail())
 
         //清空文本
-        btn_clear.setOnClickListener {
+        btn_clear.setOnIntervalClickListener {
             et_keyword.setText("")
         }
 
@@ -123,23 +124,22 @@ class MainFragment : BaseFragment() {
         })
 
         //Tab选择
-        btn_sort_hot.setOnClickListener {
+        btn_sort_hot.setOnIntervalClickListener {
             vm.selectTab(SortType.HOT)
         }
-        btn_sort_domain.setOnClickListener {
+        btn_sort_domain.setOnIntervalClickListener {
             vm.selectTab(SortType.DOMAIN)
         }
-        btn_sort_time.setOnClickListener {
+        btn_sort_time.setOnIntervalClickListener {
             vm.selectTab(SortType.TIME)
         }
 
-        btn_setting.setOnOnceClickListener { _, function ->
+        btn_setting.setOnIntervalClickListener {
             gotoSetting()
-            function()
         }
 
         //手动 显示 or 隐藏 工具栏
-        btn_search.setOnClickListener {
+        btn_search.setOnIntervalClickListener {
             val behavior = getToolbarehavior()
             behavior.startAnimator(layer_tools, !behavior.isShow)
         }

@@ -85,7 +85,7 @@ class AccountDetailFragment : BaseFragment() {
                 showSnackbar(container, "是否保存数据？", Snackbar.LENGTH_INDEFINITE) {
                     it.setAction("保存") {
                         //可编辑状态保存数据
-                        vm.save(et_domain.text.toString(), et_account.text.toString(), et_password.text.toString(), vmGlobal.password)
+                        vm.save(et_domain.text.toString(), et_account.text.toString(), et_password.text.toString(), vmGlobal.password, function)
                         vm.isEdit = false
                     }
                 }
@@ -93,7 +93,6 @@ class AccountDetailFragment : BaseFragment() {
                 //不可编辑状态转换可编辑
                 vm.isEdit = true
             }
-            function()
         }
 
         //退出询问操作

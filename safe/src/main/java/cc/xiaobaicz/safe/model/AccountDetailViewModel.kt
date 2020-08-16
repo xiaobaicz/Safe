@@ -5,16 +5,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import cc.xiaobaicz.safe.db.DB
 import cc.xiaobaicz.safe.db.entity.Account
-import cc.xiaobaicz.safe.global.Constant
 import cc.xiaobaicz.safe.util.CipherHelper
-import cc.xiaobaicz.safe.util.base64decode
-import cc.xiaobaicz.safe.util.base64encode
-import cc.xiaobaicz.safe.util.hmacMD5
+import cc.xiaobaicz.safe.util.Restore
 import kotlinx.coroutines.launch
-import javax.crypto.Cipher
-import javax.crypto.spec.IvParameterSpec
-import javax.crypto.spec.SecretKeySpec
-import kotlin.experimental.inv
 
 class AccountDetailViewModel : ViewModel() {
 
@@ -77,7 +70,7 @@ class AccountDetailViewModel : ViewModel() {
     /**
      * 保存数据
      */
-    fun save(domain: String, name: String, password: String, accountPassword: String) {
+    fun save(domain: String, name: String, password: String, accountPassword: String, function: Restore) {
         val account = this.account.value ?: throw NullPointerException("account is null")
         account.domain = domain
         account.account = name
@@ -98,6 +91,7 @@ class AccountDetailViewModel : ViewModel() {
             } else {
                 result.postValue(false)
             }
+            function()
         }
     }
 

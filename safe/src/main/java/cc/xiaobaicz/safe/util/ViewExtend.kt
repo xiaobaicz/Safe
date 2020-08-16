@@ -1,5 +1,6 @@
 package cc.xiaobaicz.safe.util
 
+import android.os.SystemClock
 import android.view.View
 
 /**
@@ -32,6 +33,21 @@ fun View.setOnOnceClickListener(block: OnOnceClickListener?) {
         if (isAvailable) {
             isAvailable = false //触发后不可用
             block?.invoke(it, restore)
+        }
+    }
+}
+
+/**
+ * View间隔点击事件
+ * 防重复点击
+ * @param interval 可点击间隔 毫秒
+ */
+fun View.setOnIntervalClickListener(interval: Long = 1000L, block: ((View)->Unit)?) {
+    var downTime = 0L
+    setOnClickListener {
+        if (SystemClock.elapsedRealtime() - downTime > interval) {
+            downTime = SystemClock.elapsedRealtime()
+            block?.invoke(this)
         }
     }
 }
