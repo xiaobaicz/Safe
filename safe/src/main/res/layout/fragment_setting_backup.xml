@@ -32,11 +32,20 @@
 
                 <TextView
                     style="@style/item_setting_text"
-                    android:text="导入" />
+                    android:text="密文导入（*.pw）" />
 
-                <ImageView
-                    style="@style/item_setting_img"
-                    app:tint="@color/tint_setting_img" />
+                <EditText
+                    android:id="@+id/et_password"
+                    android:layout_width="match_parent"
+                    android:layout_height="56dp"
+                    android:gravity="center_vertical|end"
+                    android:background="@null"
+                    android:imeOptions="actionDone"
+                    android:inputType="textPassword"
+                    android:textColorHint="@color/tv_hint"
+                    android:textColor="@color/tv_def"
+                    android:textSize="@dimen/tv_4"
+                    android:hint="导入文件密码"/>
 
             </FrameLayout>
 
@@ -46,7 +55,7 @@
 
                 <TextView
                     style="@style/item_setting_text"
-                    android:text="导出" />
+                    android:text="密文导出（*.pw）" />
 
                 <ImageView
                     style="@style/item_setting_img"
@@ -56,11 +65,12 @@
 
             <FrameLayout
                 android:id="@+id/btn_import_csv"
-                style="@style/item_setting">
+                style="@style/item_setting"
+                android:layout_marginTop="8dp">
 
                 <TextView
                     style="@style/item_setting_text"
-                    android:text="导入CSV（明文）" />
+                    android:text="明文导入（*.csv）" />
 
                 <ImageView
                     style="@style/item_setting_img"
@@ -74,7 +84,7 @@
 
                 <TextView
                     style="@style/item_setting_text"
-                    android:text="导出CSV（明文）" />
+                    android:text="明文导出（*.csv）" />
 
                 <ImageView
                     style="@style/item_setting_img"
@@ -85,5 +95,46 @@
         </LinearLayout>
 
     </ScrollView>
+
+    <FrameLayout
+        android:id="@+id/layer_await"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:elevation="8dp"
+        android:background="#3000"
+        android:visibility="gone">
+
+        <LinearLayout
+            android:layout_width="256dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_gravity="center"
+            android:gravity="center_horizontal">
+
+            <ProgressBar
+                android:id="@+id/pb_progress"
+                style="@android:style/Widget.Material.ProgressBar.Large"
+                android:layout_width="256dp"
+                android:layout_height="wrap_content"
+                android:max="100"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:textSize="@dimen/tv_3"
+                android:textColor="@color/red"
+                android:text="请稍后"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/tv_3"
+                android:textColor="@color/red"
+                android:text="请勿中断"/>
+
+        </LinearLayout>
+
+    </FrameLayout>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

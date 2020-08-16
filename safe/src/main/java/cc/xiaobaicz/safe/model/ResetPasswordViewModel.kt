@@ -25,13 +25,6 @@ class ResetPasswordViewModel : ViewModel() {
     }
 
     /**
-     * 保存进度
-     */
-    val saveProgress by lazy {
-        MutableLiveData<Int>()
-    }
-
-    /**
      * 是否保存中
      */
     val isSave get() = saveStatus.value ?: false

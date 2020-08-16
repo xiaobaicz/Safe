@@ -40,11 +40,6 @@ class ResetPasswordFragment : BaseFragment() {
         vm.saveStatus.observe(viewLifecycleOwner, Observer {
             layer_await.isVisible = it
         })
-
-        //保存进度
-        vm.saveProgress.observe(viewLifecycleOwner, Observer {
-            pb_progress.progress = it
-        })
     }
 
     override fun onSetListener() {

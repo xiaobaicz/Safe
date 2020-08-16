@@ -21,14 +21,15 @@ android {
     }
 
     buildTypes {
+        final confuse = true
         release {
-            minifyEnabled true
-            shrinkResources true
+            minifyEnabled confuse
+            shrinkResources confuse
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
         debug {
-            minifyEnabled true
-            shrinkResources true
+            minifyEnabled confuse
+            shrinkResources confuse
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             applicationIdSuffix ".debug"
             versionNameSuffix '.debug'
@@ -92,5 +93,7 @@ dependencies {
 //    implementation 'com.github.bumptech.glide:glide:4.11.0'
     //生物识别
     implementation 'androidx.biometric:biometric:1.0.1'
+    //CSV
+    implementation 'org.apache.commons:commons-csv:1.8'
 
 }

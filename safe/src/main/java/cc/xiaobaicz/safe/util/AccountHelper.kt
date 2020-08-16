@@ -46,4 +46,12 @@ object AccountHelper {
         dao.update(accounts)
     }
 
+    /**
+     * 查询所有账户
+     */
+    suspend fun selectAll(): List<Account> {
+        val dao = DB.safe.accountDao()
+        return dao.selectAll()
+    }
+
 }
