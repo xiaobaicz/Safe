@@ -6,7 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.activity.addCallback
 import androidx.core.view.isGone
-import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
@@ -15,7 +14,6 @@ import cc.xiaobaicz.safe.db.entity.Account
 import cc.xiaobaicz.safe.model.AccountDetailViewModel
 import cc.xiaobaicz.safe.util.getText
 import cc.xiaobaicz.safe.util.setOnIntervalClickListener
-import cc.xiaobaicz.safe.util.setOnOnceClickListener
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.fragment_account_detail.*
 import java.text.DateFormat
@@ -121,7 +119,7 @@ class AccountDetailFragment : BaseFragment() {
         }
 
         //删除
-        btn_delete.setOnOnceClickListener { _, function ->
+        btn_delete.setOnIntervalClickListener {
             showSnackbar(container, "是否删除该账户？") {
                 it.setAction("删除") {
                     vm.delete()
