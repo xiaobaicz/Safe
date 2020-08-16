@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/container">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        style="@style/toolbar"
+        app:navigationIcon="@mipmap/icon_back"
+        app:titleTextColor="@color/white"
+        app:title="@string/reset_tips">
+
+        <ImageView
+            android:id="@+id/btn_save"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:layout_gravity="center_vertical|end"
+            android:padding="12dp"
+            android:src="@mipmap/icon_check"/>
+
+    </androidx.appcompat.widget.Toolbar>
+
+    <ScrollView
+        android:id="@+id/content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:startIconDrawable="@mipmap/icon_tips"
+                app:startIconTint="@color/primary"
+                app:boxStrokeWidth="1px"
+                app:boxStrokeWidthFocused="1px">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/et_tips"
+                    style="@style/input_info_config"
+                    android:hint="密码提示"/>
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

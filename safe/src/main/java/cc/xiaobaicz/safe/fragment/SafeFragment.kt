@@ -10,6 +10,7 @@ import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import cc.xiaobaicz.safe.R
 import cc.xiaobaicz.safe.model.SafeViewModel
+import cc.xiaobaicz.safe.util.setOnIntervalClickListener
 import kotlinx.android.synthetic.main.fragment_setting_safe.*
 
 /**
@@ -60,6 +61,11 @@ class SafeFragment : BaseFragment() {
         //指纹校验变更
         switch_fingerprint.setOnCheckedChangeListener { _, isChecked ->
             vm.setFingerprint(isChecked)
+        }
+
+        //修改密码提示
+        btn_password_tips.setOnIntervalClickListener {
+            findNavController().navigate(R.id.action_safeFragment_to_resetTipsFragment)
         }
     }
 }

@@ -58,7 +58,15 @@
         android:id="@+id/safeFragment"
         android:name="cc.xiaobaicz.safe.fragment.SafeFragment"
         android:label="SafeFragment"
-        tools:layout="@layout/fragment_setting_safe"/>
+        tools:layout="@layout/fragment_setting_safe">
+        <action
+            android:id="@+id/action_safeFragment_to_resetTipsFragment"
+            app:destination="@id/resetTipsFragment"
+            app:enterAnim="@anim/anim_in"
+            app:exitAnim="@anim/anim_out"
+            app:popEnterAnim="@anim/anim_pop_in"
+            app:popExitAnim="@anim/anim_pop_out" />
+    </fragment>
     <fragment
         android:id="@+id/backupFragment"
         android:name="cc.xiaobaicz.safe.fragment.BackupFragment"
@@ -119,4 +127,9 @@
             app:popEnterAnim="@anim/anim_pop_in"
             app:popExitAnim="@anim/anim_pop_out" />
     </fragment>
+    <fragment
+        android:id="@+id/resetTipsFragment"
+        android:name="cc.xiaobaicz.safe.fragment.ResetTipsFragment"
+        android:label="ResetTipsFragment"
+        tools:layout="@layout/fragment_setting_safe_reset_tips"/>
 </navigation>

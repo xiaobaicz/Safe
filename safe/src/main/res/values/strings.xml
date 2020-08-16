@@ -13,4 +13,6 @@
     <string name="input_password">输入密码</string>
     <string name="info_config">信息设置</string>
     <string name="verify_fingerprint">指纹验证</string>
+    <string name="reset_password">修改密码</string>
+    <string name="reset_tips">修改密码提示</string>
 </resources>

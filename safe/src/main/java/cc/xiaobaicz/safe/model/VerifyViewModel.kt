@@ -11,6 +11,7 @@ import cc.xiaobaicz.safe.bean.InputStatus
 import cc.xiaobaicz.safe.db.DB
 import cc.xiaobaicz.safe.global.Constant
 import cc.xiaobaicz.safe.util.LockHelper
+import cc.xiaobaicz.safe.util.TipsHelper
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -57,7 +58,7 @@ class VerifyViewModel : ViewModel() {
             }
 
             //输入提示
-            val tips = DB.app.getStorageDao().query(Constant.KEY_TIPS)?.value ?: "输入密码"
+            val tips = TipsHelper.getTips()
 
             if (LockHelper.isLock()) {
                 //锁定倒计时

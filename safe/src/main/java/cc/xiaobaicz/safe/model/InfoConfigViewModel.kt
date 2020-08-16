@@ -7,6 +7,7 @@ import cc.xiaobaicz.safe.db.DB
 import cc.xiaobaicz.safe.db.entity.Storage
 import cc.xiaobaicz.safe.global.Constant
 import cc.xiaobaicz.safe.util.Restore
+import cc.xiaobaicz.safe.util.TipsHelper
 import cc.xiaobaicz.safe.util.localHmacMD5
 import kotlinx.coroutines.launch
 
@@ -27,7 +28,7 @@ class InfoConfigViewModel : ViewModel() {
             viewModelScope.launch {
                 val dao = DB.app.getStorageDao()
                 dao.inserts(Storage(Constant.KEY_PASSWORD, localHmacMD5(pw1)))
-                dao.inserts(Storage(Constant.KEY_TIPS, if (tips.isEmpty()) "输入密码" else tips))
+                TipsHelper.setTips(tips)
                 save.postValue(null)
                 function()
             }
