@@ -66,6 +66,13 @@
             app:exitAnim="@anim/anim_out"
             app:popEnterAnim="@anim/anim_pop_in"
             app:popExitAnim="@anim/anim_pop_out" />
+        <action
+            android:id="@+id/action_safeFragment_to_resetPasswordFragment"
+            app:destination="@id/resetPasswordFragment"
+            app:enterAnim="@anim/anim_in"
+            app:exitAnim="@anim/anim_out"
+            app:popEnterAnim="@anim/anim_pop_in"
+            app:popExitAnim="@anim/anim_pop_out" />
     </fragment>
     <fragment
         android:id="@+id/backupFragment"
@@ -132,4 +139,9 @@
         android:name="cc.xiaobaicz.safe.fragment.ResetTipsFragment"
         android:label="ResetTipsFragment"
         tools:layout="@layout/fragment_setting_safe_reset_tips"/>
+    <fragment
+        android:id="@+id/resetPasswordFragment"
+        android:name="cc.xiaobaicz.safe.fragment.ResetPasswordFragment"
+        android:label="ResetPasswordFragment"
+        tools:layout="@layout/fragment_setting_safe_reset_password"/>
 </navigation>

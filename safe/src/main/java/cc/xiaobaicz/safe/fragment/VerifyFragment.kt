@@ -14,6 +14,7 @@ import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import cc.xiaobaicz.safe.R
 import cc.xiaobaicz.safe.model.VerifyViewModel
+import cc.xiaobaicz.safe.util.getText
 import kotlinx.android.synthetic.main.fragment_verify.*
 
 class VerifyFragment : BaseFragment() {
@@ -65,7 +66,7 @@ class VerifyFragment : BaseFragment() {
         //键盘ime完成事件
         et_verify.setOnEditorActionListener { _, actionId, _ ->
             if (EditorInfo.IME_ACTION_DONE == actionId) {
-                vmGlobal.checkPassword(et_verify.text.toString())
+                vmGlobal.checkPassword(et_verify.getText)
             }
             return@setOnEditorActionListener false
         }

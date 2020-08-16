@@ -11,6 +11,7 @@ import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import cc.xiaobaicz.safe.R
 import cc.xiaobaicz.safe.model.InfoConfigViewModel
+import cc.xiaobaicz.safe.util.getText
 import cc.xiaobaicz.safe.util.setOnOnceClickListener
 import kotlinx.android.synthetic.main.fragment_info_config.*
 
@@ -38,7 +39,7 @@ class InfoConfigFragment : BaseFragment() {
         //保存结果
         vm.save.observe(viewLifecycleOwner, Observer {
             if (it == null) {
-                vmGlobal.checkPassword(et_password1.text.toString())
+                vmGlobal.checkPassword(et_password1.getText)
             } else {
                 showSnackbar(container, it.message ?: "")
             }
@@ -48,7 +49,7 @@ class InfoConfigFragment : BaseFragment() {
     override fun onSetListener() {
         //保存数据
         btn_save.setOnOnceClickListener { _, function ->
-            vm.save(et_password1.text.toString(), et_password2.text.toString(), et_tips.text.toString(), function)
+            vm.save(et_password1.getText, et_password2.getText, et_tips.getText, function)
         }
 
         //退出提示

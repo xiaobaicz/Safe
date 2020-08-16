@@ -26,5 +26,6 @@
     <color name="tint_setting_img">#333</color>
     <color name="toolbar_end">#c0ddFF</color>
     <color name="toolbar_start">#0fddff</color>
+    <color name="red">#f00</color>
 
 </resources>

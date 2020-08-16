@@ -30,10 +30,30 @@ interface AccountDao {
     suspend fun insert(obj: Account): Long
 
     /**
+     * 批量添加账户
+     */
+    @Transaction
+    suspend fun insert(obj: List<Account>) {
+        obj.forEach {
+            insert(it)
+        }
+    }
+
+    /**
      * 更新账户
      */
     @Update
     suspend fun update(obj: Account): Int
+
+    /**
+     * 批量更新账户
+     */
+    @Transaction
+    suspend fun update(obj: List<Account>) {
+        obj.forEach {
+            update(it)
+        }
+    }
 
     /**
      * 删除账户

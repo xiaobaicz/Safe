@@ -2,6 +2,7 @@ package cc.xiaobaicz.safe.util
 
 import android.os.SystemClock
 import android.view.View
+import android.widget.EditText
 
 /**
  * 恢复函数
@@ -51,3 +52,8 @@ fun View.setOnIntervalClickListener(interval: Long = 1000L, block: ((View)->Unit
         }
     }
 }
+
+/**
+ * 获取输入框文本
+ */
+val EditText.getText get() = this.text.toString()

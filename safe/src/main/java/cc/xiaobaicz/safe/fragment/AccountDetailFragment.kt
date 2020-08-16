@@ -11,6 +11,7 @@ import androidx.navigation.fragment.findNavController
 import cc.xiaobaicz.safe.R
 import cc.xiaobaicz.safe.db.entity.Account
 import cc.xiaobaicz.safe.model.AccountDetailViewModel
+import cc.xiaobaicz.safe.util.getText
 import cc.xiaobaicz.safe.util.setOnOnceClickListener
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.fragment_account_detail.*
@@ -71,6 +72,16 @@ class AccountDetailFragment : BaseFragment() {
                 }
             }
         })
+
+        //解密异常
+        vm.decodeError.observe(viewLifecycleOwner, Observer {
+            showSnackbar(container, "解密失败")
+        })
+
+        //加密异常
+        vm.encodeError.observe(viewLifecycleOwner, Observer {
+            showSnackbar(container, "加密失败")
+        })
     }
 
     override fun onSetListener() {
@@ -85,7 +96,7 @@ class AccountDetailFragment : BaseFragment() {
                 showSnackbar(container, "是否保存数据？", Snackbar.LENGTH_INDEFINITE) {
                     it.setAction("保存") {
                         //可编辑状态保存数据
-                        vm.save(et_domain.text.toString(), et_account.text.toString(), et_password.text.toString(), vmGlobal.password, function)
+                        vm.save(et_domain.getText, et_account.getText, et_password.getText, vmGlobal.password, function)
                         vm.isEdit = false
                     }
                 }

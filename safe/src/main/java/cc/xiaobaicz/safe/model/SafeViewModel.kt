@@ -24,7 +24,7 @@ class SafeViewModel : ViewModel() {
     fun getTimeout() {
         viewModelScope.launch {
             val dao = DB.app.getStorageDao()
-            val timeout = dao.query(Constant.KEY_TIME_OUT) ?: Storage(Constant.KEY_TIME_OUT, "${Constant.TIME_OUT}")
+            val timeout = dao.query(Constant.KEY_TIME_OUT) ?: Storage(Constant.KEY_TIME_OUT, "${Constant.CHECK_TIME_OUT}")
             this@SafeViewModel.timeout.postValue(timeout.value!!.toLong())
         }
     }

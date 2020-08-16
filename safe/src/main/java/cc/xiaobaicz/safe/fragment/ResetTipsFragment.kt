@@ -9,6 +9,7 @@ import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import cc.xiaobaicz.safe.R
 import cc.xiaobaicz.safe.model.ResetTipsViewModel
+import cc.xiaobaicz.safe.util.getText
 import cc.xiaobaicz.safe.util.setOnOnceClickListener
 import kotlinx.android.synthetic.main.fragment_setting_safe_reset_tips.*
 
@@ -38,7 +39,7 @@ class ResetTipsFragment : BaseFragment() {
 
         //保存
         btn_save.setOnOnceClickListener { _, function ->
-            vm.save(et_tips.text.toString(), function)
+            vm.save(et_tips.getText, function)
         }
     }
 }

@@ -67,5 +67,10 @@ class SafeFragment : BaseFragment() {
         btn_password_tips.setOnIntervalClickListener {
             findNavController().navigate(R.id.action_safeFragment_to_resetTipsFragment)
         }
+
+        //修改密码
+        btn_password.setOnIntervalClickListener {
+            findNavController().navigate(R.id.action_safeFragment_to_resetPasswordFragment)
+        }
     }
 }

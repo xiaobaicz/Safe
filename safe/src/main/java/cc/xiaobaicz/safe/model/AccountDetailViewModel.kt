@@ -3,13 +3,27 @@ package cc.xiaobaicz.safe.model
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import cc.xiaobaicz.safe.db.DB
 import cc.xiaobaicz.safe.db.entity.Account
+import cc.xiaobaicz.safe.util.AccountHelper
 import cc.xiaobaicz.safe.util.CipherHelper
 import cc.xiaobaicz.safe.util.Restore
 import kotlinx.coroutines.launch
 
 class AccountDetailViewModel : ViewModel() {
+
+    /**
+     * 解密异常
+     */
+    val decodeError by lazy {
+        MutableLiveData<Throwable>()
+    }
+
+    /**
+     * 加密异常
+     */
+    val encodeError by lazy {
+        MutableLiveData<Throwable>()
+    }
 
     /**
      * 是否可编辑状态
@@ -58,9 +72,13 @@ class AccountDetailViewModel : ViewModel() {
             } else {
                 //查看详情，热度+1
                 account.hot += 1
-                DB.safe.accountDao().update(account)
+                AccountHelper.updateAccount(account)
                 //解密
-                account.password = CipherHelper.aesDecode(account.password, accountPassword)
+                try {
+                    account.password = CipherHelper.aesDecipher(account.password, accountPassword)
+                } catch (t: Throwable) {
+                    decodeError.postValue(t)
+                }
             }
             //赋值目标账户
             this@AccountDetailViewModel.account.postValue(account ?: Account("", ""))
@@ -78,13 +96,19 @@ class AccountDetailViewModel : ViewModel() {
         account.lastTime = System.currentTimeMillis()
         viewModelScope.launch {
             //加密存储
-            account.password = CipherHelper.aesEncode(account.password, accountPassword)
-            val dao = DB.safe.accountDao()
-            val res = if (isCreate) {
-                dao.insert(account)
-            } else {
-                dao.update(account).toLong()
+            try {
+                account.password = CipherHelper.aesEncipher(account.password, accountPassword)
+            } catch (t: Throwable) {
+                encodeError.postValue(t)
+                return@launch
             }
+
+            val res = if (isCreate) {
+                AccountHelper.saveAccount(account)
+            } else {
+                AccountHelper.updateAccount(account)
+            }
+
             //结果
             if (res > 0) {
                 result.postValue(true)

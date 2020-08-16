@@ -12,7 +12,7 @@ import kotlin.experimental.inv
 object CipherHelper {
 
     //AES加密
-    fun aesEncode(text: String, accountPassword: String): String {
+    fun aesEncipher(text: String, accountPassword: String): String {
         val key = aesKey(accountPassword)
         val keyBytes = key2bytes(key)
         val iv = IvParameterSpec(key2iv(keyBytes))
@@ -24,7 +24,7 @@ object CipherHelper {
     }
 
     //AES解密
-    fun aesDecode(text: String, accountPassword: String): String {
+    fun aesDecipher(text: String, accountPassword: String): String {
         val key = aesKey(accountPassword)
         val keyBytes = key2bytes(key)
         val iv = IvParameterSpec(key2iv(keyBytes))

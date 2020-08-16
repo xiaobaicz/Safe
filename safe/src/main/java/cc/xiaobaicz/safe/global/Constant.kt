@@ -8,9 +8,14 @@ package cc.xiaobaicz.safe.global
 object Constant {
 
     /**
-     * 密码超时时间 2分钟
+     * 密码有效期超时时间 2分钟
      */
-    const val TIME_OUT = 2 * 60 * 1000L
+    const val PASSWORD_TIME_OUT = 2 * 60 * 1000L
+
+    /**
+     * 密码校验错误超时时间 2分钟
+     */
+    const val CHECK_TIME_OUT = 2 * 60 * 1000L
 
     /**
      * 密码超时时间

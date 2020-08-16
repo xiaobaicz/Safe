@@ -9,6 +9,7 @@ import cc.xiaobaicz.safe.util.LockHelper
 import cc.xiaobaicz.safe.util.SafeHelper
 import cc.xiaobaicz.utils.statusbar.SystemUiAttrCallback
 import cc.xiaobaicz.utils.statusbar.SystemUiHelper
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.util.concurrent.TimeoutException
@@ -81,17 +82,29 @@ class MainGlobalViewModel : ViewModel() {
         }
     }
 
+    //密码过期任务
+    private var timeoutJob: Job? = null
+
     //缓存密码&设置超时
     private fun saveAndTimeout(pw: String) {
-        viewModelScope.launch {
+        timeoutJob?.cancel()
+        timeoutJob = viewModelScope.launch {
             password = pw
-            delay(Constant.TIME_OUT)
+            delay(Constant.PASSWORD_TIME_OUT)
             //清除密码
             password = ""
             //验证提示
             verify.postValue(Exception("密码超时"))
             timeout.postValue(TimeoutException("password timeout"))
         }
+    }
+
+    /**
+     * 密码变更
+     */
+    fun resetPassword() {
+        password = ""
+        verify.postValue(Exception("密码更新，请重新登陆"))
     }
 
 }
