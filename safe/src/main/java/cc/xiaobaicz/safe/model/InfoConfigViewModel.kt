@@ -3,12 +3,9 @@ package cc.xiaobaicz.safe.model
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import cc.xiaobaicz.safe.db.DB
-import cc.xiaobaicz.safe.db.entity.Storage
-import cc.xiaobaicz.safe.global.Constant
 import cc.xiaobaicz.safe.util.Restore
+import cc.xiaobaicz.safe.util.SafeHelper
 import cc.xiaobaicz.safe.util.TipsHelper
-import cc.xiaobaicz.safe.util.localHmacMD5
 import kotlinx.coroutines.launch
 
 class InfoConfigViewModel : ViewModel() {
@@ -24,10 +21,9 @@ class InfoConfigViewModel : ViewModel() {
      * 保存信息
      */
     fun save(pw1: String, pw2: String, tips: String, function: Restore) {
-        if (check(pw1, pw2, tips)) {
+        if (check(pw1, pw2)) {
             viewModelScope.launch {
-                val dao = DB.app.getStorageDao()
-                dao.inserts(Storage(Constant.KEY_PASSWORD, localHmacMD5(pw1)))
+                SafeHelper.setPassword(pw1)
                 TipsHelper.setTips(tips)
                 save.postValue(null)
                 function()
@@ -38,7 +34,7 @@ class InfoConfigViewModel : ViewModel() {
     }
 
     //内容校验
-    private fun check(pw1: String, pw2: String, tips: String): Boolean {
+    private fun check(pw1: String, pw2: String): Boolean {
         if (pw1 != pw2) {
             save.postValue(Exception("密码不一致"))
             return false

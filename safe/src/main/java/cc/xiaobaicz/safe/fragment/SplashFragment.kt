@@ -10,6 +10,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import cc.xiaobaicz.safe.R
 import cc.xiaobaicz.safe.model.SplashViewModel
+import cc.xiaobaicz.safe.util.SafeHelper
 import cc.xiaobaicz.utils.statusbar.SystemUiHelper
 import kotlinx.android.synthetic.main.fragment_splash.*
 import kotlinx.coroutines.delay
@@ -46,11 +47,11 @@ class SplashFragment : BaseFragment() {
         lifecycleScope.launch {
             delay(3000)
             //判断是否设置密码
-            if (!vmGlobal.hasPassword()) {
+            if (SafeHelper.hasPassword()) {
+                findNavController().navigate(R.id.action_splashFragment_to_verifyFragment)
+            } else {
                 //去设置密码
                 findNavController().navigate(R.id.action_splashFragment_to_infoConfigFragment)
-            } else {
-                findNavController().navigate(R.id.action_splashFragment_to_verifyFragment)
             }
         }
     }

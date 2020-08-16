@@ -4,10 +4,9 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import cc.xiaobaicz.safe.bean.SafeSize
-import cc.xiaobaicz.safe.db.DB
 import cc.xiaobaicz.safe.global.Constant
 import cc.xiaobaicz.safe.util.LockHelper
-import cc.xiaobaicz.safe.util.localHmacMD5
+import cc.xiaobaicz.safe.util.SafeHelper
 import cc.xiaobaicz.utils.statusbar.SystemUiAttrCallback
 import cc.xiaobaicz.utils.statusbar.SystemUiHelper
 import kotlinx.coroutines.delay
@@ -65,9 +64,8 @@ class MainGlobalViewModel : ViewModel() {
             return
         }
         viewModelScope.launch {
-            if (hasPassword()) {
-                val kv = DB.app.getStorageDao().query(Constant.KEY_PASSWORD)
-                if (localHmacMD5(pw) == kv?.value) {
+            if (SafeHelper.hasPassword()) {
+                if (SafeHelper.checkPassword(pw)) {
                     //校验成功 解锁 & 重置 锁定信息
                     LockHelper.unlockAndReset()
                     saveAndTimeout(pw)
@@ -94,14 +92,6 @@ class MainGlobalViewModel : ViewModel() {
             verify.postValue(Exception("密码超时"))
             timeout.postValue(TimeoutException("password timeout"))
         }
-    }
-
-    /**
-     * 是否有默认密码
-     */
-    suspend fun hasPassword(): Boolean {
-        val kv = DB.app.getStorageDao().query(Constant.KEY_PASSWORD)
-        return kv != null
     }
 
 }
