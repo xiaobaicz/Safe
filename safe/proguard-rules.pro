@@ -25,6 +25,8 @@
 
 -keep class cc.xiaobaicz.safe.db.** {*;}
 
+-keep class * extends androidx.fragment.app.Fragment {*;}
+
 
 #三方区域
 #material
