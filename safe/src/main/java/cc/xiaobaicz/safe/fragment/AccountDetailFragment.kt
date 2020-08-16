@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.addCallback
+import androidx.core.view.isGone
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
@@ -40,7 +41,8 @@ class AccountDetailFragment : BaseFragment() {
         vm.target(arguments?.getParcelable<Account?>("account"), vmGlobal.password)
 
         //查看状态可删除
-        btn_delete.isVisible = !vm.isCreate
+        btn_delete.isGone = vm.isCreate
+        layer_last_time.isGone = vm.isCreate
     }
 
     override fun onConfigView(view: View) {
