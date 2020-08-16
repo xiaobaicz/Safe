@@ -54,4 +54,11 @@ object AccountHelper {
         return dao.selectAll()
     }
 
+    /**
+     * 删除账户
+     */
+    suspend fun delete(account: Account): Int {
+        return DB.safe.accountDao().delete(account)
+    }
+
 }

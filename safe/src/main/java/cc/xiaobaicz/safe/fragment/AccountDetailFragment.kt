@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.addCallback
+import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
@@ -36,6 +37,9 @@ class AccountDetailFragment : BaseFragment() {
 
         //设定目标账户
         vm.target(arguments?.getParcelable<Account?>("account"), vmGlobal.password)
+
+        //查看状态可删除
+        btn_delete.isVisible = !vm.isCreate
     }
 
     override fun onConfigView(view: View) {
@@ -73,6 +77,13 @@ class AccountDetailFragment : BaseFragment() {
             }
         })
 
+        //删除
+        vm.delete.observe(viewLifecycleOwner, Observer {
+            if (it) {
+                findNavController().popBackStack()
+            }
+        })
+
         //解密异常
         vm.decodeError.observe(viewLifecycleOwner, Observer {
             showSnackbar(container, "解密失败")
@@ -103,6 +114,15 @@ class AccountDetailFragment : BaseFragment() {
             } else {
                 //不可编辑状态转换可编辑
                 vm.isEdit = true
+            }
+        }
+
+        //删除
+        btn_delete.setOnOnceClickListener { _, function ->
+            showSnackbar(container, "是否删除该账户？") {
+                it.setAction("删除") {
+                    vm.delete()
+                }
             }
         }
 

@@ -12,6 +12,13 @@ import kotlinx.coroutines.launch
 class AccountDetailViewModel : ViewModel() {
 
     /**
+     * 删除结果
+     */
+    val delete by lazy {
+        MutableLiveData<Boolean>()
+    }
+
+    /**
      * 解密异常
      */
     val decodeError by lazy {
@@ -36,6 +43,7 @@ class AccountDetailViewModel : ViewModel() {
      * 是否新建
      */
     var isCreate = false
+    private set
 
     /**
      * 账户
@@ -116,6 +124,17 @@ class AccountDetailViewModel : ViewModel() {
                 result.postValue(false)
             }
             function()
+        }
+    }
+
+    /**
+     * 删除账户
+     */
+    fun delete() {
+        val account = this.account.value ?: throw NullPointerException("account is null")
+        viewModelScope.launch {
+            AccountHelper.delete(account)
+            delete.postValue(true)
         }
     }
 

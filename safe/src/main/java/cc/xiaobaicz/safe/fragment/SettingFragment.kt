@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
 import cc.xiaobaicz.safe.R
 import cc.xiaobaicz.safe.util.setOnIntervalClickListener
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.fragment_setting.*
 
 /**
@@ -41,7 +42,7 @@ class SettingFragment : BaseFragment() {
         }
         //关于
         btn_about.setOnIntervalClickListener {
-
+            showSnackbar(container, "问题反馈：xiaojinjincz@outlook.com", Snackbar.LENGTH_INDEFINITE)
         }
     }
 }

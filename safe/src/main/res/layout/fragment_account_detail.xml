@@ -21,6 +21,14 @@
             android:padding="12dp"
             android:src="@drawable/icon_edit"/>
 
+        <ImageView
+            android:id="@+id/btn_delete"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:layout_gravity="center_vertical|end"
+            android:padding="12dp"
+            android:src="@mipmap/icon_delete"/>
+
     </androidx.appcompat.widget.Toolbar>
 
     <ScrollView
