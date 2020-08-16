@@ -13,6 +13,7 @@ import cc.xiaobaicz.safe.R
 import cc.xiaobaicz.safe.db.entity.Account
 import cc.xiaobaicz.safe.model.AccountDetailViewModel
 import cc.xiaobaicz.safe.util.getText
+import cc.xiaobaicz.safe.util.setOnIntervalClickListener
 import cc.xiaobaicz.safe.util.setOnOnceClickListener
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.fragment_account_detail.*
@@ -102,12 +103,12 @@ class AccountDetailFragment : BaseFragment() {
         }
 
         //编辑 or 保存
-        btn_edit.setOnOnceClickListener { _, function ->
+        btn_edit.setOnIntervalClickListener {
             if (vm.isEdit) {
                 showSnackbar(container, "是否保存数据？", Snackbar.LENGTH_INDEFINITE) {
                     it.setAction("保存") {
                         //可编辑状态保存数据
-                        vm.save(et_domain.getText, et_account.getText, et_password.getText, vmGlobal.password, function)
+                        vm.save(et_domain.getText, et_account.getText, et_password.getText, vmGlobal.password)
                         vm.isEdit = false
                     }
                 }

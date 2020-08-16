@@ -6,7 +6,6 @@ import androidx.lifecycle.viewModelScope
 import cc.xiaobaicz.safe.db.entity.Account
 import cc.xiaobaicz.safe.util.AccountHelper
 import cc.xiaobaicz.safe.util.CipherHelper
-import cc.xiaobaicz.safe.util.Restore
 import kotlinx.coroutines.launch
 
 class AccountDetailViewModel : ViewModel() {
@@ -96,7 +95,7 @@ class AccountDetailViewModel : ViewModel() {
     /**
      * 保存数据
      */
-    fun save(domain: String, name: String, password: String, accountPassword: String, function: Restore) {
+    fun save(domain: String, name: String, password: String, accountPassword: String) {
         val account = this.account.value ?: throw NullPointerException("account is null")
         account.domain = domain
         account.account = name
@@ -123,7 +122,6 @@ class AccountDetailViewModel : ViewModel() {
             } else {
                 result.postValue(false)
             }
-            function()
         }
     }
 
