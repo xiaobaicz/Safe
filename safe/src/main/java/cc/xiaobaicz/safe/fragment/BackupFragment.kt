@@ -159,7 +159,7 @@ class BackupFragment : BaseFragment() {
             if (r.isEmpty()) {
                 //获取权限
                 Intent(Intent.ACTION_CREATE_DOCUMENT).apply {
-                    val time = SimpleDateFormat("yyMMdd_hhmmss", Locale.getDefault()).format(Date())
+                    val time = SimpleDateFormat("YYYYMMdd_HHmmss", Locale.getDefault()).format(Date())
                     addCategory(Intent.CATEGORY_OPENABLE)
                     type = "*/*"
                     putExtra(Intent.EXTRA_TITLE, "backup_${time}.$suffix")

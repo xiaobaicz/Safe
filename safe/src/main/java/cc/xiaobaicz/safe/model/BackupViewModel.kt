@@ -232,7 +232,6 @@ class BackupViewModel : ViewModel() {
             try {
                 //繁忙
                 busy.postValue(true)
-                val fd = getFD(context, data)
                 //全字段加密
                 val accounts = AccountHelper.selectAll().apply {
                     forEach {
@@ -241,6 +240,7 @@ class BackupViewModel : ViewModel() {
                     }
                 }
                 val content = GSON.toJson(accounts)
+                val fd = getFD(context, data) // 现在在这里
                 FileWriter(fd).use { fileWriter ->
                     fileWriter.write(content)
                 }
