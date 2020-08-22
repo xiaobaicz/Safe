@@ -9,6 +9,7 @@ import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.EditorInfo
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.activity.addCallback
@@ -103,6 +104,15 @@ class MainFragment : BaseFragment() {
 
     //添加事件
     override fun onSetListener() {
+        //键盘ime完成事件
+        et_keyword.setOnEditorActionListener { _, actionId, _ ->
+            if (EditorInfo.IME_ACTION_DONE == actionId) {
+                getToolbarehavior().apply {
+                    startAnimator(layer_tools, false)
+                }
+            }
+            return@setOnEditorActionListener false
+        }
         //添加账户
         fab_add.setOnOnceClickListener(gotoAccountDetail())
 

@@ -65,6 +65,7 @@
                 android:background="@drawable/bg_input"
                 android:maxLines="1"
                 android:singleLine="true"
+                android:imeOptions="actionDone"
                 android:textColorHint="@color/tv_hint"
                 android:textColor="@color/tv_def"
                 android:textSize="@dimen/tv_3"
