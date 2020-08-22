@@ -20,14 +20,27 @@ import cc.xiaobaicz.safe.model.BackupViewModel
 import cc.xiaobaicz.safe.util.getText
 import cc.xiaobaicz.safe.util.setOnIntervalClickListener
 import kotlinx.android.synthetic.main.fragment_setting_backup.*
+import java.text.SimpleDateFormat
+import java.util.*
 
 class BackupFragment : BaseFragment() {
 
     //打开CSV文件
-    private val OPEN_CSV = 0x1000
+    private val OPEN_CSV = 0x0001
 
     //打开PW文件
-    private val OPEN_PW = 0x2000
+    private val OPEN_PW = 0x0002
+
+    //新建CSV文件
+    private val CREATE_CSV = 0x0004
+
+    //新建PW文件
+    private val CREATE_PW = 0x0008
+
+    //CSV后缀
+    private val SUFFIX_CSV = "csv"
+    //pw后缀
+    private val SUFFIX_PW = "pw"
 
     private val vm by viewModels<BackupViewModel>()
 
@@ -57,7 +70,7 @@ class BackupFragment : BaseFragment() {
         //导出结果
         vm.export.observe(viewLifecycleOwner, Observer {
             if (it == null) {
-                showSnackbar(container, "导出完成: 文件路径${requireContext().getExternalFilesDir("backup")?.canonicalPath}")
+                showSnackbar(container, "导出完成")
             } else {
                 showSnackbar(container, it.message ?: "导出失败")
             }
@@ -96,12 +109,12 @@ class BackupFragment : BaseFragment() {
 
         //明文导出 *.csv
         btn_export_csv.setOnIntervalClickListener {
-            vm.exportCSVDoc(requireContext())
+            createDoc(CREATE_CSV, SUFFIX_CSV)
         }
 
         //密文导出 *.pw
         btn_export_pw.setOnIntervalClickListener {
-            vm.exportPWDoc(requireContext())
+            createDoc(CREATE_PW, SUFFIX_PW)
         }
 
         //拦截事件
@@ -136,6 +149,36 @@ class BackupFragment : BaseFragment() {
         }
     }
 
+    //新建文档
+    private fun createDoc(req: Int, suffix: String) {
+        //权限请求
+        requireActivity().apply(Manifest.permission.WRITE_EXTERNAL_STORAGE) { r, f ->
+            if (r.isEmpty()) {
+                //获取权限
+                Intent(Intent.ACTION_CREATE_DOCUMENT).apply {
+                    val time = SimpleDateFormat("yyMMdd_hhmmss", Locale.getDefault()).format(Date())
+                    addCategory(Intent.CATEGORY_OPENABLE)
+                    type = "*/*"
+                    putExtra(Intent.EXTRA_TITLE, "backup_${time}.$suffix")
+                    startActivityForResult(this, req)
+                }
+                return@apply
+            }
+            if (f.isNotEmpty()) {
+                //永久关闭，提示用户打开
+                showSnackbar(container, "导出需文件写入权限，请打开") {
+                    it.setAction("设置") {
+                        //前往设置
+                        requireActivity().openAppSettings()
+                    }
+                }
+                return@apply
+            }
+            //提示用户需要权限
+            showSnackbar(container, "导出需文件写入权限")
+        }
+    }
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == Activity.RESULT_OK) {
@@ -146,6 +189,12 @@ class BackupFragment : BaseFragment() {
                 }
                 OPEN_PW -> {    //PW文档
                     vm.importPW(requireContext(), data?.data)
+                }
+                CREATE_CSV -> {   //CSV文档
+                    vm.exportCSVDoc(requireContext(), data?.data)
+                }
+                CREATE_PW -> {    //PW文档
+                    vm.exportPWDoc(requireContext(), data?.data)
                 }
             }
         }

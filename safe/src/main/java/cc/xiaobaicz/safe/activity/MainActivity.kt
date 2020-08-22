@@ -28,4 +28,9 @@ class MainActivity : BaseActivity() {
         vm.getSystemUiSize(SystemUiHelper.get(this@MainActivity))
     }
 
+    override fun onPause() {
+        super.onPause()
+        finish() //不可见时退出
+    }
+
 }

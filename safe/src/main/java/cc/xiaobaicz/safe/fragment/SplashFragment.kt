@@ -45,7 +45,7 @@ class SplashFragment : BaseFragment() {
     //3秒后跳转
     private fun go() {
         lifecycleScope.launch {
-            delay(3000)
+            delay(resources.getInteger(R.integer.init_duration).toLong())
             //判断是否设置密码
             if (SafeHelper.hasPassword()) {
                 findNavController().navigate(R.id.action_splashFragment_to_verifyFragment)

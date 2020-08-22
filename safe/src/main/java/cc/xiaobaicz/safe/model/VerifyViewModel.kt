@@ -57,8 +57,15 @@ class VerifyViewModel : ViewModel() {
                 return@launch
             }
 
+            //失败次数
+            val count = LockHelper.lockCount()
+
             //输入提示
-            val tips = TipsHelper.getTips()
+            val tips = if (count >= LockHelper.MAX_ERROR_ROUTINE) {
+                "输入密码"
+            } else {
+                TipsHelper.getTips()
+            }
 
             if (LockHelper.isLock()) {
                 //锁定倒计时

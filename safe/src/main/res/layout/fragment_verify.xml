@@ -9,8 +9,7 @@
         android:id="@+id/layer_input"
         android:layout_width="256dp"
         android:layout_height="40dp"
-        android:layout_gravity="center"
-        android:visibility="gone">
+        android:layout_gravity="center">
 
         <EditText
             android:id="@+id/et_verify"
@@ -23,15 +22,19 @@
             android:maxLines="1"
             android:singleLine="true"
             android:imeOptions="actionDone"
-            android:textColor="@color/tv_def"
-            android:textSize="@dimen/tv_5"
+            android:letterSpacing="0.6"
+            android:textStyle="bold"
+            android:textCursorDrawable="@drawable/cursor_verify"
+            android:textColorHint="@color/white"
+            android:textColor="@color/white"
+            android:textSize="@dimen/tv_3"
             android:hint="@string/input_password" />
 
         <View
             android:layout_width="256dp"
-            android:layout_height="1px"
+            android:layout_height="1dp"
             android:layout_gravity="bottom"
-            android:background="@color/bg_main_input_linear"/>
+            android:background="@color/white"/>
 
     </FrameLayout>
 

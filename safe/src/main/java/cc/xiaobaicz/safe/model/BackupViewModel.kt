@@ -17,9 +17,6 @@ import kotlinx.coroutines.suspendCancellableCoroutine
 import org.apache.commons.csv.CSVFormat
 import org.apache.commons.csv.CSVPrinter
 import java.io.*
-import java.text.SimpleDateFormat
-import java.util.*
-import kotlin.collections.ArrayList
 import kotlin.coroutines.resume
 
 class BackupViewModel : ViewModel() {
@@ -62,7 +59,7 @@ class BackupViewModel : ViewModel() {
      * 导入CSV
      */
     fun importCSV(context: Context, data: Uri?) {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             try {
                 //繁忙
                 busy.postValue(true)
@@ -85,7 +82,7 @@ class BackupViewModel : ViewModel() {
      * 导入PW
      */
     fun importPW(context: Context, data: Uri?) {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             try {
                 //繁忙
                 busy.postValue(true)
@@ -147,7 +144,7 @@ class BackupViewModel : ViewModel() {
     }
 
     //获取文件描述符 默认只读模式
-    private fun getFD(context: Context, uri: Uri?, mode: String = "r"): FileDescriptor {
+    private fun getFD(context: Context, uri: Uri?, mode: String = "rw"): FileDescriptor {
         if (!check(uri)) {
             throw FileNotFoundException("找不到文件")
         }
@@ -204,15 +201,13 @@ class BackupViewModel : ViewModel() {
     /**
      * 导出CSV
      */
-    fun exportCSVDoc(context: Context) {
+    fun exportCSVDoc(context: Context, data: Uri?) {
         viewModelScope.launch(Dispatchers.IO) {
             try {
                 //繁忙
                 busy.postValue(true)
-                val time = SimpleDateFormat("yyMMdd_hhmmss", Locale.getDefault()).format(Date())
-                //文件名 backup + 时间
-                val file = createFile(context.getExternalFilesDir("backup")!!, "backup_${time}.csv")
-                FileWriter(file).use { fileWriter ->
+                val fd = getFD(context, data)
+                FileWriter(fd).use { fileWriter ->
                     CSVPrinter(fileWriter, CSVFormat.EXCEL).use { print ->
                         AccountHelper.selectAll().forEach {
                             print.printRecord(it.domain, it.account, CipherHelper.aesDecipher(it.password, password))
@@ -232,14 +227,12 @@ class BackupViewModel : ViewModel() {
     /**
      * 导出PW
      */
-    fun exportPWDoc(context: Context) {
+    fun exportPWDoc(context: Context, data: Uri?) {
         viewModelScope.launch(Dispatchers.IO) {
             try {
                 //繁忙
                 busy.postValue(true)
-                val time = SimpleDateFormat("yyMMdd_hhmmss", Locale.getDefault()).format(Date())
-                //文件名 backup + 时间
-                val file = createFile(context.getExternalFilesDir("backup")!!, "backup_${time}.pw")
+                val fd = getFD(context, data)
                 //全字段加密
                 val accounts = AccountHelper.selectAll().apply {
                     forEach {
@@ -248,7 +241,7 @@ class BackupViewModel : ViewModel() {
                     }
                 }
                 val content = GSON.toJson(accounts)
-                FileWriter(file).use { fileWriter ->
+                FileWriter(fd).use { fileWriter ->
                     fileWriter.write(content)
                 }
                 export.postValue(null)

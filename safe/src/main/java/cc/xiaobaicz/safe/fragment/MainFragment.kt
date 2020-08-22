@@ -124,16 +124,17 @@ class MainFragment : BaseFragment() {
         })
 
         //Tab选择
-        btn_sort_hot.setOnIntervalClickListener {
+        btn_sort_hot.setOnIntervalClickListener(233) {
             vm.selectTab(SortType.HOT)
         }
-        btn_sort_domain.setOnIntervalClickListener {
+        btn_sort_domain.setOnIntervalClickListener(233) {
             vm.selectTab(SortType.DOMAIN)
         }
-        btn_sort_time.setOnIntervalClickListener {
+        btn_sort_time.setOnIntervalClickListener(233) {
             vm.selectTab(SortType.TIME)
         }
 
+        //设置
         btn_setting.setOnIntervalClickListener {
             gotoSetting()
         }

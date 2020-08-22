@@ -61,7 +61,7 @@ class AccountDetailFragment : BaseFragment() {
             et_domain.isEnabled = it
             et_account.isEnabled = it
             et_password.isEnabled = it
-            if (it) {
+            if (mAction.isShowEditAction(vm)) {
                 showSnackbar(container, "可编辑状态")
             }
         })
@@ -135,7 +135,7 @@ class AccountDetailFragment : BaseFragment() {
 
     //退出操作
     private fun onBack() {
-        if (vm.isEdit) {
+        if (mAction.isBackInterceptor(vm)) {
             //编辑状态询问是否取消保存
             showSnackbar(container, "是否取消修改？") {
                 it.setAction("确定") {
@@ -144,6 +144,56 @@ class AccountDetailFragment : BaseFragment() {
             }
         } else {
             findNavController().popBackStack()
+        }
+    }
+
+    //差异操作 新建 or 编辑
+    private val mAction by lazy {
+        if (vm.isCreate) {
+            Action.CreateAction
+        } else {
+            Action.DetailAction
+        }
+    }
+
+    /**
+     * 差异操作接口
+     */
+    internal sealed class Action {
+        /**
+         * 是否拦截返回
+         */
+        abstract fun isBackInterceptor(vm: AccountDetailViewModel): Boolean
+
+        /**
+         * 是否显示编辑状态
+         */
+        abstract fun isShowEditAction(vm: AccountDetailViewModel): Boolean
+
+        /**
+         * 新建操作
+         */
+        object CreateAction : Action() {
+            override fun isBackInterceptor(vm: AccountDetailViewModel): Boolean {
+                return false
+            }
+
+            override fun isShowEditAction(vm: AccountDetailViewModel): Boolean {
+                return false
+            }
+        }
+
+        /**
+         * 详情操作
+         */
+        object DetailAction : Action() {
+            override fun isBackInterceptor(vm: AccountDetailViewModel): Boolean {
+                return vm.isEdit
+            }
+
+            override fun isShowEditAction(vm: AccountDetailViewModel): Boolean {
+                return vm.isEdit
+            }
         }
     }
 

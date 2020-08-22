@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!--  页面动画时间  -->
+    <integer name="anim_duration">333</integer>
+
+    <!--  闪屏停留时间  -->
+    <integer name="init_duration">888</integer>
+
+</resources>

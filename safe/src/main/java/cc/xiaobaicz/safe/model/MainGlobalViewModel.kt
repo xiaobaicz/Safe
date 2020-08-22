@@ -69,7 +69,7 @@ class MainGlobalViewModel : ViewModel() {
                 if (SafeHelper.checkPassword(pw)) {
                     //校验成功 解锁 & 重置 锁定信息
                     LockHelper.unlockAndReset()
-                    saveAndTimeout(pw)
+//                    saveAndTimeout(pw)
                     verify.postValue(null)
                 } else {
                     //失败锁定

@@ -4,6 +4,9 @@
     <!--读取存储卡备份文件-->
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
 
+    <!--写入存储卡备份文件-->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+
     <application
         android:name=".App"
         android:allowBackup="false"

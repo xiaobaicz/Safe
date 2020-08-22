@@ -71,7 +71,8 @@
 
             <FrameLayout
                 android:id="@+id/btn_lock_time"
-                style="@style/item_setting">
+                style="@style/item_setting"
+                android:visibility="gone">
 
                 <TextView
                     style="@style/item_setting_text"

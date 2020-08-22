@@ -52,7 +52,7 @@
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/et_domain"
                     style="@style/input_account_detail"
-                    android:hint="账户域" />
+                    android:hint="备注（如：微信）" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -67,7 +67,7 @@
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/et_account"
                     style="@style/input_account_detail"
-                    android:hint="账户名"/>
+                    android:hint="账户"/>
 
             </com.google.android.material.textfield.TextInputLayout>
 

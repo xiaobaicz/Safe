@@ -94,7 +94,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toStartOf="@id/btn_sort_domain"
                 app:layout_constraintHorizontal_chainStyle="spread"
-                android:text="热度" />
+                android:text="访问次数" />
 
             <TextView
                 android:id="@+id/btn_sort_domain"
@@ -103,6 +103,7 @@
                 app:layout_constraintBottom_toBottomOf="@id/btn_sort_hot"
                 app:layout_constraintStart_toEndOf="@id/btn_sort_hot"
                 app:layout_constraintEnd_toStartOf="@id/btn_sort_time"
+                android:visibility="gone"
                 android:text="名称"/>
 
             <TextView
@@ -112,7 +113,7 @@
                 app:layout_constraintBottom_toBottomOf="@id/btn_sort_hot"
                 app:layout_constraintStart_toEndOf="@id/btn_sort_domain"
                 app:layout_constraintEnd_toEndOf="parent"
-                android:text="时间"/>
+                android:text="创建时间"/>
 
             <ImageView
                 android:id="@+id/iv_sort_hot"
@@ -128,6 +129,7 @@
                 app:layout_constraintEnd_toEndOf="@id/btn_sort_domain"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
+                android:visibility="gone"
                 app:tint="@color/tab_item_icon_def" />
 
             <ImageView
