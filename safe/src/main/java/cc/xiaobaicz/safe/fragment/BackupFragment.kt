@@ -124,6 +124,7 @@ class BackupFragment : BaseFragment() {
     //打开文档
     private fun openDoc(req: Int) {
         //权限请求
+        vmGlobal.isClose(false)//期间应用不关闭
         requireActivity().apply(Manifest.permission.READ_EXTERNAL_STORAGE) { r, f ->
             if (r.isEmpty()) {
                 //获取权限
@@ -146,12 +147,14 @@ class BackupFragment : BaseFragment() {
             }
             //提示用户需要权限
             showSnackbar(container, "导入需文件读取权限")
+            vmGlobal.isClose(true)//应用关闭
         }
     }
 
     //新建文档
     private fun createDoc(req: Int, suffix: String) {
         //权限请求
+        vmGlobal.isClose(false)//期间应用不关闭
         requireActivity().apply(Manifest.permission.WRITE_EXTERNAL_STORAGE) { r, f ->
             if (r.isEmpty()) {
                 //获取权限
@@ -176,6 +179,7 @@ class BackupFragment : BaseFragment() {
             }
             //提示用户需要权限
             showSnackbar(container, "导出需文件写入权限")
+            vmGlobal.isClose(true)//应用关闭
         }
     }
 
@@ -183,6 +187,7 @@ class BackupFragment : BaseFragment() {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == Activity.RESULT_OK) {
             //处理完成
+            vmGlobal.isClose(true)//获取文档结束，不可见时关闭
             when (requestCode) {
                 OPEN_CSV -> {   //CSV文档
                     vm.importCSV(requireContext(), data?.data)

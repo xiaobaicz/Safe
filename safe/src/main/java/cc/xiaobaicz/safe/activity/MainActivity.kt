@@ -30,7 +30,9 @@ class MainActivity : BaseActivity() {
 
     override fun onPause() {
         super.onPause()
-        finish() //不可见时退出
+        if (vm.isClose) {
+            finish() //不可见时退出
+        }
     }
 
 }

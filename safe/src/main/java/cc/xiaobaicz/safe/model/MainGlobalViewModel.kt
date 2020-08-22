@@ -19,6 +19,10 @@ import java.util.concurrent.TimeoutException
  */
 class MainGlobalViewModel : ViewModel() {
 
+    //是否可关闭
+    var isClose = true
+    private set
+
     //密码
     var password = ""
     private set
@@ -69,7 +73,7 @@ class MainGlobalViewModel : ViewModel() {
                 if (SafeHelper.checkPassword(pw)) {
                     //校验成功 解锁 & 重置 锁定信息
                     LockHelper.unlockAndReset()
-//                    saveAndTimeout(pw)
+                    saveAndTimeout(pw)
                     verify.postValue(null)
                 } else {
                     //失败锁定
@@ -87,16 +91,16 @@ class MainGlobalViewModel : ViewModel() {
 
     //缓存密码&设置超时
     private fun saveAndTimeout(pw: String) {
-        timeoutJob?.cancel()
-        timeoutJob = viewModelScope.launch {
-            password = pw
-            delay(Constant.PASSWORD_TIME_OUT)
-            //清除密码
-            password = ""
-            //验证提示
-            verify.postValue(Exception("密码超时"))
-            timeout.postValue(TimeoutException("password timeout"))
-        }
+        password = pw
+//        timeoutJob?.cancel()
+//        timeoutJob = viewModelScope.launch {
+//            delay(Constant.PASSWORD_TIME_OUT)
+//            //清除密码
+//            password = ""
+//            //验证提示
+//            verify.postValue(Exception("密码超时"))
+//            timeout.postValue(TimeoutException("password timeout"))
+//        }
     }
 
     /**
@@ -105,6 +109,13 @@ class MainGlobalViewModel : ViewModel() {
     fun resetPassword() {
         password = ""
         verify.postValue(Exception("密码更新，请重新登陆"))
+    }
+
+    /**
+     * 不可见时是否可关闭
+     */
+    fun isClose(close: Boolean) {
+        isClose = close
     }
 
 }

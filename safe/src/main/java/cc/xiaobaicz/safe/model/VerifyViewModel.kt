@@ -61,7 +61,7 @@ class VerifyViewModel : ViewModel() {
             val count = LockHelper.lockCount()
 
             //输入提示
-            val tips = if (count >= LockHelper.MAX_ERROR_ROUTINE) {
+            val tips = if (count < LockHelper.MAX_ERROR_ROUTINE) {
                 "输入密码"
             } else {
                 TipsHelper.getTips()
