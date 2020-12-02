@@ -1,6 +1,5 @@
 package cc.xiaobaicz.safe.fragment
 
-import android.Manifest
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
@@ -13,13 +12,10 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
-import cc.xiaobaicz.permissions.apply
-import cc.xiaobaicz.permissions.openAppSettings
-import cc.xiaobaicz.safe.R
+import cc.xiaobaicz.safe.databinding.FragmentSettingBackupBinding
 import cc.xiaobaicz.safe.model.BackupViewModel
 import cc.xiaobaicz.safe.util.getText
 import cc.xiaobaicz.safe.util.setOnIntervalClickListener
-import kotlinx.android.synthetic.main.fragment_setting_backup.*
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -44,42 +40,47 @@ class BackupFragment : BaseFragment() {
 
     private val vm by viewModels<BackupViewModel>()
 
+    private val bind by lazy {
+        FragmentSettingBackupBinding.inflate(layoutInflater)
+    }
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        bind.model = vm
         vm.password = vmGlobal.password //用于导入时加密数据
-        return inflater.inflate(R.layout.fragment_setting_backup, container, false)
+        return bind.root
     }
 
     override fun onConfigView(view: View) {
         //设置安全区域
-        safeRegion(toolbar, content)
+        safeRegion(bind.toolbar)
 
         //可用状态
         vm.busy.observe(viewLifecycleOwner, Observer {
-            layer_await.isVisible = it
+            bind.layerAwait.isVisible = it
         })
 
         //导入结果
         vm.import.observe(viewLifecycleOwner, Observer {
             if (it == null) {
-                showSnackbar(container, "导入完成")
+                showSnackbar(bind.container, "导入完成")
             } else {
-                showSnackbar(container, it.message ?: "导入失败")
+                showSnackbar(bind.container, it.message ?: "导入失败")
             }
         })
 
         //导出结果
         vm.export.observe(viewLifecycleOwner, Observer {
             if (it == null) {
-                showSnackbar(container, "导出完成")
+                showSnackbar(bind.container, "导出完成")
             } else {
-                showSnackbar(container, it.message ?: "导出失败")
+                showSnackbar(bind.container, it.message ?: "导出失败")
             }
         })
     }
 
     override fun onSetListener() {
         //返回键
-        toolbar.setNavigationOnClickListener {
+        bind.toolbar.setNavigationOnClickListener {
             back()
         }
 
@@ -89,65 +90,46 @@ class BackupFragment : BaseFragment() {
         }
 
         //明文导入 .csv
-        btn_import_csv.setOnIntervalClickListener {
+        bind.btnImportCsv.setOnIntervalClickListener {
             openDoc(OPEN_CSV)
         }
 
         //密文导入 *.pw
-        et_password.setOnEditorActionListener { _, actionId, _ ->
+        bind.etPassword.setOnEditorActionListener { _, actionId, _ ->
             if (EditorInfo.IME_ACTION_DONE == actionId) {
                 //密码合法性校验
-                if (vm.checkPassword(et_password.getText)) {
-                    vm.filePassword = et_password.getText
+                if (vm.checkPassword(bind.etPassword.getText)) {
+                    vm.filePassword = bind.etPassword.getText
                     openDoc(OPEN_PW)
                 } else {
-                    showSnackbar(container, "密码至少6位")
+                    showSnackbar(bind.container, "密码至少6位")
                 }
             }
             return@setOnEditorActionListener false
         }
 
         //明文导出 *.csv
-        btn_export_csv.setOnIntervalClickListener {
+        bind.btnExportCsv.setOnIntervalClickListener {
             createDoc(CREATE_CSV, SUFFIX_CSV)
         }
 
         //密文导出 *.pw
-        btn_export_pw.setOnIntervalClickListener {
+        bind.btnExportPw.setOnIntervalClickListener {
             createDoc(CREATE_PW, SUFFIX_PW)
         }
 
         //拦截事件
-        layer_await.setOnClickListener {  }
+        bind.layerAwait.setOnClickListener {  }
     }
 
     //打开文档
     private fun openDoc(req: Int) {
         //权限请求
         vmGlobal.isClose(false)//期间应用不关闭
-        requireActivity().apply(Manifest.permission.READ_EXTERNAL_STORAGE) { r, f ->
-            if (r.isEmpty()) {
-                //获取权限
-                Intent(Intent.ACTION_OPEN_DOCUMENT).apply {
-                    addCategory(Intent.CATEGORY_OPENABLE)
-                    type = "*/*"
-                    startActivityForResult(this, req)
-                }
-                return@apply
-            }
-            if (f.isNotEmpty()) {
-                //永久关闭，提示用户打开
-                showSnackbar(container, "导入需文件读取权限，请打开") {
-                    it.setAction("设置") {
-                        //前往设置
-                        requireActivity().openAppSettings()
-                    }
-                }
-                return@apply
-            }
-            //提示用户需要权限
-            showSnackbar(container, "导入需文件读取权限")
-            vmGlobal.isClose(true)//应用关闭
+        Intent(Intent.ACTION_OPEN_DOCUMENT).apply {
+            addCategory(Intent.CATEGORY_OPENABLE)
+            type = "*/*"
+            startActivityForResult(this, req)
         }
     }
 
@@ -155,31 +137,12 @@ class BackupFragment : BaseFragment() {
     private fun createDoc(req: Int, suffix: String) {
         //权限请求
         vmGlobal.isClose(false)//期间应用不关闭
-        requireActivity().apply(Manifest.permission.WRITE_EXTERNAL_STORAGE) { r, f ->
-            if (r.isEmpty()) {
-                //获取权限
-                Intent(Intent.ACTION_CREATE_DOCUMENT).apply {
-                    val time = SimpleDateFormat("YYYYMMdd_HHmmss", Locale.getDefault()).format(Date())
-                    addCategory(Intent.CATEGORY_OPENABLE)
-                    type = "*/*"
-                    putExtra(Intent.EXTRA_TITLE, "backup_${time}.$suffix")
-                    startActivityForResult(this, req)
-                }
-                return@apply
-            }
-            if (f.isNotEmpty()) {
-                //永久关闭，提示用户打开
-                showSnackbar(container, "导出需文件写入权限，请打开") {
-                    it.setAction("设置") {
-                        //前往设置
-                        requireActivity().openAppSettings()
-                    }
-                }
-                return@apply
-            }
-            //提示用户需要权限
-            showSnackbar(container, "导出需文件写入权限")
-            vmGlobal.isClose(true)//应用关闭
+        Intent(Intent.ACTION_CREATE_DOCUMENT).apply {
+            val time = SimpleDateFormat("YYYYMMdd_HHmmss", Locale.getDefault()).format(Date())
+            addCategory(Intent.CATEGORY_OPENABLE)
+            type = "*/*"
+            putExtra(Intent.EXTRA_TITLE, "backup_${time}.$suffix")
+            startActivityForResult(this, req)
         }
     }
 

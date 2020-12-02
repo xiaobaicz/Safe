@@ -4,7 +4,6 @@ import android.content.Context
 import android.net.Uri
 import android.os.CancellationSignal
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import cc.xiaobaicz.safe.db.entity.Account
 import cc.xiaobaicz.safe.util.AccountHelper
@@ -19,7 +18,7 @@ import org.apache.commons.csv.CSVPrinter
 import java.io.*
 import kotlin.coroutines.resume
 
-class BackupViewModel : ViewModel() {
+class BackupViewModel : BaseObservableViewModel() {
 
     /**
      * 密码初始化时需要赋值
@@ -95,8 +94,8 @@ class BackupViewModel : ViewModel() {
                     //通过文件密码解密
                     accounts.forEach {
                         it.id = 0 //重置id 防止冲突
-                        it.domain = CipherHelper.aesDecipher(it.domain, filePassword)
-                        it.account = CipherHelper.aesDecipher(it.account, filePassword)
+//                        it.domain = CipherHelper.aesDecipher(it.domain, filePassword)
+//                        it.account = CipherHelper.aesDecipher(it.account, filePassword)
                         it.password = CipherHelper.aesDecipher(it.password, filePassword)
                     }
                 } catch (e: Exception) {
@@ -234,10 +233,10 @@ class BackupViewModel : ViewModel() {
                 busy.postValue(true)
                 //全字段加密
                 val accounts = AccountHelper.selectAll().apply {
-                    forEach {
-                        it.domain = CipherHelper.aesEncipher(it.domain, password)
-                        it.account = CipherHelper.aesEncipher(it.account, password)
-                    }
+//                    forEach {
+//                        it.domain = CipherHelper.aesEncipher(it.domain, password)
+//                        it.account = CipherHelper.aesEncipher(it.account, password)
+//                    }
                 }
                 val content = GSON.toJson(accounts)
                 val fd = getFD(context, data) // 现在在这里
@@ -246,6 +245,7 @@ class BackupViewModel : ViewModel() {
                 }
                 export.postValue(null)
             } catch (e: Exception) {
+                e.printStackTrace()
                 export.postValue(Exception("导出失败"))
             } finally {
                 //空闲

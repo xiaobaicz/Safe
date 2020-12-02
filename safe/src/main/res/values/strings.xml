@@ -15,4 +15,7 @@
     <string name="verify_fingerprint">指纹验证</string>
     <string name="reset_password">修改密码</string>
     <string name="reset_tips">修改密码提示</string>
+    <string name="content_view_behavior">cc.xiaobaicz.safe.widget.ContentViewBehavior</string>
+    <string name="tools_layer_behavior">cc.xiaobaicz.safe.fragment.MainFragment$ToolsLayerBehavior</string>
+    <string name="recycle_view_behavior">cc.xiaobaicz.safe.fragment.MainFragment$RecyclerViewBehavior</string>
 </resources>

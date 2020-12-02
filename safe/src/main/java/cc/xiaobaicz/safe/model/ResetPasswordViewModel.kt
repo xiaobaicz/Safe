@@ -1,14 +1,13 @@
 package cc.xiaobaicz.safe.model
 
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import cc.xiaobaicz.safe.util.AccountHelper
 import cc.xiaobaicz.safe.util.Restore
 import cc.xiaobaicz.safe.util.SafeHelper
 import kotlinx.coroutines.launch
 
-class ResetPasswordViewModel : ViewModel() {
+class ResetPasswordViewModel : BaseObservableViewModel() {
 
     /**
      * 保存结果

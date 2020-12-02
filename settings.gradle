@@ -1,5 +1,2 @@
 include ':safe'
-include ':permissions'
-include ':util'
-include ':recyclerviewextend'
 rootProject.name = "Safe"

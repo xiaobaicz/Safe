@@ -1,14 +1,13 @@
 package cc.xiaobaicz.safe.model
 
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import cc.xiaobaicz.safe.util.Restore
 import cc.xiaobaicz.safe.util.SafeHelper
 import cc.xiaobaicz.safe.util.TipsHelper
 import kotlinx.coroutines.launch
 
-class InfoConfigViewModel : ViewModel() {
+class InfoConfigViewModel : BaseObservableViewModel() {
 
     /**
      * 保存结果
@@ -18,13 +17,34 @@ class InfoConfigViewModel : ViewModel() {
     }
 
     /**
+     * 密码
+     */
+    val etPassword1 by lazy {
+        MutableLiveData<String>()
+    }
+
+    /**
+     * 确认密码
+     */
+    val etPassword2 by lazy {
+        MutableLiveData<String>()
+    }
+
+    /**
+     * 密码提示
+     */
+    val etTips by lazy {
+        MutableLiveData<String>()
+    }
+
+    /**
      * 保存信息
      */
-    fun save(pw1: String, pw2: String, tips: String, function: Restore) {
-        if (check(pw1, pw2)) {
+    fun save(function: Restore) {
+        if (check(etPassword1.value ?: "", etPassword2.value ?: "")) {
             viewModelScope.launch {
-                SafeHelper.setPassword(pw1)
-                TipsHelper.setTips(tips)
+                SafeHelper.setPassword(etPassword1.value!!)
+                TipsHelper.setTips(etTips.value ?: "")
                 save.postValue(null)
                 function()
             }

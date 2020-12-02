@@ -1,61 +1,74 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="88dp"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:background="@color/bg_item_main"
-    android:paddingStart="16dp"
-    android:paddingEnd="16dp">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <data>
+        <variable
+            name="account"
+            type="cc.xiaobaicz.safe.db.entity.Account" />
+        <variable
+            name="format"
+            type="java.text.DateFormat" />
+        <import type="cc.xiaobaicz.safe.util.AccountHelper"/>
+    </data>
+    <androidx.constraintlayout.widget.ConstraintLayout android:layout_width="match_parent"
+        android:layout_height="88dp"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:background="@color/bg_item_main"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp">
 
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_begin="72dp" />
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_begin="72dp" />
 
-    <ImageView
-        android:id="@+id/iv_icon"
-        android:layout_width="56dp"
-        android:layout_height="56dp"
-        android:src="@mipmap/icon_account"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        <ImageView
+            android:id="@+id/iv_icon"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:src="@mipmap/icon_account"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/tv_domain"
-        android:maxWidth="192dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="@id/iv_icon"
-        app:layout_constraintStart_toEndOf="@+id/guideline"
-        app:layout_constraintBottom_toTopOf="@id/tv_account"
-        android:textColor="@color/item_main_demo"
-        android:textSize="16sp"
-        tools:text="domain"/>
+        <TextView
+            android:id="@+id/tv_domain"
+            android:maxWidth="192dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="@id/iv_icon"
+            app:layout_constraintStart_toEndOf="@+id/guideline"
+            app:layout_constraintBottom_toTopOf="@id/tv_account"
+            android:textColor="@color/item_main_demo"
+            android:textSize="16sp"
+            android:text="@{account.domain}"
+            tools:text="domain"/>
 
-    <TextView
-        android:id="@+id/tv_account"
-        android:maxWidth="192dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="@id/iv_icon"
-        app:layout_constraintStart_toEndOf="@id/guideline"
-        app:layout_constraintTop_toBottomOf="@id/tv_domain"
-        android:textColor="@color/item_main_account"
-        android:textSize="14sp"
-        tools:text="account"/>
+        <TextView
+            android:id="@+id/tv_account"
+            android:maxWidth="192dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="@id/iv_icon"
+            app:layout_constraintStart_toEndOf="@id/guideline"
+            app:layout_constraintTop_toBottomOf="@id/tv_domain"
+            android:textColor="@color/item_main_account"
+            android:textSize="14sp"
+            android:text="@{account.account}"
+            tools:text="account"/>
 
-    <TextView
-        android:id="@+id/tv_lastTime"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="@id/iv_icon"
-        android:textColor="@color/item_main_lastTime"
-        android:textSize="14sp"
-        tools:text="lastTime"/>
+        <TextView
+            android:id="@+id/tv_lastTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="@id/iv_icon"
+            android:textColor="@color/item_main_lastTime"
+            android:textSize="14sp"
+            android:text="@{format.format(AccountHelper.getLastDate(account))}"
+            tools:text="lastTime"/>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

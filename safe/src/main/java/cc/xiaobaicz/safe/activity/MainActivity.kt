@@ -4,9 +4,9 @@ import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.findNavController
+import cc.xiaobaicz.helper.statusbar.SystemUiHelper
 import cc.xiaobaicz.safe.R
 import cc.xiaobaicz.safe.model.MainGlobalViewModel
-import cc.xiaobaicz.utils.statusbar.SystemUiHelper
 
 class MainActivity : BaseActivity() {
 

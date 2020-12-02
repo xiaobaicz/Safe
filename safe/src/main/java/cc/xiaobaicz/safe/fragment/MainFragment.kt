@@ -1,6 +1,5 @@
 package cc.xiaobaicz.safe.fragment
 
-import android.animation.ValueAnimator
 import android.content.Context
 import android.content.res.ColorStateList
 import android.os.Bundle
@@ -9,33 +8,34 @@ import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.inputmethod.EditorInfo
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.activity.addCallback
 import androidx.coordinatorlayout.widget.CoordinatorLayout
-import androidx.core.animation.doOnEnd
-import androidx.core.view.updateLayoutParams
+import androidx.core.view.*
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import cc.xiaobaicz.recyclerview.extend.AdapterX
+import androidx.recyclerview.widget.RecyclerView
 import cc.xiaobaicz.recyclerview.extend.config
 import cc.xiaobaicz.safe.R
+import cc.xiaobaicz.safe.databinding.FragmentMainBinding
+import cc.xiaobaicz.safe.databinding.ItemAccountBinding
 import cc.xiaobaicz.safe.db.entity.Account
 import cc.xiaobaicz.safe.model.MainViewModel
 import cc.xiaobaicz.safe.util.dp
 import cc.xiaobaicz.safe.util.setOnIntervalClickListener
 import cc.xiaobaicz.safe.util.setOnOnceClickListener
-import kotlinx.android.synthetic.main.fragment_main.*
-import kotlinx.android.synthetic.main.item_account.view.*
+import cc.xiaobaicz.safe.widget.ContentViewBehavior
 import kotlinx.coroutines.launch
 import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
+import kotlin.math.max
+import kotlin.math.min
 
 /**
  * 首页
@@ -46,36 +46,39 @@ class MainFragment : BaseFragment() {
     private val vm by viewModels<MainViewModel>()
 
     //数据源
-    private val data = ArrayList<Account>()
+    private val data: MutableList<Any> = ArrayList()
 
-    //适配器
-    private lateinit var adapter: AdapterX<Account>
+    private val bind by lazy {
+        FragmentMainBinding.inflate(layoutInflater)
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_main, container, false)
+        bind.model = vm
+        return bind.root
     }
 
     //配置View
     override fun onConfigView(view: View) {
-        lifecycleScope.launch {
+        //设置安全区域
+        safeRegion(bind.toolbar)
+        
+        lifecycleScope.launch { 
             val size = safeRegion()
-            layer_tools.updateLayoutParams<ViewGroup.MarginLayoutParams> {
-                topMargin += size.t
+            bind.toolbar.also {
+                it.layoutParams.height = 56.dp.toInt() + size.t
+                it.updatePadding(top = size.t)
+                bind.listAccount.updatePaddingRelative(bottom = size.b + it.layoutParams.height)
             }
         }
-        //设置安全区域
-        safeRegion(toolbar, list_account)
 
         //列表配置
-        adapter = list_account.config(data) {
+        bind.listAccount.config(data) {
             val format = SimpleDateFormat.getDateInstance(DateFormat.SHORT)
-            addType(Account::class.java, R.layout.item_account) { d, h, _ ->
-                h.root.apply {
-                    tv_domain.text = d.domain
-                    tv_account.text = d.account
-                    tv_lastTime.text = format.format(Date(d.lastTime))
-                    setOnOnceClickListener(gotoAccountDetail(d))
-                }
+            addType<Account, AccountViewHolder>(R.layout.item_account) { d, h, _, _ ->
+                h.bind.account = d
+                h.bind.format = format
+                h.bind.executePendingBindings()
+                h.bind.root.setOnOnceClickListener(gotoAccountDetail(d))
             }
         }
 
@@ -83,9 +86,9 @@ class MainFragment : BaseFragment() {
         vm.tabStatus.observe(viewLifecycleOwner, Observer {
             initTabItem() //初始化状态
             when (it.sortType) { //选中状态
-                SortType.HOT -> selectTabItem(btn_sort_hot, iv_sort_hot, it.isAsc)
-                SortType.DOMAIN -> selectTabItem(btn_sort_domain, iv_sort_domain, it.isAsc)
-                SortType.TIME -> selectTabItem(btn_sort_time, iv_sort_time, it.isAsc)
+                SortType.HOT -> selectTabItem(bind.btnSortHot, bind.ivSortHot, it.isAsc)
+                SortType.DOMAIN -> selectTabItem(bind.btnSortDomain, bind.ivSortDomain, it.isAsc)
+                SortType.TIME -> selectTabItem(bind.btnSortTime, bind.ivSortTime, it.isAsc)
             }
         })
 
@@ -93,9 +96,9 @@ class MainFragment : BaseFragment() {
         vm.accounts.observe(viewLifecycleOwner, Observer {
             data.clear()
             data.addAll(it)
-            adapter.notifyDataSetChanged()
+            bind.listAccount.adapter?.notifyDataSetChanged()
             if (it.isEmpty()) {
-                showSnackbar(container, "暂无账户数据")
+                showSnackbar(bind.container, "暂无账户数据")
             }
         })
 
@@ -104,55 +107,37 @@ class MainFragment : BaseFragment() {
 
     //添加事件
     override fun onSetListener() {
-        //键盘ime完成事件
-        et_keyword.setOnEditorActionListener { _, actionId, _ ->
-            if (EditorInfo.IME_ACTION_DONE == actionId) {
-                getToolbarehavior().apply {
-                    startAnimator(layer_tools, false)
-                }
-            }
-            return@setOnEditorActionListener false
-        }
         //添加账户
-        fab_add.setOnOnceClickListener(gotoAccountDetail())
+        bind.fabAdd.setOnOnceClickListener(gotoAccountDetail())
 
         //清空文本
-        btn_clear.setOnIntervalClickListener {
-            et_keyword.setText("")
+        bind.btnClear.setOnIntervalClickListener {
+            bind.etKeyword.setText("")
         }
 
         //文本变化
-        et_keyword.addTextChangedListener(onTextChanged = { text, _, _, _->
-            val behavior = getToolbarehavior()
-            if (behavior.isShow) {
-                if (text != null && text.isNotEmpty()) {
-                    vm.selectAccountForKeyword(text)
-                } else {
-                    vm.selectAccountAll()
-                }
+        bind.etKeyword.addTextChangedListener(onTextChanged = { text, _, _, _->
+            if (text != null && text.isNotEmpty()) {
+                vm.selectAccountForKeyword(text)
+            } else {
+                vm.selectAccountAll()
             }
         })
 
         //Tab选择
-        btn_sort_hot.setOnIntervalClickListener(233) {
+        bind.btnSortHot.setOnIntervalClickListener(233) {
             vm.selectTab(SortType.HOT)
         }
-        btn_sort_domain.setOnIntervalClickListener(233) {
+        bind.btnSortDomain.setOnIntervalClickListener(233) {
             vm.selectTab(SortType.DOMAIN)
         }
-        btn_sort_time.setOnIntervalClickListener(233) {
+        bind.btnSortTime.setOnIntervalClickListener(233) {
             vm.selectTab(SortType.TIME)
         }
 
         //设置
-        btn_setting.setOnIntervalClickListener {
+        bind.btnSetting.setOnIntervalClickListener {
             gotoSetting()
-        }
-
-        //手动 显示 or 隐藏 工具栏
-        btn_search.setOnIntervalClickListener {
-            val behavior = getToolbarehavior()
-            behavior.startAnimator(layer_tools, !behavior.isShow)
         }
 
         //退出提示
@@ -163,15 +148,9 @@ class MainFragment : BaseFragment() {
                 requireActivity().finish()
             } else {
                 lastTime = SystemClock.elapsedRealtime()
-                showSnackbar(container, "双击退出")
+                showSnackbar(bind.container, "双击退出")
             }
         }
-    }
-
-    //获取工具栏规则实例
-    private fun getToolbarehavior(): ToolsBehavior {
-        val lp = layer_tools.layoutParams as CoordinatorLayout.LayoutParams
-        return lp.behavior as ToolsBehavior
     }
 
     private fun gotoAccountDetail(account: Account? = null) = { _: View, restore: ()->Unit->
@@ -194,18 +173,18 @@ class MainFragment : BaseFragment() {
 
     //初始化TabItem的状态
     private fun initTabItem() {
-        btn_sort_hot.isSelected = false
-        btn_sort_domain.isSelected = false
-        btn_sort_time.isSelected = false
+        bind.btnSortHot.isSelected = false
+        bind.btnSortDomain.isSelected = false
+        bind.btnSortTime.isSelected = false
 
         val colorList = ColorStateList.valueOf(requireContext().getColor(R.color.tab_item_icon_def))
-        iv_sort_hot.imageTintList = colorList
-        iv_sort_domain.imageTintList = colorList
-        iv_sort_time.imageTintList = colorList
+        bind.ivSortHot.imageTintList = colorList
+        bind.ivSortDomain.imageTintList = colorList
+        bind.ivSortTime.imageTintList = colorList
 
-        iv_sort_hot.isSelected = false
-        iv_sort_domain.isSelected = false
-        iv_sort_time.isSelected = false
+        bind.ivSortHot.isSelected = false
+        bind.ivSortDomain.isSelected = false
+        bind.ivSortTime.isSelected = false
     }
 
     /**
@@ -250,60 +229,59 @@ class MainFragment : BaseFragment() {
         })
     }
 
+    class AccountViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+        val bind = ItemAccountBinding.bind(view)
+    }
+
     /**
-     * 工具栏协调器
+     * 列表关于工具栏的协调器
      */
-    class ToolsBehavior : CoordinatorLayout.Behavior<View> {
-        //工具栏是否显示
-        internal var isShow = false
-        private set
-        //是否可用 （动画状态）
-        private var isAvailable = true
+    class RecyclerViewBehavior : CoordinatorLayout.Behavior<View> {
+
+        constructor() : super()
+        constructor(context: Context?, attrs: AttributeSet?) : super(context, attrs)
+
+        override fun layoutDependsOn(parent: CoordinatorLayout, child: View, dependency: View): Boolean {
+            return dependency.id == R.id.layer_tools
+        }
+
+        override fun onDependentViewChanged(parent: CoordinatorLayout, child: View, dependency: View): Boolean {
+            child.translationY = dependency.y + dependency.height
+            return true
+        }
+
+    }
+
+    /**
+     * 工具栏关于标题栏的协调器
+     */
+    class ToolsLayerBehavior : ContentViewBehavior {
+
+        //列表偏移量
+        private var offset = 0
 
         constructor() : super()
         constructor(context: Context?, attrs: AttributeSet?) : super(context, attrs)
 
         override fun onStartNestedScroll(coordinatorLayout: CoordinatorLayout, child: View, directTargetChild: View, target: View, axes: Int, type: Int): Boolean {
-            return true
+            return target is RecyclerView && axes == ViewCompat.SCROLL_AXIS_VERTICAL
         }
 
-        override fun onNestedScroll(coordinatorLayout: CoordinatorLayout, child: View, target: View, dxConsumed: Int, dyConsumed: Int, dxUnconsumed: Int, dyUnconsumed: Int, type: Int, consumed: IntArray) {
-            super.onNestedScroll(coordinatorLayout, child, target, dxConsumed, dyConsumed, dxUnconsumed, dyUnconsumed, type, consumed)
-            if (isAvailable) {
-                val isDown = dyConsumed + dyUnconsumed < 0
-                val isUp = dyConsumed + dyUnconsumed > 0
-                if (isDown && isShow) {
-                    //下拉状态 且 工具栏显示，则隐藏
-                    startAnimator(child, false)
-                } else if (isUp && !isShow) {
-                    //上拉状态 且 工具栏隐藏，则显示
-                    startAnimator(child, true)
+        override fun onNestedPreScroll(coordinatorLayout: CoordinatorLayout, child: View, target: View, dx: Int, dy: Int, consumed: IntArray, type: Int) {
+            super.onNestedPreScroll(coordinatorLayout, child, target, dx, dy, consumed, type)
+            if (target is RecyclerView) {
+                val preOffset = offset + dy
+                val y = when {
+                    child.height >= preOffset && preOffset > 0 -> dy
+                    child.height < preOffset -> max(0, child.height - offset)
+                    else -> min(0, child.height + offset)
                 }
+                offset += y
+                child.translationY -= y
+                consumed[1] = y
             }
         }
 
-        //开启 工具栏 展示/隐藏 动画
-        internal fun startAnimator(child: View, visible: Boolean, block: (()->Unit)? = null) {
-            if (isAvailable) {
-                isAvailable = false //不可用状态 防止多次调用
-                val start = if (visible) 1f else 0f
-                val end = if (visible) 0f else 1f
-                val animator = ValueAnimator.ofFloat(start, end)
-                animator.duration = 666L
-                animator.addUpdateListener {
-                    val v = it.animatedValue as Float
-                    val offset = 112.dp * v
-                    child.translationY = -offset
-                }
-                animator.doOnEnd {
-                    isShow = !isShow
-                    isAvailable = true
-                    child.clearFocus()
-                    block?.invoke()
-                }
-                animator.start()
-            }
-        }
     }
 
 }

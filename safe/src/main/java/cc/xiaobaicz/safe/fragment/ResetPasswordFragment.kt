@@ -10,26 +10,31 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import cc.xiaobaicz.safe.R
+import cc.xiaobaicz.safe.databinding.FragmentSettingSafeResetPasswordBinding
 import cc.xiaobaicz.safe.model.ResetPasswordViewModel
 import cc.xiaobaicz.safe.util.getText
 import cc.xiaobaicz.safe.util.setOnOnceClickListener
-import kotlinx.android.synthetic.main.fragment_setting_safe_reset_password.*
 
 class ResetPasswordFragment : BaseFragment() {
 
     private val vm by viewModels<ResetPasswordViewModel>()
 
+    private val bind by lazy {
+        FragmentSettingSafeResetPasswordBinding.inflate(layoutInflater)
+    }
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_setting_safe_reset_password, container, false)
+        bind.model = vm
+        return bind.root
     }
 
     override fun onConfigView(view: View) {
         //设置安全区域
-        safeRegion(toolbar, content)
+        safeRegion(bind.toolbar)
 
         //保存结果
         vm.result.observe(viewLifecycleOwner, Observer {
-            showSnackbar(container, if (it == null) "修改成功" else it.message ?: "修改失败")
+            showSnackbar(bind.container, if (it == null) "修改成功" else it.message ?: "修改失败")
             if (it == null) {
                 vmGlobal.resetPassword()
                 findNavController().navigate(R.id.action_global_verifyFragment)
@@ -38,13 +43,13 @@ class ResetPasswordFragment : BaseFragment() {
 
         //保存状态变更
         vm.saveStatus.observe(viewLifecycleOwner, Observer {
-            layer_await.isVisible = it
+            bind.layerAwait.isVisible = it
         })
     }
 
     override fun onSetListener() {
         //返回
-        toolbar.setNavigationOnClickListener {
+        bind.toolbar.setNavigationOnClickListener {
             back()
         }
 
@@ -54,12 +59,12 @@ class ResetPasswordFragment : BaseFragment() {
         }
 
         //保存
-        btn_save.setOnOnceClickListener { _, function ->
-            vm.save(et_password.getText, et_password1.getText, et_password2.getText, function)
+        bind.btnSave.setOnOnceClickListener { _, function ->
+            vm.save(bind.etPassword.getText, bind.etPassword1.getText, bind.etPassword2.getText, function)
         }
 
         //防止点击
-        layer_await.setOnClickListener {  }
+        bind.layerAwait.setOnClickListener {  }
     }
 
     //返回

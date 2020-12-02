@@ -2,17 +2,14 @@ package cc.xiaobaicz.safe.fragment
 
 import android.os.Bundle
 import android.view.View
-import android.view.ViewGroup
 import androidx.appcompat.widget.Toolbar
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.view.updatePadding
-import androidx.core.view.updatePaddingRelative
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import cc.xiaobaicz.safe.bean.SafeSize
 import cc.xiaobaicz.safe.model.MainGlobalViewModel
 import cc.xiaobaicz.safe.util.dp
-import cc.xiaobaicz.utils.statusbar.SystemUiHelper
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlin.coroutines.resume
@@ -33,10 +30,6 @@ abstract class BaseFragment : CoroutineFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        SystemUiHelper.get(requireActivity())
-            .setStatusBarColor(0x33000000)
-            .setNavigationBarColor(0x33000000)
-            .transparentScreen()
         onConfigView(view)
         onSetListener()
     }
@@ -63,15 +56,11 @@ abstract class BaseFragment : CoroutineFragment() {
     /**
      * 安全区域
      */
-    protected fun safeRegion(toolbar: Toolbar, content: ViewGroup?) {
+    protected fun safeRegion(toolbar: Toolbar) {
         vmGlobal.systemUiSize.observe(viewLifecycleOwner, Observer { size ->
             toolbar.also {
-                it.layoutParams.height += size.t
-                it.updatePadding(top = it.paddingTop + size.t)
-            }
-            if (content != null) {
-                content.updatePaddingRelative(content.paddingLeft, content.paddingTop + 56.dp.toInt() + size.t, content.paddingRight, content.paddingBottom + size.b)
-                content.clipToPadding = false
+                it.layoutParams.height = 56.dp.toInt() + size.t
+                it.updatePadding(top = size.t)
             }
         })
     }

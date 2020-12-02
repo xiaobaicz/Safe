@@ -1,8 +1,8 @@
 package cc.xiaobaicz.safe.activity
 
 import android.os.Bundle
+import cc.xiaobaicz.helper.statusbar.SystemUiHelper
 import cc.xiaobaicz.safe.util.ActivityCounter
-import cc.xiaobaicz.utils.statusbar.SystemUiHelper
 
 /**
  * 基础活动类

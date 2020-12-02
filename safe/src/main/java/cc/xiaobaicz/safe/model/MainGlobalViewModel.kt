@@ -1,23 +1,20 @@
 package cc.xiaobaicz.safe.model
 
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import cc.xiaobaicz.helper.statusbar.SystemUiAttrCallback
+import cc.xiaobaicz.helper.statusbar.SystemUiHelper
 import cc.xiaobaicz.safe.bean.SafeSize
-import cc.xiaobaicz.safe.global.Constant
 import cc.xiaobaicz.safe.util.LockHelper
 import cc.xiaobaicz.safe.util.SafeHelper
-import cc.xiaobaicz.utils.statusbar.SystemUiAttrCallback
-import cc.xiaobaicz.utils.statusbar.SystemUiHelper
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.util.concurrent.TimeoutException
 
 /**
  * 单页面全局变量
  */
-class MainGlobalViewModel : ViewModel() {
+class MainGlobalViewModel : BaseObservableViewModel() {
 
     //是否可关闭
     var isClose = true

@@ -10,46 +10,51 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import cc.xiaobaicz.safe.R
+import cc.xiaobaicz.safe.databinding.FragmentInfoConfigBinding
 import cc.xiaobaicz.safe.model.InfoConfigViewModel
 import cc.xiaobaicz.safe.util.getText
 import cc.xiaobaicz.safe.util.setOnOnceClickListener
-import kotlinx.android.synthetic.main.fragment_info_config.*
 
 class InfoConfigFragment : BaseFragment() {
 
     private val vm by viewModels<InfoConfigViewModel>()
 
+    private val bind by lazy {
+        FragmentInfoConfigBinding.inflate(layoutInflater)
+    }
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_info_config, container, false)
+        bind.model = vm
+        return bind.root
     }
 
     override fun onConfigView(view: View) {
         //设置安全区域
-        safeRegion(toolbar, content)
+        safeRegion(bind.toolbar)
 
         //登陆结果
         vmGlobal.verify.observe(viewLifecycleOwner, Observer {
             if (it == null) {
                 findNavController().navigate(R.id.action_infoConfigFragment_to_mainFragment)
             } else {
-                showSnackbar(container, it.message ?: "")
+                showSnackbar(bind.container, it.message ?: "")
             }
         })
 
         //保存结果
         vm.save.observe(viewLifecycleOwner, Observer {
             if (it == null) {
-                vmGlobal.checkPassword(et_password1.getText)
+                vmGlobal.checkPassword(bind.etPassword1.getText)
             } else {
-                showSnackbar(container, it.message ?: "")
+                showSnackbar(bind.container, it.message ?: "")
             }
         })
     }
 
     override fun onSetListener() {
         //保存数据
-        btn_save.setOnOnceClickListener { _, function ->
-            vm.save(et_password1.getText, et_password2.getText, et_tips.getText, function)
+        bind.btnSave.setOnOnceClickListener { _, function ->
+            vm.save(function)
         }
 
         //退出提示
@@ -60,7 +65,7 @@ class InfoConfigFragment : BaseFragment() {
                 requireActivity().finish()
             } else {
                 lastTime = SystemClock.elapsedRealtime()
-                showSnackbar(container, "双击退出")
+                showSnackbar(bind.container, "双击退出")
             }
         }
     }

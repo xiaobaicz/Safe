@@ -2,6 +2,8 @@ package cc.xiaobaicz.safe.util
 
 import cc.xiaobaicz.safe.db.DB
 import cc.xiaobaicz.safe.db.entity.Account
+import java.util.*
+import kotlin.collections.ArrayList
 
 /**
  * 账户助手
@@ -60,5 +62,11 @@ object AccountHelper {
     suspend fun delete(account: Account): Int {
         return DB.safe.accountDao().delete(account)
     }
+
+    /**
+     * 获取时间
+     */
+    @JvmStatic
+    fun getLastDate(account: Account): Date = Date(account.lastTime)
 
 }

@@ -2,7 +2,6 @@ package cc.xiaobaicz.safe.util
 
 import cc.xiaobaicz.safe.db.DB
 import cc.xiaobaicz.safe.db.entity.Storage
-import kotlinx.coroutines.flow.flowOf
 
 /**
  * App锁定助手

@@ -22,10 +22,9 @@
 
 #本地区域
 -keep class cc.xiaobaicz.safe.bean.** {*;}
-
 -keep class cc.xiaobaicz.safe.db.** {*;}
-
--keep class * extends androidx.fragment.app.Fragment {*;}
+-keep class * extends androidx.recyclerview.widget.RecyclerView$ViewHolder {*;}
+-keep class * extends androidx.coordinatorlayout.widget.CoordinatorLayout$Behavior {*;}
 
 
 #三方区域

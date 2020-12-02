@@ -9,13 +9,12 @@ import androidx.core.view.isGone
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
-import cc.xiaobaicz.safe.R
+import cc.xiaobaicz.safe.databinding.FragmentAccountDetailBinding
 import cc.xiaobaicz.safe.db.entity.Account
 import cc.xiaobaicz.safe.model.AccountDetailViewModel
 import cc.xiaobaicz.safe.util.getText
 import cc.xiaobaicz.safe.util.setOnIntervalClickListener
 import com.google.android.material.snackbar.Snackbar
-import kotlinx.android.synthetic.main.fragment_account_detail.*
 import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.*
@@ -28,8 +27,13 @@ class AccountDetailFragment : BaseFragment() {
 
     private val vm by viewModels<AccountDetailViewModel>()
 
+    private val bind by lazy {
+        FragmentAccountDetailBinding.inflate(layoutInflater)
+    }
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_account_detail, container, false)
+        bind.model = vm
+        return bind.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -39,36 +43,36 @@ class AccountDetailFragment : BaseFragment() {
         vm.target(arguments?.getParcelable<Account?>("account"), vmGlobal.password)
 
         //查看状态可删除
-        btn_delete.isGone = vm.isCreate
-        layer_last_time.isGone = vm.isCreate
+        bind.btnDelete.isGone = vm.isCreate
+        bind.layerLastTime.isGone = vm.isCreate
     }
 
     override fun onConfigView(view: View) {
         //设置安全区域
-        safeRegion(toolbar, content)
+        safeRegion(bind.toolbar)
 
         //目标账户绑定视图
         vm.account.observe(viewLifecycleOwner, Observer {
-            et_domain.setText(it.domain)
-            et_account.setText(it.account)
-            et_password.setText(it.password)
-            et_last_time.setText(SimpleDateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT).format(Date(it.lastTime)))
+            bind.etDomain.setText(it.domain)
+            bind.etAccount.setText(it.account)
+            bind.etPassword.setText(it.password)
+            bind.etLastTime.setText(SimpleDateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT).format(Date(it.lastTime)))
         })
 
         //编辑状态监听
         vm.edit.observe(viewLifecycleOwner, Observer {
-            btn_edit.isSelected = it
-            et_domain.isEnabled = it
-            et_account.isEnabled = it
-            et_password.isEnabled = it
+            bind.btnEdit.isSelected = it
+            bind.etDomain.isEnabled = it
+            bind.etAccount.isEnabled = it
+            bind.etPassword.isEnabled = it
             if (mAction.isShowEditAction(vm)) {
-                showSnackbar(container, "可编辑状态")
+                showSnackbar(bind.container, "可编辑状态")
             }
         })
 
         //操作结果
         vm.result.observe(viewLifecycleOwner, Observer {
-            showSnackbar(container, if (it) "保存成功" else "保存失败") { bar ->
+            showSnackbar(bind.container, if (it) "保存成功" else "保存失败") { bar ->
                 if (it) {
                     //操作成功 提供返回操作
                     bar.setAction("返回") {
@@ -87,28 +91,28 @@ class AccountDetailFragment : BaseFragment() {
 
         //解密异常
         vm.decodeError.observe(viewLifecycleOwner, Observer {
-            showSnackbar(container, "解密失败")
+            showSnackbar(bind.container, "解密失败")
         })
 
         //加密异常
         vm.encodeError.observe(viewLifecycleOwner, Observer {
-            showSnackbar(container, "加密失败")
+            showSnackbar(bind.container, "加密失败")
         })
     }
 
     override fun onSetListener() {
         //返回上一层
-        toolbar.setNavigationOnClickListener {
+        bind.toolbar.setNavigationOnClickListener {
             onBack()
         }
 
         //编辑 or 保存
-        btn_edit.setOnIntervalClickListener {
+        bind.btnEdit.setOnIntervalClickListener {
             if (vm.isEdit) {
-                showSnackbar(container, "是否保存数据？", Snackbar.LENGTH_INDEFINITE) {
+                showSnackbar(bind.container, "是否保存数据？", Snackbar.LENGTH_INDEFINITE) {
                     it.setAction("保存") {
                         //可编辑状态保存数据
-                        vm.save(et_domain.getText, et_account.getText, et_password.getText, vmGlobal.password)
+                        vm.save(bind.etDomain.getText, bind.etAccount.getText, bind.etPassword.getText, vmGlobal.password)
                         vm.isEdit = false
                     }
                 }
@@ -119,8 +123,8 @@ class AccountDetailFragment : BaseFragment() {
         }
 
         //删除
-        btn_delete.setOnIntervalClickListener {
-            showSnackbar(container, "是否删除该账户？") {
+        bind.btnDelete.setOnIntervalClickListener {
+            showSnackbar(bind.container, "是否删除该账户？") {
                 it.setAction("删除") {
                     vm.delete()
                 }
@@ -137,7 +141,7 @@ class AccountDetailFragment : BaseFragment() {
     private fun onBack() {
         if (mAction.isBackInterceptor(vm)) {
             //编辑状态询问是否取消保存
-            showSnackbar(container, "是否取消修改？") {
+            showSnackbar(bind.container, "是否取消修改？") {
                 it.setAction("确定") {
                     findNavController().popBackStack()
                 }

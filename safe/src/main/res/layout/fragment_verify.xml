@@ -1,49 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@drawable/bg_toolbar"
-    android:id="@+id/container">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <data>
+        <variable
+            name="model"
+            type="cc.xiaobaicz.safe.model.VerifyViewModel" />
+    </data>
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/bg_toolbar"
+        android:id="@+id/container">
 
-    <FrameLayout
-        android:id="@+id/layer_input"
-        android:layout_width="256dp"
-        android:layout_height="40dp"
-        android:layout_gravity="center">
-
-        <EditText
-            android:id="@+id/et_verify"
+        <FrameLayout
+            android:id="@+id/layer_input"
             android:layout_width="256dp"
             android:layout_height="40dp"
-            android:background="@null"
-            android:inputType="textPassword"
-            android:gravity="center"
-            android:maxLength="30"
-            android:maxLines="1"
-            android:singleLine="true"
-            android:imeOptions="actionDone"
-            android:letterSpacing="0.6"
-            android:textStyle="bold"
-            android:textCursorDrawable="@drawable/cursor_verify"
-            android:textColorHint="@color/white"
-            android:textColor="@color/white"
-            android:textSize="@dimen/tv_3"
-            android:hint="@string/input_password" />
+            android:layout_gravity="center">
 
-        <View
-            android:layout_width="256dp"
-            android:layout_height="1dp"
-            android:layout_gravity="bottom"
-            android:background="@color/white"/>
+            <EditText
+                android:id="@+id/et_verify"
+                android:layout_width="256dp"
+                android:layout_height="40dp"
+                android:background="@null"
+                android:inputType="textPassword"
+                android:gravity="center"
+                android:maxLength="30"
+                android:maxLines="1"
+                android:singleLine="true"
+                android:imeOptions="actionDone"
+                android:letterSpacing="0.6"
+                android:textStyle="bold"
+                android:textCursorDrawable="@drawable/cursor_verify"
+                android:textColorHint="@color/white"
+                android:textColor="@color/white"
+                android:textSize="@dimen/tv_3"
+                android:hint="@string/input_password" />
 
-    </FrameLayout>
+            <View
+                android:layout_width="256dp"
+                android:layout_height="1dp"
+                android:layout_gravity="bottom"
+                android:background="@color/white"/>
 
-    <ImageView
-        android:id="@+id/iv_fingerprint"
-        android:layout_width="64dp"
-        android:layout_height="64dp"
-        android:layout_gravity="center"
-        android:src="@mipmap/icon_fingerprint"
-        android:visibility="gone"/>
+        </FrameLayout>
 
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+        <ImageView
+            android:id="@+id/iv_fingerprint"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:layout_gravity="center"
+            android:src="@mipmap/icon_fingerprint"
+            android:visibility="gone"/>
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+</layout>

@@ -1,101 +1,108 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/bg"
-    android:id="@+id/container"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
+    <data>
+        <variable
+            name="model"
+            type="cc.xiaobaicz.safe.model.SafeViewModel" />
+    </data>
+    <androidx.coordinatorlayout.widget.CoordinatorLayout android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/bg"
+        android:id="@+id/container">
 
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar"
-        style="@style/toolbar"
-        app:navigationIcon="@mipmap/icon_back"
-        app:titleTextColor="@color/white"
-        app:title="@string/safe">
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            style="@style/toolbar"
+            app:navigationIcon="@mipmap/icon_back"
+            app:titleTextColor="@color/white"
+            app:title="@string/safe">
 
-    </androidx.appcompat.widget.Toolbar>
+        </androidx.appcompat.widget.Toolbar>
 
 
-    <ScrollView
-        android:id="@+id/content"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <LinearLayout
+        <ScrollView
+            android:id="@+id/content"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:layout_height="match_parent"
+            app:layout_behavior="@string/content_view_behavior">
 
-            <FrameLayout
-                android:id="@+id/btn_password"
-                style="@style/item_setting">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
 
-                <TextView
-                    style="@style/item_setting_text"
-                    android:text="@string/set_password" />
+                <FrameLayout
+                    android:id="@+id/btn_password"
+                    style="@style/item_setting">
 
-                <ImageView
-                    style="@style/item_setting_img"
-                    app:tint="@color/tint_setting_img" />
+                    <TextView
+                        style="@style/item_setting_text"
+                        android:text="@string/set_password" />
 
-            </FrameLayout>
+                    <ImageView
+                        style="@style/item_setting_img"
+                        app:tint="@color/tint_setting_img" />
 
-            <FrameLayout
-                android:id="@+id/btn_password_tips"
-                style="@style/item_setting">
+                </FrameLayout>
 
-                <TextView
-                    style="@style/item_setting_text"
-                    android:text="@string/set_password_tips" />
+                <FrameLayout
+                    android:id="@+id/btn_password_tips"
+                    style="@style/item_setting">
 
-                <ImageView
-                    style="@style/item_setting_img"
-                    app:tint="@color/tint_setting_img" />
+                    <TextView
+                        style="@style/item_setting_text"
+                        android:text="@string/set_password_tips" />
 
-            </FrameLayout>
+                    <ImageView
+                        style="@style/item_setting_img"
+                        app:tint="@color/tint_setting_img" />
 
-            <FrameLayout
-                style="@style/item_setting">
+                </FrameLayout>
 
-                <TextView
-                    style="@style/item_setting_text"
-                    android:text="@string/verify_fingerprint" />
+                <FrameLayout
+                    style="@style/item_setting">
 
-                <com.google.android.material.switchmaterial.SwitchMaterial
-                    android:id="@+id/switch_fingerprint"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical|end"/>
+                    <TextView
+                        style="@style/item_setting_text"
+                        android:text="@string/verify_fingerprint" />
 
-            </FrameLayout>
+                    <com.google.android.material.switchmaterial.SwitchMaterial
+                        android:id="@+id/switch_fingerprint"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical|end"/>
 
-            <FrameLayout
-                android:id="@+id/btn_lock_time"
-                style="@style/item_setting"
-                android:visibility="gone">
+                </FrameLayout>
 
-                <TextView
-                    style="@style/item_setting_text"
-                    android:text="@string/auto_lock_time" />
+                <FrameLayout
+                    android:id="@+id/btn_lock_time"
+                    style="@style/item_setting"
+                    android:visibility="gone">
 
-                <EditText
-                    android:id="@+id/et_lock_time"
-                    android:layout_width="match_parent"
-                    android:layout_height="56dp"
-                    android:background="@null"
-                    android:inputType="number"
-                    android:maxLength="3"
-                    android:maxLines="1"
-                    android:singleLine="true"
-                    android:gravity="center_vertical|end"
-                    android:textColor="@color/theme"
-                    android:textSize="@dimen/tv_4"
-                    android:hint="最少60秒"/>
+                    <TextView
+                        style="@style/item_setting_text"
+                        android:text="@string/auto_lock_time" />
 
-            </FrameLayout>
+                    <EditText
+                        android:id="@+id/et_lock_time"
+                        android:layout_width="match_parent"
+                        android:layout_height="56dp"
+                        android:background="@null"
+                        android:inputType="number"
+                        android:maxLength="3"
+                        android:maxLines="1"
+                        android:singleLine="true"
+                        android:gravity="center_vertical|end"
+                        android:textColor="@color/theme"
+                        android:textSize="@dimen/tv_4"
+                        android:hint="最少60秒"/>
 
-        </LinearLayout>
+                </FrameLayout>
 
-    </ScrollView>
+            </LinearLayout>
 
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+        </ScrollView>
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+</layout>

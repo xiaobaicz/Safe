@@ -1,22 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
+    <data>
+        <variable
+            name="model"
+            type="cc.xiaobaicz.safe.model.SplashViewModel" />
+    </data>
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-    <ImageView
-        android:layout_width="192dp"
-        android:layout_height="192dp"
-        android:src="@mipmap/icon_720"
-        android:layout_gravity="center" />
+        <ImageView
+            android:layout_width="192dp"
+            android:layout_height="192dp"
+            android:src="@mipmap/icon_720"
+            android:layout_gravity="center" />
 
-    <TextView
-        android:id="@+id/tv_version"
-        style="@style/tv_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal|bottom"
-        android:translationY="-64dp"
-        tools:text="版本号" />
+        <TextView
+            android:id="@+id/tv_version"
+            style="@style/tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal|bottom"
+            android:translationY="-64dp"
+            android:text="@{model.versionName}"
+            tools:text="版本号" />
 
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+</layout>

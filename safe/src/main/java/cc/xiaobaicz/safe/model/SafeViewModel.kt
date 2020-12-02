@@ -1,14 +1,13 @@
 package cc.xiaobaicz.safe.model
 
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import cc.xiaobaicz.safe.db.DB
 import cc.xiaobaicz.safe.db.entity.Storage
 import cc.xiaobaicz.safe.global.Constant
 import kotlinx.coroutines.launch
 
-class SafeViewModel : ViewModel() {
+class SafeViewModel : BaseObservableViewModel() {
 
     //指纹校验
     val fingerprint by lazy {

@@ -1,109 +1,116 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/bg"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/container">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <data>
+        <variable
+            name="model"
+            type="cc.xiaobaicz.safe.model.AccountDetailViewModel" />
+    </data>
+    <androidx.coordinatorlayout.widget.CoordinatorLayout android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/bg"
+        android:id="@+id/container">
 
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar"
-        style="@style/toolbar"
-        app:navigationIcon="@mipmap/icon_back"
-        app:titleTextColor="@color/white"
-        app:title="@string/account_detail">
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            style="@style/toolbar"
+            app:navigationIcon="@mipmap/icon_back"
+            app:titleTextColor="@color/white"
+            app:title="@string/account_detail">
 
-        <ImageView
-            android:id="@+id/btn_edit"
-            android:layout_width="56dp"
-            android:layout_height="56dp"
-            android:layout_gravity="center_vertical|end"
-            android:padding="12dp"
-            android:src="@drawable/icon_edit"/>
+            <ImageView
+                android:id="@+id/btn_edit"
+                android:layout_width="56dp"
+                android:layout_height="56dp"
+                android:layout_gravity="center_vertical|end"
+                android:padding="12dp"
+                android:src="@drawable/icon_edit"/>
 
-        <ImageView
-            android:id="@+id/btn_delete"
-            android:layout_width="56dp"
-            android:layout_height="56dp"
-            android:layout_gravity="center_vertical|end"
-            android:padding="12dp"
-            android:src="@mipmap/icon_delete"/>
+            <ImageView
+                android:id="@+id/btn_delete"
+                android:layout_width="56dp"
+                android:layout_height="56dp"
+                android:layout_gravity="center_vertical|end"
+                android:padding="12dp"
+                android:src="@mipmap/icon_delete"/>
 
-    </androidx.appcompat.widget.Toolbar>
+        </androidx.appcompat.widget.Toolbar>
 
-    <ScrollView
-        android:id="@+id/content"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <LinearLayout
+        <ScrollView
+            android:id="@+id/content"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:layout_height="match_parent"
+            app:layout_behavior="@string/content_view_behavior">
 
-            <com.google.android.material.textfield.TextInputLayout
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:startIconDrawable="@mipmap/icon_domain"
-                app:startIconTint="@color/primary"
-                app:boxStrokeWidth="1px"
-                app:boxStrokeWidthFocused="1px">
+                android:orientation="vertical">
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/et_domain"
-                    style="@style/input_account_detail"
-                    android:hint="备注（如：微信）" />
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:startIconDrawable="@mipmap/icon_domain"
+                    app:startIconTint="@color/primary"
+                    app:boxStrokeWidth="1px"
+                    app:boxStrokeWidthFocused="1px">
 
-            </com.google.android.material.textfield.TextInputLayout>
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/et_domain"
+                        style="@style/input_account_detail"
+                        android:hint="备注（如：微信）" />
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:startIconDrawable="@mipmap/icon_account_name"
-                app:startIconTint="@color/primary"
-                app:boxStrokeWidth="1px"
-                app:boxStrokeWidthFocused="1px">
+                </com.google.android.material.textfield.TextInputLayout>
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/et_account"
-                    style="@style/input_account_detail"
-                    android:hint="账户"/>
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:startIconDrawable="@mipmap/icon_account_name"
+                    app:startIconTint="@color/primary"
+                    app:boxStrokeWidth="1px"
+                    app:boxStrokeWidthFocused="1px">
 
-            </com.google.android.material.textfield.TextInputLayout>
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/et_account"
+                        style="@style/input_account_detail"
+                        android:hint="账户"/>
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:startIconDrawable="@mipmap/icon_password"
-                app:startIconTint="@color/primary"
-                app:boxStrokeWidth="1px"
-                app:boxStrokeWidthFocused="1px">
+                </com.google.android.material.textfield.TextInputLayout>
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/et_password"
-                    style="@style/input_account_detail"
-                    android:hint="密码"/>
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:startIconDrawable="@mipmap/icon_password"
+                    app:startIconTint="@color/primary"
+                    app:boxStrokeWidth="1px"
+                    app:boxStrokeWidthFocused="1px">
 
-            </com.google.android.material.textfield.TextInputLayout>
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/et_password"
+                        style="@style/input_account_detail"
+                        android:hint="密码"/>
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/layer_last_time"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:startIconDrawable="@mipmap/icon_time"
-                app:startIconTint="@color/primary"
-                app:boxStrokeWidth="1px"
-                app:boxStrokeWidthFocused="1px">
+                </com.google.android.material.textfield.TextInputLayout>
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/et_last_time"
-                    style="@style/input_account_detail"
-                    android:hint="最后修改时间"/>
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/layer_last_time"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:startIconDrawable="@mipmap/icon_time"
+                    app:startIconTint="@color/primary"
+                    app:boxStrokeWidth="1px"
+                    app:boxStrokeWidthFocused="1px">
 
-            </com.google.android.material.textfield.TextInputLayout>
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/et_last_time"
+                        style="@style/input_account_detail"
+                        android:hint="最后修改时间"/>
 
-        </LinearLayout>
+                </com.google.android.material.textfield.TextInputLayout>
 
-    </ScrollView>
+            </LinearLayout>
 
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+        </ScrollView>
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+</layout>

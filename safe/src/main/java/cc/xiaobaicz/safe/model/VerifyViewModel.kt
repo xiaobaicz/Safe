@@ -5,7 +5,6 @@ import android.os.SystemClock
 import androidx.biometric.BiometricManager
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import cc.xiaobaicz.safe.bean.InputStatus
 import cc.xiaobaicz.safe.db.DB
@@ -16,7 +15,7 @@ import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
-class VerifyViewModel : ViewModel() {
+class VerifyViewModel : BaseObservableViewModel() {
 
     //锁定时间
     private var lockTime = 0L

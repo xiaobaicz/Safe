@@ -1,140 +1,147 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/bg"
-    android:id="@+id/container"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar"
-        style="@style/toolbar"
-        app:navigationIcon="@mipmap/icon_back"
-        app:titleTextColor="@color/white"
-        app:title="@string/backup">
-
-    </androidx.appcompat.widget.Toolbar>
-
-
-    <ScrollView
-        android:id="@+id/content"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <FrameLayout
-                android:id="@+id/btn_import_pw"
-                style="@style/item_setting">
-
-                <TextView
-                    style="@style/item_setting_text"
-                    android:text="密文导入（*.pw）" />
-
-                <EditText
-                    android:id="@+id/et_password"
-                    android:layout_width="match_parent"
-                    android:layout_height="56dp"
-                    android:gravity="center_vertical|end"
-                    android:background="@null"
-                    android:imeOptions="actionDone"
-                    android:inputType="textPassword"
-                    android:textColorHint="@color/tv_hint"
-                    android:textColor="@color/tv_def"
-                    android:textSize="@dimen/tv_4"
-                    android:hint="导入文件密码"/>
-
-            </FrameLayout>
-
-            <FrameLayout
-                android:id="@+id/btn_export_pw"
-                style="@style/item_setting">
-
-                <TextView
-                    style="@style/item_setting_text"
-                    android:text="密文导出（*.pw）" />
-
-                <ImageView
-                    style="@style/item_setting_img"
-                    app:tint="@color/tint_setting_img" />
-
-            </FrameLayout>
-
-            <FrameLayout
-                android:id="@+id/btn_import_csv"
-                style="@style/item_setting"
-                android:layout_marginTop="8dp">
-
-                <TextView
-                    style="@style/item_setting_text"
-                    android:text="明文导入（*.csv）" />
-
-                <ImageView
-                    style="@style/item_setting_img"
-                    app:tint="@color/tint_setting_img" />
-
-            </FrameLayout>
-
-            <FrameLayout
-                android:id="@+id/btn_export_csv"
-                style="@style/item_setting">
-
-                <TextView
-                    style="@style/item_setting_text"
-                    android:text="明文导出（*.csv）" />
-
-                <ImageView
-                    style="@style/item_setting_img"
-                    app:tint="@color/tint_setting_img" />
-
-            </FrameLayout>
-
-        </LinearLayout>
-
-    </ScrollView>
-
-    <FrameLayout
-        android:id="@+id/layer_await"
-        android:layout_width="match_parent"
+    <data>
+        <variable
+            name="model"
+            type="cc.xiaobaicz.safe.model.BackupViewModel" />
+    </data>
+    <androidx.coordinatorlayout.widget.CoordinatorLayout android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:elevation="8dp"
-        android:background="#3000"
-        android:visibility="gone">
+        android:background="@color/bg"
+        android:id="@+id/container">
 
-        <LinearLayout
-            android:layout_width="256dp"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_gravity="center"
-            android:gravity="center_horizontal">
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            style="@style/toolbar"
+            app:navigationIcon="@mipmap/icon_back"
+            app:titleTextColor="@color/white"
+            app:title="@string/backup">
 
-            <ProgressBar
-                android:id="@+id/pb_progress"
-                style="@android:style/Widget.Material.ProgressBar.Large"
+        </androidx.appcompat.widget.Toolbar>
+
+
+        <ScrollView
+            android:id="@+id/content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_behavior="@string/content_view_behavior">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <FrameLayout
+                    android:id="@+id/btn_import_pw"
+                    style="@style/item_setting">
+
+                    <TextView
+                        style="@style/item_setting_text"
+                        android:text="密文导入（*.pw）" />
+
+                    <EditText
+                        android:id="@+id/et_password"
+                        android:layout_width="match_parent"
+                        android:layout_height="56dp"
+                        android:gravity="center_vertical|end"
+                        android:background="@null"
+                        android:imeOptions="actionDone"
+                        android:inputType="textPassword"
+                        android:textColorHint="@color/tv_hint"
+                        android:textColor="@color/tv_def"
+                        android:textSize="@dimen/tv_4"
+                        android:hint="导入文件密码"/>
+
+                </FrameLayout>
+
+                <FrameLayout
+                    android:id="@+id/btn_export_pw"
+                    style="@style/item_setting">
+
+                    <TextView
+                        style="@style/item_setting_text"
+                        android:text="密文导出（*.pw）" />
+
+                    <ImageView
+                        style="@style/item_setting_img"
+                        app:tint="@color/tint_setting_img" />
+
+                </FrameLayout>
+
+                <FrameLayout
+                    android:id="@+id/btn_import_csv"
+                    style="@style/item_setting"
+                    android:layout_marginTop="8dp">
+
+                    <TextView
+                        style="@style/item_setting_text"
+                        android:text="明文导入（*.csv）" />
+
+                    <ImageView
+                        style="@style/item_setting_img"
+                        app:tint="@color/tint_setting_img" />
+
+                </FrameLayout>
+
+                <FrameLayout
+                    android:id="@+id/btn_export_csv"
+                    style="@style/item_setting">
+
+                    <TextView
+                        style="@style/item_setting_text"
+                        android:text="明文导出（*.csv）" />
+
+                    <ImageView
+                        style="@style/item_setting_img"
+                        app:tint="@color/tint_setting_img" />
+
+                </FrameLayout>
+
+            </LinearLayout>
+
+        </ScrollView>
+
+        <FrameLayout
+            android:id="@+id/layer_await"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:elevation="8dp"
+            android:background="#3000"
+            android:visibility="gone">
+
+            <LinearLayout
                 android:layout_width="256dp"
                 android:layout_height="wrap_content"
-                android:max="100"/>
+                android:orientation="vertical"
+                android:layout_gravity="center"
+                android:gravity="center_horizontal">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:textSize="@dimen/tv_3"
-                android:textColor="@color/red"
-                android:text="请稍后"/>
+                <ProgressBar
+                    android:id="@+id/pb_progress"
+                    style="@android:style/Widget.Material.ProgressBar.Large"
+                    android:layout_width="256dp"
+                    android:layout_height="wrap_content"
+                    android:max="100"/>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="@dimen/tv_3"
-                android:textColor="@color/red"
-                android:text="请勿中断"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:textSize="@dimen/tv_3"
+                    android:textColor="@color/red"
+                    android:text="请稍后"/>
 
-        </LinearLayout>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/tv_3"
+                    android:textColor="@color/red"
+                    android:text="请勿中断"/>
 
-    </FrameLayout>
+            </LinearLayout>
 
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+        </FrameLayout>
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+</layout>

@@ -19,8 +19,7 @@ object CipherHelper {
         val cipher = Cipher.getInstance(Constant.AES_ALGORITHM)
         val keySpec = SecretKeySpec(keyBytes, Constant.AES_ALGORITHM)
         cipher.init(Cipher.ENCRYPT_MODE, keySpec, iv)
-        cipher.update(text.toByteArray())
-        return cipher.doFinal().base64encode()
+        return cipher.doFinal(text.toByteArray()).base64encode()
     }
 
     //AES解密
@@ -31,8 +30,7 @@ object CipherHelper {
         val cipher = Cipher.getInstance(Constant.AES_ALGORITHM)
         val keySpec = SecretKeySpec(keyBytes, Constant.AES_ALGORITHM)
         cipher.init(Cipher.DECRYPT_MODE, keySpec, iv)
-        cipher.update(text.base64decode())
-        return String(cipher.doFinal())
+        return cipher.doFinal(text.base64decode()).toString(Charsets.UTF_8)
     }
 
     //通过key生成IV

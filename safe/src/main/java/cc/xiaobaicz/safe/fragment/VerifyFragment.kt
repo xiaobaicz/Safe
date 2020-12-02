@@ -13,23 +13,28 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import cc.xiaobaicz.safe.R
+import cc.xiaobaicz.safe.databinding.FragmentVerifyBinding
 import cc.xiaobaicz.safe.model.VerifyViewModel
 import cc.xiaobaicz.safe.util.getText
-import kotlinx.android.synthetic.main.fragment_verify.*
 
 class VerifyFragment : BaseFragment() {
 
     private val vm by viewModels<VerifyViewModel>()
 
+    private val bind by lazy {
+        FragmentVerifyBinding.inflate(layoutInflater)
+    }
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_verify, container, false)
+        bind.model = vm
+        return bind.root
     }
 
     override fun onConfigView(view: View) {
         //指纹，文本框 切换
         vm.fingerprint.observe(viewLifecycleOwner, Observer {
             //指纹是否可用
-            val isAvailable = if (it) vm.canAuthenticate(requireContext(), container) else false
+            val isAvailable = if (it) vm.canAuthenticate(requireContext(), bind.container) else false
 
             isShowFingerprint(it && isAvailable)
 
@@ -47,16 +52,16 @@ class VerifyFragment : BaseFragment() {
             if (it == null) {
                 findNavController().navigate(R.id.action_verifyFragment_to_mainFragment)
             } else {
-                showSnackbar(container, it.message ?: "")
+                showSnackbar(bind.container, it.message ?: "")
                 vm.getInputStatus()
             }
         })
 
         //文本提示
         vm.inputStatus.observe(viewLifecycleOwner, Observer {
-            et_verify.setText("")
-            et_verify.hint = it.hint
-            et_verify.isEnabled = it.isEnable
+            bind.etVerify.setText("")
+            bind.etVerify.hint = it.hint
+            bind.etVerify.isEnabled = it.isEnable
         })
 
         vm.getInputStatus()
@@ -64,9 +69,9 @@ class VerifyFragment : BaseFragment() {
 
     override fun onSetListener() {
         //键盘ime完成事件
-        et_verify.setOnEditorActionListener { _, actionId, _ ->
+        bind.etVerify.setOnEditorActionListener { _, actionId, _ ->
             if (EditorInfo.IME_ACTION_DONE == actionId) {
-                vmGlobal.checkPassword(et_verify.getText)
+                vmGlobal.checkPassword(bind.etVerify.getText)
             }
             return@setOnEditorActionListener false
         }
@@ -79,8 +84,8 @@ class VerifyFragment : BaseFragment() {
 
     //设置显示指纹
     private fun isShowFingerprint(isShow: Boolean) {
-        iv_fingerprint.isVisible = isShow
-        layer_input.isVisible = !isShow
+        bind.ivFingerprint.isVisible = isShow
+        bind.layerInput.isVisible = !isShow
     }
 
     //开启指纹
@@ -99,7 +104,7 @@ class VerifyFragment : BaseFragment() {
 
             override fun onAuthenticationFailed() {
                 //校验失败
-                showSnackbar(container, "验证失败")
+                showSnackbar(bind.container, "验证失败")
             }
         })
         val promptInfo = BiometricPrompt.PromptInfo.Builder()

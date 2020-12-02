@@ -1,13 +1,12 @@
 package cc.xiaobaicz.safe.model
 
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import cc.xiaobaicz.safe.util.Restore
 import cc.xiaobaicz.safe.util.TipsHelper
 import kotlinx.coroutines.launch
 
-class ResetTipsViewModel : ViewModel() {
+class ResetTipsViewModel : BaseObservableViewModel() {
 
     /**
      * 保存结果
