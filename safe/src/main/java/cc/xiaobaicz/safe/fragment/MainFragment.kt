@@ -34,8 +34,6 @@ import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
-import kotlin.math.max
-import kotlin.math.min
 
 /**
  * 首页
@@ -67,8 +65,8 @@ class MainFragment : BaseFragment() {
             bind.toolbar.also {
                 it.layoutParams.height = 56.dp.toInt() + size.t
                 it.updatePadding(top = size.t)
-                bind.listAccount.updatePaddingRelative(bottom = size.b + it.layoutParams.height)
             }
+            bind.listAccount.updatePaddingRelative(bottom = size.b)
         }
 
         //列表配置
@@ -257,8 +255,19 @@ class MainFragment : BaseFragment() {
      */
     class ToolsLayerBehavior : ContentViewBehavior {
 
-        //列表偏移量
+        //偏移量
         private var offset = 0
+
+        //预备偏移量
+        private var preOffset = 0
+
+        //工具栏高度
+        private var h = 0
+
+        //列表偏移量
+        private var listOffset = 0
+        //预备列表偏移量
+        private var preListOffset = 0
 
         constructor() : super()
         constructor(context: Context?, attrs: AttributeSet?) : super(context, attrs)
@@ -269,17 +278,69 @@ class MainFragment : BaseFragment() {
 
         override fun onNestedPreScroll(coordinatorLayout: CoordinatorLayout, child: View, target: View, dx: Int, dy: Int, consumed: IntArray, type: Int) {
             super.onNestedPreScroll(coordinatorLayout, child, target, dx, dy, consumed, type)
-            if (target is RecyclerView) {
-                val preOffset = offset + dy
-                val y = when {
-                    child.height >= preOffset && preOffset > 0 -> dy
-                    child.height < preOffset -> max(0, child.height - offset)
-                    else -> min(0, child.height + offset)
+            preOffset = offset + dy //设置预备便宜
+            h = child.height    //工具栏高度
+
+            if (preOffset > h) {    //预备偏移是否超过高度
+                if (offset != h) {  //工具栏是否已固定
+                    //偏移剩余距离
+                    preOffset = h - offset
+                    offset(child, preOffset, consumed)
+                    offset = h
+                } else {
+                    //工具栏固定
+                    //列表继续偏移 （标题栏空位） 逻辑跟preOffset > h一致
+                    preListOffset = listOffset + dy
+                    if (preListOffset > toolbarHeight) {
+                        if (listOffset != toolbarHeight) {
+                            preListOffset = toolbarHeight - listOffset
+                            offset(target, preListOffset, consumed)
+                            listOffset = toolbarHeight
+                        }
+                        return
+                    }
+                    listOffset = preListOffset
+                    offset(target, dy, consumed)
                 }
-                offset += y
-                child.translationY -= y
-                consumed[1] = y
+                return
             }
+
+            if (preOffset < 0) {    //预备偏移是否超过下限
+                if (offset != 0) {  //工具栏是否已固定
+                    //偏移剩余距离
+                    preOffset = -offset
+                    offset(child, preOffset, consumed)
+                    offset = 0
+                }
+                return
+            }
+
+            //工具栏固定隐藏
+            //列表恢复偏移 （标题栏空位） 逻辑跟preOffset < 0一致
+            if (listOffset != 0) {
+                preListOffset = listOffset + dy
+                if (preListOffset < 0) {
+                    if (listOffset != 0) {
+                        preListOffset = -listOffset
+                        offset(target, preListOffset, consumed)
+                        listOffset = 0
+                    }
+                    return
+                }
+                listOffset = preListOffset
+                offset(target, dy, consumed)
+                return
+            }
+
+            offset = preOffset  //设置偏移距离
+
+            offset(child, dy, consumed)
+        }
+
+        //偏移
+        private fun offset(child: View, dy: Int, consumed: IntArray) {
+            child.translationY -= dy
+            consumed[1] = dy
         }
 
     }

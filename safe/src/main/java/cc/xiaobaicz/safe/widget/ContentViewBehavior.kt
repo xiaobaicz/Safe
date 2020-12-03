@@ -11,6 +11,9 @@ import androidx.coordinatorlayout.widget.CoordinatorLayout
  */
 open class ContentViewBehavior : CoordinatorLayout.Behavior<View> {
 
+    protected var toolbarHeight = 0
+    private set
+
     constructor() : super()
     constructor(context: Context?, attrs: AttributeSet?) : super(context, attrs)
 
@@ -19,7 +22,8 @@ open class ContentViewBehavior : CoordinatorLayout.Behavior<View> {
     }
 
     override fun onDependentViewChanged(parent: CoordinatorLayout, child: View, dependency: View): Boolean {
-        child.translationY = dependency.height.toFloat()
+        toolbarHeight = dependency.height
+        child.translationY = toolbarHeight.toFloat()
         return true
     }
 
