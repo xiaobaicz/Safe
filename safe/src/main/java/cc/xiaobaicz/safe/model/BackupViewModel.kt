@@ -5,6 +5,7 @@ import android.net.Uri
 import android.os.CancellationSignal
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import cc.xiaobaicz.safe.R
 import cc.xiaobaicz.safe.db.entity.Account
 import cc.xiaobaicz.safe.util.AccountHelper
 import cc.xiaobaicz.safe.util.CipherHelper
@@ -66,7 +67,7 @@ class BackupViewModel : BaseObservableViewModel() {
                 //解析CSV
                 val accounts = analyzeCSV(fd)
                 //保存数据
-                save(accounts)
+                save(context, accounts)
                 import.postValue(null)
             } catch (e: Exception) {
                 import.postValue(e)
@@ -104,7 +105,7 @@ class BackupViewModel : BaseObservableViewModel() {
                     return@launch
                 }
                 //保存数据
-                save(accounts)
+                save(context, accounts)
                 import.postValue(null)
             } catch (e: Exception) {
                 import.postValue(e)
@@ -145,9 +146,9 @@ class BackupViewModel : BaseObservableViewModel() {
     //获取文件描述符 默认只读模式
     private fun getFD(context: Context, uri: Uri?, mode: String = "rw"): FileDescriptor {
         if (!check(uri)) {
-            throw FileNotFoundException("找不到文件")
+            throw FileNotFoundException(context.getString(R.string.exception_file_not_found))
         }
-        return context.contentResolver.openFileDescriptor(uri!!, mode, CancellationSignal())?.fileDescriptor ?: throw FileNotFoundException("文件打开失败")
+        return context.contentResolver.openFileDescriptor(uri!!, mode, CancellationSignal())?.fileDescriptor ?: throw FileNotFoundException(context.getString(R.string.exception_file_open_faild))
     }
 
     //CSV析构
@@ -185,7 +186,7 @@ class BackupViewModel : BaseObservableViewModel() {
     }
 
     //批量保存
-    private suspend fun save(accounts: List<Account>) {
+    private suspend fun save(context: Context, accounts: List<Account>) {
         try {
             accounts.forEach {
                 //保存前先加密
@@ -193,7 +194,7 @@ class BackupViewModel : BaseObservableViewModel() {
             }
             AccountHelper.saveAccount(accounts)
         } catch (t: Throwable) {
-            throw Exception("保存失败")
+            throw Exception(context.getString(R.string.exception_save_faild))
         }
     }
 

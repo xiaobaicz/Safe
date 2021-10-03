@@ -9,6 +9,7 @@ import androidx.core.view.isGone
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
+import cc.xiaobaicz.safe.R
 import cc.xiaobaicz.safe.databinding.FragmentAccountDetailBinding
 import cc.xiaobaicz.safe.db.entity.Account
 import cc.xiaobaicz.safe.model.AccountDetailViewModel
@@ -66,16 +67,16 @@ class AccountDetailFragment : BaseFragment() {
             bind.etAccount.isEnabled = it
             bind.etPassword.isEnabled = it
             if (mAction.isShowEditAction(vm)) {
-                showSnackbar(bind.container, "可编辑状态")
+                showSnackbar(bind.container, getString(R.string.snackbar_editable))
             }
         })
 
         //操作结果
         vm.result.observe(viewLifecycleOwner, Observer {
-            showSnackbar(bind.container, if (it) "保存成功" else "保存失败") { bar ->
+            showSnackbar(bind.container, if (it) getString(R.string.snackbar_save_success) else getString(R.string.snackbar_save_faild)) { bar ->
                 if (it) {
                     //操作成功 提供返回操作
-                    bar.setAction("返回") {
+                    bar.setAction(getString(R.string.action_back)) {
                         findNavController().popBackStack()
                     }
                 }
@@ -91,12 +92,12 @@ class AccountDetailFragment : BaseFragment() {
 
         //解密异常
         vm.decodeError.observe(viewLifecycleOwner, Observer {
-            showSnackbar(bind.container, "解密失败")
+            showSnackbar(bind.container, getString(R.string.snackbar_decrypt_faild))
         })
 
         //加密异常
         vm.encodeError.observe(viewLifecycleOwner, Observer {
-            showSnackbar(bind.container, "加密失败")
+            showSnackbar(bind.container, getString(R.string.snackbar_encrypt_faild))
         })
     }
 
@@ -109,8 +110,8 @@ class AccountDetailFragment : BaseFragment() {
         //编辑 or 保存
         bind.btnEdit.setOnIntervalClickListener {
             if (vm.isEdit) {
-                showSnackbar(bind.container, "是否保存数据？", Snackbar.LENGTH_INDEFINITE) {
-                    it.setAction("保存") {
+                showSnackbar(bind.container, getString(R.string.snackbar_save_data), Snackbar.LENGTH_INDEFINITE) {
+                    it.setAction(getString(R.string.action_save)) {
                         //可编辑状态保存数据
                         vm.save(bind.etDomain.getText, bind.etAccount.getText, bind.etPassword.getText, vmGlobal.password)
                         vm.isEdit = false
@@ -124,8 +125,8 @@ class AccountDetailFragment : BaseFragment() {
 
         //删除
         bind.btnDelete.setOnIntervalClickListener {
-            showSnackbar(bind.container, "是否删除该账户？") {
-                it.setAction("删除") {
+            showSnackbar(bind.container, getString(R.string.snackbar_delete)) {
+                it.setAction(getString(R.string.action_delete)) {
                     vm.delete()
                 }
             }
@@ -141,8 +142,8 @@ class AccountDetailFragment : BaseFragment() {
     private fun onBack() {
         if (mAction.isBackInterceptor(vm)) {
             //编辑状态询问是否取消保存
-            showSnackbar(bind.container, "是否取消修改？") {
-                it.setAction("确定") {
+            showSnackbar(bind.container, getString(R.string.snackbar_cancel)) {
+                it.setAction(getString(R.string.action_cancel)) {
                     findNavController().popBackStack()
                 }
             }

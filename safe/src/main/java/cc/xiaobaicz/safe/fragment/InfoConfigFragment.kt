@@ -44,7 +44,7 @@ class InfoConfigFragment : BaseFragment() {
         //保存结果
         vm.save.observe(viewLifecycleOwner, Observer {
             if (it == null) {
-                vmGlobal.checkPassword(bind.etPassword1.getText)
+                vmGlobal.checkPassword(requireContext(), bind.etPassword1.getText)
             } else {
                 showSnackbar(bind.container, it.message ?: "")
             }
@@ -54,7 +54,7 @@ class InfoConfigFragment : BaseFragment() {
     override fun onSetListener() {
         //保存数据
         bind.btnSave.setOnOnceClickListener { _, function ->
-            vm.save(function)
+            vm.save(requireContext(), function)
         }
 
         //退出提示
@@ -65,7 +65,7 @@ class InfoConfigFragment : BaseFragment() {
                 requireActivity().finish()
             } else {
                 lastTime = SystemClock.elapsedRealtime()
-                showSnackbar(bind.container, "双击退出")
+                showSnackbar(bind.container, getString(R.string.snackbar_double_click))
             }
         }
     }

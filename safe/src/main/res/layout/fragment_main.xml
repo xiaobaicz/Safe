@@ -60,7 +60,7 @@
                     android:textColorHint="@color/tv_hint"
                     android:textColor="@color/tv_def"
                     android:textSize="@dimen/tv_3"
-                    android:hint="请输入关键字查询">
+                    android:hint="@string/hint_input_key">
                 </EditText>
 
                 <ImageView
@@ -86,7 +86,7 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toStartOf="@id/btn_sort_domain"
                     app:layout_constraintHorizontal_chainStyle="spread"
-                    android:text="访问次数" />
+                    android:text="@string/visits" />
 
                 <TextView
                     android:id="@+id/btn_sort_domain"
@@ -105,7 +105,7 @@
                     app:layout_constraintBottom_toBottomOf="@id/btn_sort_hot"
                     app:layout_constraintStart_toEndOf="@id/btn_sort_domain"
                     app:layout_constraintEnd_toEndOf="parent"
-                    android:text="创建时间"/>
+                    android:text="@string/create_time"/>
 
                 <ImageView
                     android:id="@+id/iv_sort_hot"

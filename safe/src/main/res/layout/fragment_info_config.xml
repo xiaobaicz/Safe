@@ -53,7 +53,7 @@
                         android:inputType="textPassword"
                         android:maxLength="30"
                         android:text="@={model.etPassword1}"
-                        android:hint="密码（最少6位）" />
+                        android:hint="@string/hint_password" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -71,7 +71,7 @@
                         android:inputType="textPassword"
                         android:maxLength="30"
                         android:text="@={model.etPassword2}"
-                        android:hint="再次输入密码"/>
+                        android:hint="@string/hint_password_confirm"/>
 
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -87,7 +87,7 @@
                         android:id="@+id/et_tips"
                         style="@style/input_info_config"
                         android:text="@={model.etTips}"
-                        android:hint="密码提示"/>
+                        android:hint="@string/hint_password_tips"/>
 
                 </com.google.android.material.textfield.TextInputLayout>
 

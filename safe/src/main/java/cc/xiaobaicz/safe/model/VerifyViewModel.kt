@@ -6,6 +6,7 @@ import androidx.biometric.BiometricManager
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import cc.xiaobaicz.safe.R
 import cc.xiaobaicz.safe.bean.InputStatus
 import cc.xiaobaicz.safe.db.DB
 import cc.xiaobaicz.safe.global.Constant
@@ -47,12 +48,12 @@ class VerifyViewModel : BaseObservableViewModel() {
     /**
      * 获取输入状态
      */
-    fun getInputStatus() {
+    fun getInputStatus(context: Context) {
         viewModelScope.launch {
 
             //是否永久锁定
             if (LockHelper.isForeverLock()) {
-                inputStatus.postValue(InputStatus("永久锁定", false))
+                inputStatus.postValue(InputStatus(context.getString(R.string.lock), false))
                 return@launch
             }
 
@@ -61,9 +62,9 @@ class VerifyViewModel : BaseObservableViewModel() {
 
             //输入提示
             val tips = if (count < LockHelper.MAX_ERROR_ROUTINE) {
-                "输入密码"
+                context.getString(R.string.input_password)
             } else {
-                TipsHelper.getTips()
+                TipsHelper.getTips(context)
             }
 
             if (LockHelper.isLock()) {
@@ -85,7 +86,7 @@ class VerifyViewModel : BaseObservableViewModel() {
             inputStatus.postValue(InputStatus(unLockTips, true))
             return
         }
-        inputStatus.postValue(InputStatus("${(LockHelper.LOCK_TIME - time) / 1000}秒后重试", false))
+        inputStatus.postValue(InputStatus("${(LockHelper.LOCK_TIME - time) / 1000}", false))
         delay(1000L)
         lockCountdown(unLockTips)
     }
@@ -98,15 +99,15 @@ class VerifyViewModel : BaseObservableViewModel() {
         return when (biometricManager.canAuthenticate()) {
             BiometricManager.BIOMETRIC_SUCCESS -> true
             BiometricManager.BIOMETRIC_ERROR_NO_HARDWARE -> {
-                Snackbar.make(container, "该设备不支持指纹功能", Snackbar.LENGTH_SHORT).show()
+                Snackbar.make(container, context.getString(R.string.biometric_error_no_hardware), Snackbar.LENGTH_SHORT).show()
                 false
             }
             BiometricManager.BIOMETRIC_ERROR_HW_UNAVAILABLE -> {
-                Snackbar.make(container, "指纹暂不可用", Snackbar.LENGTH_SHORT).show()
+                Snackbar.make(container, context.getString(R.string.biometric_error_hw_unavailable), Snackbar.LENGTH_SHORT).show()
                 false
             }
             BiometricManager.BIOMETRIC_ERROR_NONE_ENROLLED -> {
-                Snackbar.make(container, "尚未开启指纹识别", Snackbar.LENGTH_SHORT).show()
+                Snackbar.make(container, context.getString(R.string.biometric_error_none_enrolled), Snackbar.LENGTH_SHORT).show()
                 false
             }
             else -> false

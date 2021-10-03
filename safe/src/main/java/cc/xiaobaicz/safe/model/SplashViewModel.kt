@@ -10,8 +10,8 @@ class SplashViewModel : BaseObservableViewModel() {
         MutableLiveData<String>()
     }
 
-    fun getVersionName() {
-        versionName.value = "版本号: ${BuildConfig.VERSION_NAME}"
+    fun versionName() {
+        versionName.value = BuildConfig.VERSION_NAME
     }
 
 }

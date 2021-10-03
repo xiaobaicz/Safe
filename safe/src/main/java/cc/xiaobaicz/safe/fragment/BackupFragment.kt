@@ -12,6 +12,7 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
+import cc.xiaobaicz.safe.R
 import cc.xiaobaicz.safe.databinding.FragmentSettingBackupBinding
 import cc.xiaobaicz.safe.model.BackupViewModel
 import cc.xiaobaicz.safe.util.getText
@@ -62,18 +63,18 @@ class BackupFragment : BaseFragment() {
         //导入结果
         vm.import.observe(viewLifecycleOwner, Observer {
             if (it == null) {
-                showSnackbar(bind.container, "导入完成")
+                showSnackbar(bind.container, getString(R.string.snackbar_import_success))
             } else {
-                showSnackbar(bind.container, it.message ?: "导入失败")
+                showSnackbar(bind.container, it.message ?: getString(R.string.snackbar_import_faild))
             }
         })
 
         //导出结果
         vm.export.observe(viewLifecycleOwner, Observer {
             if (it == null) {
-                showSnackbar(bind.container, "导出完成")
+                showSnackbar(bind.container, getString(R.string.snackbar_export_success))
             } else {
-                showSnackbar(bind.container, it.message ?: "导出失败")
+                showSnackbar(bind.container, it.message ?: getString(R.string.snackbar_export_faild))
             }
         })
     }
@@ -102,7 +103,7 @@ class BackupFragment : BaseFragment() {
                     vm.filePassword = bind.etPassword.getText
                     openDoc(OPEN_PW)
                 } else {
-                    showSnackbar(bind.container, "密码至少6位")
+                    showSnackbar(bind.container, getString(R.string.hint_password))
                 }
             }
             return@setOnEditorActionListener false
@@ -138,7 +139,7 @@ class BackupFragment : BaseFragment() {
         //权限请求
         vmGlobal.isClose(false)//期间应用不关闭
         Intent(Intent.ACTION_CREATE_DOCUMENT).apply {
-            val time = SimpleDateFormat("YYYYMMdd_HHmmss", Locale.getDefault()).format(Date())
+            val time = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(Date())
             addCategory(Intent.CATEGORY_OPENABLE)
             type = "*/*"
             putExtra(Intent.EXTRA_TITLE, "backup_${time}.$suffix")

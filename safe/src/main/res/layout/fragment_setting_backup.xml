@@ -38,7 +38,7 @@
 
                     <TextView
                         style="@style/item_setting_text"
-                        android:text="密文导入（*.pw）" />
+                        android:text="@string/ciphertext_import" />
 
                     <EditText
                         android:id="@+id/et_password"
@@ -51,7 +51,7 @@
                         android:textColorHint="@color/tv_hint"
                         android:textColor="@color/tv_def"
                         android:textSize="@dimen/tv_4"
-                        android:hint="导入文件密码"/>
+                        android:hint="@string/file_password"/>
 
                 </FrameLayout>
 
@@ -61,7 +61,7 @@
 
                     <TextView
                         style="@style/item_setting_text"
-                        android:text="密文导出（*.pw）" />
+                        android:text="@string/ciphertext_export" />
 
                     <ImageView
                         style="@style/item_setting_img"
@@ -76,7 +76,7 @@
 
                     <TextView
                         style="@style/item_setting_text"
-                        android:text="明文导入（*.csv）" />
+                        android:text="@string/plaintext_import" />
 
                     <ImageView
                         style="@style/item_setting_img"
@@ -90,7 +90,7 @@
 
                     <TextView
                         style="@style/item_setting_text"
-                        android:text="明文导出（*.csv）" />
+                        android:text="@string/plaintext_export" />
 
                     <ImageView
                         style="@style/item_setting_img"

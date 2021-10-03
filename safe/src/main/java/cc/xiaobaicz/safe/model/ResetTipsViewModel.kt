@@ -1,5 +1,6 @@
 package cc.xiaobaicz.safe.model
 
+import android.content.Context
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import cc.xiaobaicz.safe.util.Restore
@@ -18,9 +19,9 @@ class ResetTipsViewModel : BaseObservableViewModel() {
     /**
      * 保存密码提示
      */
-    fun save(tips: String, function: Restore) {
+    fun save(context: Context, tips: String, function: Restore) {
         viewModelScope.launch {
-            TipsHelper.setTips(tips)
+            TipsHelper.setTips(context, tips)
             function()
             result.postValue(true)
         }

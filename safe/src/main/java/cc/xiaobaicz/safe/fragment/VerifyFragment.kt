@@ -53,7 +53,7 @@ class VerifyFragment : BaseFragment() {
                 findNavController().navigate(R.id.action_verifyFragment_to_mainFragment)
             } else {
                 showSnackbar(bind.container, it.message ?: "")
-                vm.getInputStatus()
+                vm.getInputStatus(requireContext())
             }
         })
 
@@ -64,14 +64,14 @@ class VerifyFragment : BaseFragment() {
             bind.etVerify.isEnabled = it.isEnable
         })
 
-        vm.getInputStatus()
+        vm.getInputStatus(requireContext())
     }
 
     override fun onSetListener() {
         //键盘ime完成事件
         bind.etVerify.setOnEditorActionListener { _, actionId, _ ->
             if (EditorInfo.IME_ACTION_DONE == actionId) {
-                vmGlobal.checkPassword(bind.etVerify.getText)
+                vmGlobal.checkPassword(requireContext(), bind.etVerify.getText)
             }
             return@setOnEditorActionListener false
         }
@@ -104,13 +104,13 @@ class VerifyFragment : BaseFragment() {
 
             override fun onAuthenticationFailed() {
                 //校验失败
-                showSnackbar(bind.container, "验证失败")
+                showSnackbar(bind.container, getString(R.string.snackbar_verify_faild))
             }
         })
         val promptInfo = BiometricPrompt.PromptInfo.Builder()
-            .setTitle("验证身份")
-            .setSubtitle("验证后开启密码输入")
-            .setNegativeButtonText("退出")
+            .setTitle(getString(R.string.dialog_title_verify))
+            .setSubtitle(getString(R.string.dialog_subtitle_verify))
+            .setNegativeButtonText(getString(R.string.dialog_action_exit))
             .build()
         biometricPrompt.authenticate(promptInfo)
     }

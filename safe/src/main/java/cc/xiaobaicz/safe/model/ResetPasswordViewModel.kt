@@ -1,7 +1,9 @@
 package cc.xiaobaicz.safe.model
 
+import android.content.Context
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import cc.xiaobaicz.safe.R
 import cc.xiaobaicz.safe.util.AccountHelper
 import cc.xiaobaicz.safe.util.Restore
 import cc.xiaobaicz.safe.util.SafeHelper
@@ -31,16 +33,16 @@ class ResetPasswordViewModel : BaseObservableViewModel() {
     /**
      * 保存密码提示
      */
-    fun save(pw: String, pw1: String, pw2: String, function: Restore) {
+    fun save(context: Context, pw: String, pw1: String, pw2: String, function: Restore) {
         viewModelScope.launch {
-            if (check(pw, pw1, pw2)) {
+            if (check(context, pw, pw1, pw2)) {
                 saveStatus.postValue(true)
                 try {
                     AccountHelper.reEncipher(pw, pw1)
                     SafeHelper.setPassword(pw1)
                     result.postValue(null)
                 } catch (t: Throwable) {
-                    result.postValue(Exception("修改失败"))
+                    result.postValue(Exception(context.getString(R.string.snackbar_update_faild)))
                 }
                 saveStatus.postValue(false)
                 function()
@@ -51,17 +53,17 @@ class ResetPasswordViewModel : BaseObservableViewModel() {
     }
 
     //校验输入
-    private suspend fun check(pw: String, pw1: String, pw2: String): Boolean {
+    private suspend fun check(context: Context, pw: String, pw1: String, pw2: String): Boolean {
         if (!SafeHelper.checkPassword(pw)) {
-            result.postValue(Exception("密码错误"))
+            result.postValue(Exception(context.getString(R.string.exception_password_error)))
             return false
         }
         if (pw1 != pw2) {
-            result.postValue(Exception("新密码不一致"))
+            result.postValue(Exception(context.getString(R.string.exception_passwords_match)))
             return false
         }
         if (pw1.length < 6) {
-            result.postValue(Exception("密码最少6位"))
+            result.postValue(Exception(context.getString(R.string.hint_password)))
             return false
         }
         return true

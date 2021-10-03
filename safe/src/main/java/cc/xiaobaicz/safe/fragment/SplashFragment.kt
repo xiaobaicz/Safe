@@ -31,7 +31,7 @@ class SplashFragment : BaseFragment() {
     override fun onConfigView(view: View) {
         SystemUiHelper.get(requireActivity()).fullScreen()
 
-        vm.getVersionName()
+        vm.versionName()
     }
 
     override fun onSetListener() {

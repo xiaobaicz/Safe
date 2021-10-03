@@ -96,7 +96,7 @@ class MainFragment : BaseFragment() {
             data.addAll(it)
             bind.listAccount.adapter?.notifyDataSetChanged()
             if (it.isEmpty()) {
-                showSnackbar(bind.container, "暂无账户数据")
+                showSnackbar(bind.container, getString(R.string.snackbar_account_empty))
             }
         })
 
@@ -146,7 +146,7 @@ class MainFragment : BaseFragment() {
                 requireActivity().finish()
             } else {
                 lastTime = SystemClock.elapsedRealtime()
-                showSnackbar(bind.container, "双击退出")
+                showSnackbar(bind.container, getString(R.string.snackbar_double_click))
             }
         }
     }

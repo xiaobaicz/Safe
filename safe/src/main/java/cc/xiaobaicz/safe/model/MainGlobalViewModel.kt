@@ -1,9 +1,11 @@
 package cc.xiaobaicz.safe.model
 
+import android.content.Context
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import cc.xiaobaicz.helper.statusbar.SystemUiAttrCallback
 import cc.xiaobaicz.helper.statusbar.SystemUiHelper
+import cc.xiaobaicz.safe.R
 import cc.xiaobaicz.safe.bean.SafeSize
 import cc.xiaobaicz.safe.util.LockHelper
 import cc.xiaobaicz.safe.util.SafeHelper
@@ -59,10 +61,10 @@ class MainGlobalViewModel : BaseObservableViewModel() {
     /**
      * 校验密码
      */
-    fun checkPassword(pw: String) {
+    fun checkPassword(context: Context, pw: String) {
         //size 小于 6
         if (pw.length < 6) {
-            verify.postValue(NullPointerException("密码最少6位"))
+            verify.postValue(NullPointerException(context.getString(R.string.hint_password)))
             return
         }
         viewModelScope.launch {
@@ -75,10 +77,10 @@ class MainGlobalViewModel : BaseObservableViewModel() {
                 } else {
                     //失败锁定
                     LockHelper.lock()
-                    verify.postValue(Exception("密码错误"))
+                    verify.postValue(Exception(context.getString(R.string.exception_verify_faild)))
                 }
             } else {
-                verify.postValue(Exception("密码未设置"))
+                verify.postValue(Exception(context.getString(R.string.exception_password_empty)))
             }
         }
     }
@@ -103,9 +105,9 @@ class MainGlobalViewModel : BaseObservableViewModel() {
     /**
      * 密码变更
      */
-    fun resetPassword() {
+    fun resetPassword(context: Context) {
         password = ""
-        verify.postValue(Exception("密码更新，请重新登陆"))
+        verify.postValue(Exception(context.getString(R.string.exception_resignin)))
     }
 
     /**

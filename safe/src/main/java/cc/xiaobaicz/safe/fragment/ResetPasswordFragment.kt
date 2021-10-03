@@ -34,9 +34,9 @@ class ResetPasswordFragment : BaseFragment() {
 
         //保存结果
         vm.result.observe(viewLifecycleOwner, Observer {
-            showSnackbar(bind.container, if (it == null) "修改成功" else it.message ?: "修改失败")
+            showSnackbar(bind.container, if (it == null) getString(R.string.snackbar_update_success) else it.message ?: getString(R.string.snackbar_update_faild))
             if (it == null) {
-                vmGlobal.resetPassword()
+                vmGlobal.resetPassword(requireContext())
                 findNavController().navigate(R.id.action_global_verifyFragment)
             }
         })
@@ -60,7 +60,7 @@ class ResetPasswordFragment : BaseFragment() {
 
         //保存
         bind.btnSave.setOnOnceClickListener { _, function ->
-            vm.save(bind.etPassword.getText, bind.etPassword1.getText, bind.etPassword2.getText, function)
+            vm.save(requireContext(), bind.etPassword.getText, bind.etPassword1.getText, bind.etPassword2.getText, function)
         }
 
         //防止点击

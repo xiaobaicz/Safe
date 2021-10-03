@@ -1,7 +1,9 @@
 package cc.xiaobaicz.safe.model
 
+import android.content.Context
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import cc.xiaobaicz.safe.R
 import cc.xiaobaicz.safe.util.Restore
 import cc.xiaobaicz.safe.util.SafeHelper
 import cc.xiaobaicz.safe.util.TipsHelper
@@ -40,11 +42,11 @@ class InfoConfigViewModel : BaseObservableViewModel() {
     /**
      * 保存信息
      */
-    fun save(function: Restore) {
-        if (check(etPassword1.value ?: "", etPassword2.value ?: "")) {
+    fun save(context: Context, function: Restore) {
+        if (check(context, etPassword1.value ?: "", etPassword2.value ?: "")) {
             viewModelScope.launch {
                 SafeHelper.setPassword(etPassword1.value!!)
-                TipsHelper.setTips(etTips.value ?: "")
+                TipsHelper.setTips(context, etTips.value ?: "")
                 save.postValue(null)
                 function()
             }
@@ -54,13 +56,13 @@ class InfoConfigViewModel : BaseObservableViewModel() {
     }
 
     //内容校验
-    private fun check(pw1: String, pw2: String): Boolean {
+    private fun check(context: Context, pw1: String, pw2: String): Boolean {
         if (pw1 != pw2) {
-            save.postValue(Exception("密码不一致"))
+            save.postValue(Exception(context.getString(R.string.exception_inconsistent_passwords)))
             return false
         }
         if (pw1.length < 6 || pw2.length < 6) {
-            save.postValue(Exception("密码长度最少6位"))
+            save.postValue(Exception(context.getString(R.string.hint_password)))
             return false
         }
         return true

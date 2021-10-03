@@ -46,7 +46,7 @@ class SettingFragment : BaseFragment() {
         }
         //关于
         bind.btnAbout.setOnIntervalClickListener {
-            showSnackbar(bind.container, "问题反馈：xiaojinjincz@outlook.com", Snackbar.LENGTH_INDEFINITE)
+            showSnackbar(bind.container, getString(R.string.snackbar_feedback), Snackbar.LENGTH_INDEFINITE)
         }
     }
 }

@@ -58,7 +58,7 @@
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/et_domain"
                         style="@style/input_account_detail"
-                        android:hint="备注（如：微信）" />
+                        android:hint="@string/hint_domain" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -73,7 +73,7 @@
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/et_account"
                         style="@style/input_account_detail"
-                        android:hint="账户"/>
+                        android:hint="@string/hint_account"/>
 
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -88,7 +88,7 @@
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/et_password"
                         style="@style/input_account_detail"
-                        android:hint="密码"/>
+                        android:hint="@string/hint_detail_password"/>
 
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -104,7 +104,7 @@
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/et_last_time"
                         style="@style/input_account_detail"
-                        android:hint="最后修改时间"/>
+                        android:hint="@string/hint_update_time"/>
 
                 </com.google.android.material.textfield.TextInputLayout>
 
