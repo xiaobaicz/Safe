@@ -22,22 +22,27 @@ import java.util.*
 
 class BackupFragment : BaseFragment() {
 
-    //打开CSV文件
-    private val OPEN_CSV = 0x0001
+    companion object {
+        //打开CSV文件
+        private const val OPEN_CSV = 0x0001
 
-    //打开PW文件
-    private val OPEN_PW = 0x0002
+        //打开PW文件
+        private const val OPEN_PW = 0x0002
 
-    //新建CSV文件
-    private val CREATE_CSV = 0x0004
+        //新建CSV文件
+        private const val CREATE_CSV = 0x0004
 
-    //新建PW文件
-    private val CREATE_PW = 0x0008
+        //新建PW文件
+        private const val CREATE_PW = 0x0008
 
-    //CSV后缀
-    private val SUFFIX_CSV = "csv"
-    //pw后缀
-    private val SUFFIX_PW = "pw"
+        //新建CSV文件 Apple
+        private const val CREATE_CSV_APPLE = 0x0010
+
+        //CSV后缀
+        private const val SUFFIX_CSV = "csv"
+        //pw后缀
+        private const val SUFFIX_PW = "pw"
+    }
 
     private val vm by viewModels<BackupViewModel>()
 
@@ -119,6 +124,11 @@ class BackupFragment : BaseFragment() {
             createDoc(CREATE_PW, SUFFIX_PW)
         }
 
+        //明文导出 *.csv apple适用
+        bind.btnExportCsvApple.setOnIntervalClickListener {
+            createDoc(CREATE_CSV_APPLE, SUFFIX_CSV)
+        }
+
         //拦截事件
         bind.layerAwait.setOnClickListener {  }
     }
@@ -164,6 +174,9 @@ class BackupFragment : BaseFragment() {
                 }
                 CREATE_PW -> {    //PW文档
                     vm.exportPWDoc(requireContext(), data?.data)
+                }
+                CREATE_CSV_APPLE -> {    //CSV文档 Apple
+                    vm.exportCSVDocApple(requireContext(), data?.data)
                 }
             }
         }

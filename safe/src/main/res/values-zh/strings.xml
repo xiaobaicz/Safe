@@ -32,6 +32,7 @@
     <string name="ciphertext_export">密文导出（*.pw）</string>
     <string name="plaintext_import">明文导入（*.csv）</string>
     <string name="plaintext_export">明文导出（*.csv）</string>
+    <string name="plaintext_export_apple">明文导出（*.csv）Apple</string>
     <string name="hint_password_tips2">密码提示</string>
     <string name="hint_password_old">旧密码</string>
     <string name="snackbar_editable">可编辑状态</string>

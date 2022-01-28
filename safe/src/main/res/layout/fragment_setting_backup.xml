@@ -98,6 +98,20 @@
 
                 </FrameLayout>
 
+                <FrameLayout
+                    android:id="@+id/btn_export_csv_apple"
+                    style="@style/item_setting">
+
+                    <TextView
+                        style="@style/item_setting_text"
+                        android:text="@string/plaintext_export_apple" />
+
+                    <ImageView
+                        style="@style/item_setting_img"
+                        app:tint="@color/tint_setting_img" />
+
+                </FrameLayout>
+
             </LinearLayout>
 
         </ScrollView>

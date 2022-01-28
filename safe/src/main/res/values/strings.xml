@@ -32,6 +32,7 @@
     <string name="ciphertext_export">Ciphertext Export（*.pw）</string>
     <string name="plaintext_import">Plaintext Import（*.csv）</string>
     <string name="plaintext_export">Plaintext Export（*.csv）</string>
+    <string name="plaintext_export_apple">Plaintext Export（*.csv）Apple</string>
     <string name="hint_password_tips2">Tips</string>
     <string name="hint_password_old">Password Old</string>
     <string name="snackbar_editable">Editable</string>

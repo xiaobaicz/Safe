@@ -255,6 +255,33 @@ class BackupViewModel : BaseObservableViewModel() {
         }
     }
 
+    /**
+     * 导出CSV Apple
+     */
+    fun exportCSVDocApple(context: Context, data: Uri?) {
+        viewModelScope.launch(Dispatchers.IO) {
+            try {
+                //繁忙
+                busy.postValue(true)
+                val fd = getFD(context, data)
+                FileWriter(fd).use { fileWriter ->
+                    CSVPrinter(fileWriter, CSVFormat.EXCEL).use { print ->
+                        print.printRecord("Title", "Url", "Username", "Password", "OTPAuth")
+                        AccountHelper.selectAll().forEach {
+                            print.printRecord(it.domain, "https://127.0.0.1/", "${it.domain} (${it.account})", CipherHelper.aesDecipher(it.password, password))
+                        }
+                    }
+                }
+                export.postValue(null)
+            } catch (e: Exception) {
+                export.postValue(Exception("导出失败"))
+            } finally {
+                //空闲
+                busy.postValue(false)
+            }
+        }
+    }
+
     //生成输出文件
     private fun createFile(path: File, name: String): File {
         if (!path.exists()) {
