@@ -1,8 +1,7 @@
 package cc.xiaobaicz.safe.util
 
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.LifecycleObserver
-import androidx.lifecycle.OnLifecycleEvent
+import androidx.annotation.NonNull
+import androidx.lifecycle.*
 import java.lang.ref.Reference
 import java.lang.ref.WeakReference
 
@@ -13,7 +12,7 @@ typealias Observer = (Boolean)->Unit
  * @author BoCheng
  * @date 2019/11/27
  */
-object ActivityCounter : LifecycleObserver {
+object ActivityCounter : DefaultLifecycleObserver {
 
     /**
      * 页面活动观察对象
@@ -35,8 +34,7 @@ object ActivityCounter : LifecycleObserver {
     /**
      * 新增页面
      */
-    @OnLifecycleEvent(Lifecycle.Event.ON_CREATE)
-    fun onCreate() {
+    override fun onCreate(@NonNull owner: LifecycleOwner) {
         sum++
         dormancy++
     }
@@ -44,16 +42,14 @@ object ActivityCounter : LifecycleObserver {
     /**
      * 页面恢复
      */
-    @OnLifecycleEvent(Lifecycle.Event.ON_START)
-    fun onStart() {
+    override fun onStart(@NonNull owner: LifecycleOwner) {
         dormancy--
     }
 
     /**
      * 页面休眠
      */
-    @OnLifecycleEvent(Lifecycle.Event.ON_STOP)
-    fun onStop() {
+    override fun onStop(@NonNull owner: LifecycleOwner) {
         dormancy++
         mActiveObservables.forEach {
             it.get()?.invoke(isActive)
@@ -63,8 +59,7 @@ object ActivityCounter : LifecycleObserver {
     /**
      * 页面销毁
      */
-    @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
-    fun onDestroy() {
+    override fun onDestroy(@NonNull owner: LifecycleOwner) {
         sum--
         dormancy--
     }

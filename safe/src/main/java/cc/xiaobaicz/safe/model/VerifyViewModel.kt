@@ -96,7 +96,7 @@ class VerifyViewModel : BaseObservableViewModel() {
      */
     fun canAuthenticate(context: Context, container: CoordinatorLayout): Boolean {
         val biometricManager = BiometricManager.from(context)
-        return when (biometricManager.canAuthenticate()) {
+        return when (biometricManager.canAuthenticate(BiometricManager.Authenticators.BIOMETRIC_WEAK)) {
             BiometricManager.BIOMETRIC_SUCCESS -> true
             BiometricManager.BIOMETRIC_ERROR_NO_HARDWARE -> {
                 Snackbar.make(container, context.getString(R.string.biometric_error_no_hardware), Snackbar.LENGTH_SHORT).show()

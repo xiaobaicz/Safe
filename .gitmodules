@@ -1,6 +1,0 @@
-[submodule "permissions"]
-	path = permissions
-	url = https://github.com/XiaoBaiCZ/Dynamic-permissions.git
-[submodule "util"]
-	path = util
-	url = https://github.com/XiaoBaiCZ/AndroidUtil.git
