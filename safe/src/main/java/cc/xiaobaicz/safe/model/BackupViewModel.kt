@@ -268,7 +268,7 @@ class BackupViewModel : BaseObservableViewModel() {
                     CSVPrinter(fileWriter, CSVFormat.EXCEL).use { print ->
                         print.printRecord("Title", "Url", "Username", "Password", "OTPAuth")
                         AccountHelper.selectAll().forEach {
-                            print.printRecord(it.domain, "https://127.0.0.1/", "${it.domain} (${it.account})", CipherHelper.aesDecipher(it.password, password))
+                            print.printRecord(it.domain, "https://127.0.0.1/", "${it.domain}: ${it.account}", CipherHelper.aesDecipher(it.password, password))
                         }
                     }
                 }
